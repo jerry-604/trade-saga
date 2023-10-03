@@ -3,7 +3,7 @@ import type { AppType, AppProps } from 'next/app';
 import { ReactElement, ReactNode, useState } from 'react';
 import { trpc } from '../utils/trpc';
 import 'tailwindcss/tailwind.css';
-
+import "./style.css";
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,
