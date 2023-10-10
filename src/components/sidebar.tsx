@@ -26,8 +26,8 @@ export default function Sidebar() {
           News
         </span>
       </div>
-      <div className="my-4 bg-gray-600 h-[1px]"></div>
-     <div className="">
+     <div className="absolute bottom-0 w-[300px]">
+     <div className="my-4 bg-gray-600 h-[1px]"></div>
       <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-black">
         <i className="bi bi-bookmark-fill"></i>
         <span className="text-[15px] ml-4 text-black-200 font-bold">
