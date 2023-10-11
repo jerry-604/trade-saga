@@ -6,8 +6,9 @@ import Layout from "../components/layout";
 import type { ReactElement } from "react";
 
 export default function HomePage() {
-  const { data: users } = trpc.userRouter.getUser.useQuery();
-  return <div>Welcome to Trade Saga</div>;
+  return (   <div>
+    This is the home page.
+  </div>);
 }
 
 HomePage.getLayout = function getLayout(page: ReactElement) {
