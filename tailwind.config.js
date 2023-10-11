@@ -8,7 +8,9 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      sans: ["Raleway", ...defaultTheme.fontFamily.sans],
+   },
   },
   plugins: [],
 }

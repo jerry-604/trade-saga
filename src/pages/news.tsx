@@ -5,12 +5,12 @@ import React from "react";
 import Layout from "../components/layout";
 import type { ReactElement } from "react";
 
-export default function HomePage() {
+export default function News() {
   return (   <div>
-    This is the home page.
+    This is the news page.
   </div>);
 }
 
-HomePage.getLayout = function getLayout(page: ReactElement) {
+News.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
