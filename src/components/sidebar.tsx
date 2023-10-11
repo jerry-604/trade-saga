@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { FiHome, FiTrello, FiRss } from "react-icons/fi";
 import { BsFillQuestionCircleFill, BsFillArrowUpRightCircleFill } from "react-icons/bs";
 import Link from 'next/link'
-
+import { RxLink2 } from "react-icons/rx"
 export default function Sidebar() {
   const router = useRouter();
   const currentRoute = router.pathname;
