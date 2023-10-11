@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { CreateGameStepOne } from '../components/create-game/create-game-step-one'
 import { CreateGameStepTwo } from '../components/create-game/create-game-step-two'
 import { CreateGameStepThree } from '../components/create-game/create-game-step-three'
+import { CreateGameStepFour } from '../components/create-game/create-game-step-four'
 export default function Create() {
     const [gameTitle, setGameTitle] = useState("");
     const [backgroundImage, setBackgroundImage] = useState("create-background");
@@ -23,6 +24,8 @@ export default function Create() {
                            setStep={setStep}/>
                         case 2:
                             return <CreateGameStepThree shareID={shareID} setStep={setStep}/>
+                        case 3:
+                            return <CreateGameStepFour gameTitle={gameTitle} startDate={startDate} endDate={endDate} shareID={shareID} setStep={setStep}/>
                         default:
                             return null
                     }
@@ -37,7 +40,7 @@ export default function Create() {
         var S4 = function() {
            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
         };
-        return (S4()+S4()+"-"+S4()+"-"+S4());
+        return (S4()+S4()+"-"+S4());
     }
 }
 
