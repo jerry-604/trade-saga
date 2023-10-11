@@ -14,7 +14,6 @@ export default function Sidebar() {
           <h1 className="font-bold text-[#424242]-200 text-[18px] ml-3 text-[#424242]">
             TradeSaga
           </h1>
-          <i className="bi bi-x cursor-pointer ml-28 lg:hidden"></i>
         </div>
       </div>
       <Link href="/" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242] ${currentRoute == "/" ? "bg-[#F4F6F8]" : null }`}>
