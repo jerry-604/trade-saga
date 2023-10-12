@@ -8,6 +8,11 @@ export const CreateGameStepOne = ({
   setBackgroundImage,
   setStep,
 }) => {
+  function validateInputs() {
+    if (gameTitle != "" && gameTitle != null && backgroundImage != null) {
+      setStep(1);
+    }
+  }
   return (
     <div className="px-[40px]">
       <header className="flex items-center mb-8">
@@ -72,7 +77,7 @@ export const CreateGameStepOne = ({
           </button>
         </div>
         <button className="w-[345px] h-[56px] bg-indigo-600 text-white p-3 rounded-[8px] hover:bg-indigo-500 transition font-bold drop-shadow-sm"
-        onClick={() => setStep(1)}>
+          onClick={() => validateInputs()}>
           Continue
         </button>
       </section>
