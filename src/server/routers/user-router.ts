@@ -40,6 +40,7 @@ export const userRouter = router({
     }
 
     // encrypt password
+    const hashedPassword = await bcrypt.hash(input.password, 10);
 
     const result = await prisma.user.create({
       data: {
@@ -47,7 +48,7 @@ export const userRouter = router({
         Fname: input.Fname,
         Lname: input.Lname,
         email: input.email,
-        password: input.password,
+        password: hashedPassword,
         role: 'user',
         dollars: 0,
       }
