@@ -17,6 +17,8 @@
     "@trpc/next": "^10.38.5",
     "@trpc/react-query": "^10.38.5",
     "@trpc/server": "^10.38.5",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "next": "latest",
     "prisma": "^5.3.1",
     "react": "latest",
@@ -25,6 +27,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.5",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
