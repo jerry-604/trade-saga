@@ -12,6 +12,32 @@ export const userRouter = router({
     const input = opts.input;
 
     // Check if user already exists
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            name: {
+              equals: input.name
+            }
+          },
+          {
+            email: {
+              equals: input.email
+            }
+          }
+        ]
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true
+      }
+    });
+
+    if (user) {
+      console.log("EMAIL OR USERNAME TAKEN");
+      return { error: `That ${user.name === input.name ? "username" : "email"} is already taken` };
+    }
 
     // encrypt password
 
