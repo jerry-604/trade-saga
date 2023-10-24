@@ -12,17 +12,6 @@ export default function Registration() {
 
   const mutation = trpc.userRouter.createUser.useMutation();
 
-  const testHandler = () => {
-    const name = 'Romulus' + Math.floor(Math.random() * 100000);
-    const Fname = 'Rom';
-    const Lname = 'Ulus';
-    // const email = `rom${Math.floor(Math.random() * 100000)}@rom.rom`;
-    const email = "chamuelchandler12@gmail.com";
-    const password = 'testpassword';
-    const confirmPassword = 'testpassword';
-    mutation.mutate({ name, Fname, Lname, email, password, confirmPassword });
-  };
-
   const handleNameChange = (e: any) => {
     setName(e.target.value);
   };
