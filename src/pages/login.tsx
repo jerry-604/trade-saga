@@ -14,7 +14,9 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
     const { data, error } = await signIn(email, password);
     if (error) {
       console.error('Sign-in error:', error);
@@ -25,10 +27,10 @@ export default function Login() {
 
   return <div>
     <p>This will be the login page</p>
-    <form>
+    <form onSubmit={handleSubmit}>
       <input onChange={handleEmailChange} type="email"></input>
       <input onChange={handlePasswordChange} type="password"></input>
-      <button onClick={() => handleSubmit}>Submit</button>
+      <button type='submit'>Submit</button>
     </form>
   </div>;
 }
