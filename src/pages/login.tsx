@@ -14,26 +14,17 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  // const handleSubmit = async () => {
-  //   console.log(email);
-  //   console.log(password);
-  //   const { data, error } = await signIn(email, password);
-  //   if (error) {
-  //     console.error('Sign-in error:', error);
-  //   } else {
-  //     console.log('Sign-in successful:', data);
-  //   }
-  //   console.log(data);
-  // };
-
-  const handleSubmit = () => {
-    console.log('bruh');
+  const handleSubmit = async () => {
+    const { data, error } = await signIn(email, password);
+    if (error) {
+      console.error('Sign-in error:', error);
+    } else {
+      console.log('Sign-in successful:', data);
+    }
   };
 
   return <div>
     <p>This will be the login page</p>
-    <p>{email}</p>
-    <p>{password}</p>
     <form>
       <input onChange={handleEmailChange} type="email"></input>
       <input onChange={handlePasswordChange} type="password"></input>
