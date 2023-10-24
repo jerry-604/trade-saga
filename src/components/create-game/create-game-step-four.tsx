@@ -9,6 +9,7 @@ export const CreateGameStepFour = ({
     endDate,
     shareID,
     setStep,
+    createGame
 }) => {
     return (
         <div className="px-[40px]">
@@ -59,7 +60,7 @@ export const CreateGameStepFour = ({
                 <div className="mb-6">
                 </div>
                 <button className="w-[345px] h-[56px] bg-indigo-600 text-white p-3 rounded-[8px] hover:bg-indigo-500 transition font-bold drop-shadow-sm"
-                    onClick={() => setStep(4)}>
+                    onClick={() => createGame()}>
                     Create Game
                 </button>
             </section>

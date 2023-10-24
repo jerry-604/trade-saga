@@ -4,6 +4,7 @@ import { CreateGameStepOne } from '../components/create-game/create-game-step-on
 import { CreateGameStepTwo } from '../components/create-game/create-game-step-two'
 import { CreateGameStepThree } from '../components/create-game/create-game-step-three'
 import { CreateGameStepFour } from '../components/create-game/create-game-step-four'
+import { trpc } from "../utils/trpc";
 export default function Create() {
     const [gameTitle, setGameTitle] = useState("");
     const [backgroundImage, setBackgroundImage] = useState("create-background");
@@ -11,6 +12,27 @@ export default function Create() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [shareID, setShareID] = useState(guidGenerator());
+
+    const { mutate, isLoading } = trpc.gameRouter.createGame.useMutation({
+        onSuccess: (response) => {
+          onSuccess(response);
+        //   ctx.games.get.invalidate();
+        },
+      });
+
+    const createGame = () => {
+        const mutation = trpc.gameRouter.createGame;
+        console.log(typeof startDate);
+        let formatedStart = new Date(startDate);
+        let formatedEnd = new Date(endDate);
+        mutate({
+            gameTitle: gameTitle,
+            backgroundImage: backgroundImage,
+            startDate: formatedStart,
+            endDate: formatedEnd,
+            shareId: shareID,
+        })
+    }
     return (
         <div className="min-h-screen flex bg-[#F5F5F5]">
             <div className="flex-1 bg-white p-4">
@@ -25,7 +47,7 @@ export default function Create() {
                         case 2:
                             return <CreateGameStepThree shareID={shareID} setStep={setStep}/>
                         case 3:
-                            return <CreateGameStepFour gameTitle={gameTitle} startDate={startDate} endDate={endDate} shareID={shareID} setStep={setStep}/>
+                            return <CreateGameStepFour gameTitle={gameTitle} startDate={startDate} endDate={endDate} shareID={shareID} setStep={setStep} createGame={createGame}/>
                         default:
                             return null
                     }

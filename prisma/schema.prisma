@@ -6,19 +6,58 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  Fname     String
-  Lname     String
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  role      String?
-  dollars   Float     
+  id           Int          @id @default(autoincrement())
+  name         String       @unique
+  Fname        String
+  Lname        String
+  email        String       @unique
+  password     String
+  createdAt    DateTime     @default(now())
+  role         String?
+  dollars      Float
+  joinedGames  Game[]
+  GamePlayer   GamePlayer[]
+  createdGames Game[]       @relation("Creator")
+}
+
+model Game {
+  id           Int    @id @default(autoincrement())
+  name         String
+  coverImageId String
+
+  dateStart DateTime
+  dateEnd   DateTime
+
+  shareId    String
+  playerData GamePlayer[]
+  users      User[]
+
+  creator   User @relation(name: "Creator", fields: [creatorID], references: [id])
+  creatorID Int
+
+  @@index([creatorID])
+}
+
+model GamePlayer {
+  id          Int            @id @default(autoincrement())
+  user        User           @relation(fields: [userId], references: [id])
+  userId      Int
+  stocksHeld  StockHolding[]
+  cashBalance Float
+  game        Game           @relation(fields: [gameID], references: [id])
+  gameID      Int
+}
+
+model StockHolding {
+  id           Int        @id @default(autoincrement())
+  symbol       String
+  numShares    Int
+  gamePlayer   GamePlayer @relation(fields: [gamePlayerId], references: [id])
+  gamePlayerId Int
 }
