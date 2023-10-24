@@ -65,12 +65,15 @@ export const userRouter = router({
 
     // console.log(result);
 
-    // const { data, error } = await signUp(input.email, input.password);
-    // if (error) {
-    //   console.error('Sign-up error:', error);
-    // } else {
-    //   console.log('Sign-up successful:', data);
-    // }
-    // return result;
+    const { data, error } = await signUp(input.email, input.password);
+    if (error) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: error.message,
+      });
+    } else {
+      console.log('Sign-up successful:', data);
+    }
+    return data;
   }),
 });
