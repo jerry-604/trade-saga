@@ -5,6 +5,7 @@ import { signIn } from "../utils/supabase";
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
@@ -19,6 +20,7 @@ export default function Login() {
 
     const { data, error } = await signIn(email, password);
     if (error) {
+      setError(error.message);
       console.error('Sign-in error:', error);
     } else {
       console.log('Sign-in successful:', data);
@@ -31,6 +33,7 @@ export default function Login() {
       <input onChange={handleEmailChange} type="email"></input>
       <input onChange={handlePasswordChange} type="password"></input>
       <button type='submit'>Submit</button>
+      {error && <p>{error}</p>}
     </form>
   </div>;
 }
