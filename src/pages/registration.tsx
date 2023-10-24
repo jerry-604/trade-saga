@@ -8,6 +8,7 @@ export default function Registration() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
 
   const mutation = trpc.userRouter.createUser.useMutation();
 
@@ -18,8 +19,8 @@ export default function Registration() {
     // const email = `rom${Math.floor(Math.random() * 100000)}@rom.rom`;
     const email = "chamuelchandler12@gmail.com";
     const password = 'testpassword';
-    const result = mutation.mutate({ name, Fname, Lname, email, password });
-    console.log(result);
+    const confirmPassword = 'testpassword';
+    mutation.mutate({ name, Fname, Lname, email, password, confirmPassword });
   };
 
   const handleNameChange = (e: any) => {
@@ -41,16 +42,34 @@ export default function Registration() {
     setConfirmPassword(e.target.value);
   };
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    mutation.mutate(
+      {
+        name, Fname, Lname, email, password, confirmPassword
+      },
+      {
+        onSuccess: (data) => {
+          window.location.href = "/";
+        },
+        onError: (error) => {
+          setError(error.message);
+        },
+      });
+  };
+
   return <div>
     <p>This will be the registration page</p>
-    <form>
-      <input onChange={handleEmailChange} type="text" placeholder="Email"></input>
+    <form onSubmit={handleSubmit}>
       <input onChange={handleNameChange} type="text" placeholder="Username"></input>
+      <input onChange={handleEmailChange} type="text" placeholder="Email"></input>
       <input onChange={handleFnameChange} type="text" placeholder="First Name"></input>
       <input onChange={handleLnameChange} type="text" placeholder="Last Name"></input>
       <input onChange={handlePasswordChange} type="password" placeholder="password"></input>
       <input onChange={handleConfirmPasswordChange} type="password" placeholder="password"></input>
-      <button onClick={testHandler} type="submit">Submit</button>
+      <button type="submit">Submit</button>
+      {error && <p>Error: {error}</p>}
     </form>
   </div>;
 }
