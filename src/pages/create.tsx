@@ -9,13 +9,13 @@ export default function Create() {
     const [gameTitle, setGameTitle] = useState("");
     const [backgroundImage, setBackgroundImage] = useState("create-background");
     const [step, setStep] = useState(0);
-    const [startDate, setStartDate] = useState(null);
+    const [startDate, setStartDate] = useState<null | string>(null);
     const [endDate, setEndDate] = useState(null);
     const [shareID, setShareID] = useState(guidGenerator());
 
     const { mutate, isLoading } = trpc.gameRouter.createGame.useMutation({
         onSuccess: (response) => {
-          onSuccess(response);
+         // onSuccess(response);
         //   ctx.games.get.invalidate();
         },
       });
@@ -23,8 +23,10 @@ export default function Create() {
     const createGame = () => {
         const mutation = trpc.gameRouter.createGame;
         console.log(typeof startDate);
+        if(startDate != null && endDate != null) {
         let formatedStart = new Date(startDate);
-        let formatedEnd = new Date(endDate);
+        let formatedEnd = new Date(endDate ?? "");
+        
         mutate({
             gameTitle: gameTitle,
             backgroundImage: backgroundImage,
@@ -32,6 +34,8 @@ export default function Create() {
             endDate: formatedEnd,
             shareId: shareID,
         })
+
+        }
     }
     return (
         <div className="min-h-screen flex bg-[#F5F5F5]">

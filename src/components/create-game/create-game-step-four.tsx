@@ -3,6 +3,15 @@ import React, { useState, Component } from 'react';
 import { start } from 'repl';
 import { RxLink2 } from "react-icons/rx"
 
+type Props = {
+    gameTitle: string;
+    startDate: string | null;
+    endDate: string | null;
+    shareID: string;
+    setStep: any;
+    createGame: any;
+}
+
 export const CreateGameStepFour = ({
     gameTitle,
     startDate,
@@ -10,7 +19,7 @@ export const CreateGameStepFour = ({
     shareID,
     setStep,
     createGame
-}) => {
+}: Props) => {
     return (
         <div className="px-[40px]">
             <header className="flex items-center mb-8">

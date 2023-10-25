@@ -1,5 +1,5 @@
 import Sidebar from './sidebar'
-export default function Layout({ children }) {
+export default function Layout({ children }: {children: any}) {
   return (
     <main className="flex flex-col h-screen">
       <div className="flex flex-1 overflow-hidden">

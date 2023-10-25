@@ -2,18 +2,28 @@ import Link from 'next/link'
 import React, { useState, Component } from 'react';
 import Datepicker from "react-tailwindcss-datepicker";
 import { start } from 'repl';
+
+type Props = {
+    startDate: string | null;
+    setStartDate: any;
+    endDate: string | null;
+    setEndDate: any;
+    setStep: any;
+}
+
+
 export const CreateGameStepTwo = ({
     startDate,
     setStartDate,
     endDate,
     setEndDate,
     setStep,
-}) => {
-    const handleStartValueChange = (newValue) => {
+}: Props) => {
+    const handleStartValueChange = (newValue: any) => {
         console.log("newValue:", newValue.startDate);
         setStartDate(newValue.startDate);
     }
-    const handleEndValueChange = (newValue) => {
+    const handleEndValueChange = (newValue: any) => {
         console.log("newValue:", newValue.startDate);
         setEndDate(newValue.startDate);
     }
@@ -52,7 +62,7 @@ export const CreateGameStepTwo = ({
                     <Datepicker minDate={new Date()} placeholder={"Start Date"} displayFormat={"MM/DD/YYYY"} toggleClassName="absolute left-1 p-[15px] text-[#949494]" inputClassName="w-3/5 p-3 border-2 border-[#E2E2E2] rounded-[8px] focus:outline-none 2 focus:border-indigo-600 bg-[#F5F7F9] drop-shadow-sm font-medium px-[50px]" asSingle={true} useRange={false} value={{ "startDate": startDate, "endDate": startDate }} onChange={handleStartValueChange} />
                 </div>
                 <div className="mb-6">
-                    <Datepicker minDate={startDate == null ? new Date() : startDate} placeholder={"End Date"} displayFormat={"MM/DD/YYYY"} toggleClassName="absolute left-1 p-[15px] text-[#949494]" inputClassName="w-3/5 p-3 border-2 border-[#E2E2E2] rounded-[8px] focus:outline-none 2 focus:border-indigo-600 bg-[#F5F7F9] drop-shadow-sm font-medium px-[50px]" asSingle={true} useRange={false} value={{ "startDate": endDate, "endDate": endDate }} onChange={handleEndValueChange} />
+                    <Datepicker minDate={startDate == null ? new Date() : new Date(startDate)} placeholder={"End Date"} displayFormat={"MM/DD/YYYY"} toggleClassName="absolute left-1 p-[15px] text-[#949494]" inputClassName="w-3/5 p-3 border-2 border-[#E2E2E2] rounded-[8px] focus:outline-none 2 focus:border-indigo-600 bg-[#F5F7F9] drop-shadow-sm font-medium px-[50px]" asSingle={true} useRange={false} value={{ "startDate": endDate, "endDate": endDate }} onChange={handleEndValueChange} />
                 </div>
                 <button className="w-[345px] h-[56px] bg-indigo-600 text-white p-3 rounded-[8px] hover:bg-indigo-500 transition font-bold drop-shadow-sm"
                     onClick={() => validateInputs()}>

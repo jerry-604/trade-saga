@@ -1,13 +1,21 @@
 import Link from 'next/link'
 import React, { useState, Component } from 'react';
 
+type Props = {
+  gameTitle: string;
+  setGameTitle: any;
+  backgroundImage: string;
+  setBackgroundImage: any;
+  setStep: any;
+}
+
 export const CreateGameStepOne = ({
   gameTitle,
   setGameTitle,
   backgroundImage,
   setBackgroundImage,
   setStep,
-}) => {
+}: Props) => {
   function validateInputs() {
     if (gameTitle != "" && gameTitle != null && backgroundImage != null) {
       setStep(1);
@@ -37,7 +45,7 @@ export const CreateGameStepOne = ({
       <section className="py-[40px]">
         <h2 className="font-semibold text-xl mb-6">Create a new game</h2>
         <p className="mb-6 text-[#7C7C7C]">
-          Let's get you up and running with a new game. It should only<br />take
+          Let&apos;s get you up and running with a new game. It should only<br />take
           a few moments.
         </p>
         <div className="mb-6">
