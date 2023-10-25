@@ -36,7 +36,7 @@ export const CreateGameStepThree = ({
             <section className="py-[40px]">
                 <h2 className="font-semibold text-xl mb-6">Send your invite link</h2>
                 <p className="mb-6 text-[#7C7C7C]">
-                    Here’s your invite link. You can send it to any player you’d like.<br />Don’t worry, you’ll still have access to later.
+                    Here’s your invite link. You can send it to any player you’d like.<br />Don’t worry, you’ll still have access to it later.
                 </p>
                 <div className="mb-6">
                     <div className="flex flex-row w-[575px] p-3 border-2 border-[#E2E2E2] rounded-[8px] focus:outline-none 2 focus:border-indigo-600 bg-[#F5F7F9] drop-shadow-sm h-[85px] content-center">

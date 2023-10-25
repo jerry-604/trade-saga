@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from 'next/router';
 import Link from 'next/link'
 import { CreateGameStepOne } from '../components/create-game/create-game-step-one'
 import { CreateGameStepTwo } from '../components/create-game/create-game-step-two'
@@ -12,16 +13,17 @@ export default function Create() {
     const [startDate, setStartDate] = useState<null | string>(null);
     const [endDate, setEndDate] = useState(null);
     const [shareID, setShareID] = useState(guidGenerator());
-
+    const { push, replace } = useRouter();
     const { mutate, isLoading } = trpc.gameRouter.createGame.useMutation({
         onSuccess: (response) => {
-         // onSuccess(response);
-        //   ctx.games.get.invalidate();
+            replace(`/games/${response.shareId}`, undefined, {
+                shallow: true,
+              });
         },
       });
 
+
     const createGame = () => {
-        const mutation = trpc.gameRouter.createGame;
         console.log(typeof startDate);
         if(startDate != null && endDate != null) {
         let formatedStart = new Date(startDate);
