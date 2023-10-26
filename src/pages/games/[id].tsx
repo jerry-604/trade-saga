@@ -57,6 +57,70 @@ export default function GamePage() {
         <ActionButton onClick={() => console.log()} action={"Portfolio"} selected={false}/>
         <TradeButton onClick={() => console.log()} />
       </div>
+      <div className="flex justify-between p-8">
+      <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] w-[250px] h-[330px]">
+        <img 
+          src="/create-background.png" 
+          className="w-[64px] h-[64px] rounded-full mb-4"
+        />
+        <p className="text-[14px] font-semibold mb-1 text-[#FBFBFB]">TradeSaga Player</p>
+        <div className="text-center mt-[32px]">
+        <p className="text-[22px] text-[#FBFBFB] font-bold mb-1">$100,000</p>
+        <p className="text-[#C8C8C8] text-[14px] font-bold">Net Worth</p>
+        </div>
+        <div className="flex justify-between w-full mt-[32px] pl-[5px] pr-[5px]">
+          <div className="text-center">
+            <p className="font-bold text-[#FBFBFB] text-[22px]">+0%</p>
+            <p className="text-[#C8C8C8] text-[14px] font-semibold">Today's Return</p>
+          </div>
+          <div className="text-center">
+          <p className="font-bold text-[#FBFBFB] text-[22px]">+0%</p>
+            <p className="text-[#C8C8C8] text-[14px] font-semibold">Total Return</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-[200px]">
+      <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
+          <img 
+            src="/create-background.png" 
+            alt="AAPL" 
+            className="w-[40px] h-[40px] rounded-full"
+          />
+            <p className="text-[#1D1D1D] text-[16px] font-semibold">Trade Saga Player</p>
+        </div>
+        <input 
+          type="text" 
+          placeholder="Share an update..."
+          className="p-2 w-full rounded-md mb-4"
+        />
+        <div className="flex flex-row w-[400px] justify-end">
+           <button
+      onClick={()=>null}
+      className="mr-[20px] w-[82px] h-[30px] bg-indigo-600 text-white rounded-full focus:outline-none hover:bg-indigo-500 transition duration-200 text-align-center font-bold text-[14px]"
+    >
+      Post
+    </button>
+    </div>
+      </div>
+
+  
+      <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px]">
+        <p className="text-[18px] font-bold mb-4 text-[#1D1D1D] mt-[15px] ml-[15px]">Market Movers</p>
+        <div className="flex justify-between items-center bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
+          <img 
+            src="/create-background.png" 
+            alt="AAPL" 
+            className="w-[35px] h-[35px] rounded-full"
+          />
+            <p className="text-[#1D1D1D] text-[18px] font-bold mr-[90px]">AAPL</p>
+            <div>
+          <p className="text-[14px] font-bold text-[#161616]">$170</p>
+          <p className="text-[14px] font-bold text-red-500">-1.27%</p>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   );
 }
@@ -78,7 +142,7 @@ function TradeButton({ onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-[140px] h-[34px] bg-indigo-600 text-white rounded-[14px] focus:outline-none hover:bg-indigo-500 transition duration-200 text-align-center absolute right-[30px]"
+      className="font-bold w-[140px] h-[34px] bg-indigo-600 text-white rounded-[14px] focus:outline-none hover:bg-indigo-500 transition duration-200 text-align-center absolute right-[30px]"
     >
       Trade
     </button>
