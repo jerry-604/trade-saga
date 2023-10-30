@@ -31,37 +31,47 @@ export const userRouter = router({
     }
 
     // Check if user already exists
-    // const user = await prisma.user.findFirst({
-    //   where: {
-    //     OR: [
-    //       {
-    //         name: {
-    //           equals: input.name
-    //         }
-    //       },
-    //       {
-    //         email: {
-    //           equals: input.email
-    //         }
-    //       }
-    //     ]
-    //   },
-    // });
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            name: {
+              equals: input.name
+            }
+          },
+          {
+            email: {
+              equals: input.email
+            }
+          }
+        ]
+      },
+    });
 
-    // encrypt password
-    // const hashedPassword = await bcrypt.hash(input.password, 10);
+    if (user) {
+      throw new TRPCError({
+        code: 'UNPROCESSABLE_CONTENT',
+        message: "Username and/or email is already taken",
+      });
+    }
 
-    // const result = await prisma.user.create({
-    //   data: {
-    //     name: input.name,
-    //     Fname: input.Fname,
-    //     Lname: input.Lname,
-    //     email: input.email,
-    //     password: hashedPassword,
-    //     role: 'user',
-    //     dollars: 0,
-    //   }
-    // });
+    const result = await prisma.user.create({
+      data: {
+        name: input.name,
+        Fname: input.Fname,
+        Lname: input.Lname,
+        email: input.email,
+        role: 'user',
+        dollars: 0,
+      }
+    });
+
+    if (!result) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: "Encountered an error while trying to save new user",
+      });
+    }
 
     // console.log(result);
 
@@ -74,6 +84,7 @@ export const userRouter = router({
     } else {
       console.log('Sign-up successful:', data);
     }
+
     return data;
   }),
 });
