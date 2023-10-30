@@ -4,11 +4,51 @@ import PropTypes from "prop-types";
 import React from "react";
 import Layout from "../components/layout";
 import type { ReactElement } from "react";
+import { useEffect, useState } from "react";
+import { getSession, signOut } from "../utils/supabase";
 
 export default function Dashboard() {
-  return (   <div>
+  const [session, setSession] = useState({});
+  const [user, setUser] = useState({});
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        setError(error.message);
+      }
+      setSession(session || {});
+      setUser(session?.user || {});
+      setLoading(false);
+    });
+  }, []);
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+
+    if (error) {
+      setError(error.message);
+    } else {
+      window.location.href = "/dashboard";
+    }
+  };
+
+  if (loading) {
+    return (
+      <div>
+        <p>...loading</p>
+      </div>
+    );
+  }
+
+  return (<div>
+    <p>{user && JSON.stringify(user)}</p>
     This is the dashboard.
-  </div>);
+    <button onClick={handleSignOut}>Sign Out</button>
+    <p>{error && error}</p>
+  </div>
+  );
 }
 
 Dashboard.getLayout = function getLayout(page: ReactElement) {
