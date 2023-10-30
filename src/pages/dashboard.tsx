@@ -64,7 +64,8 @@ export default function Dashboard() {
     This is the dashboard.
     <button onClick={handleSignOut}>Sign Out</button>
     <p>{error && error}</p>
-  </div>);
+  </div>
+  );
 }
 
 Dashboard.getLayout = function getLayout(page: ReactElement) {
