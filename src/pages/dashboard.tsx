@@ -15,9 +15,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     getSession().then(({ data: { session }, error }) => {
-      console.log("GET SESSION");
-      console.log(`session: ${session}`);
-      console.log(`error: ${error}`);
       if (error) {
         setError(error.message);
       }
@@ -33,10 +30,10 @@ export default function Dashboard() {
     if (error) {
       setError(error.message);
     } else {
-      console.log("SUCCESSFUL LOGOUT");
       window.location.href = "/dashboard";
     }
   };
+
   if (loading) {
     return (
       <div>
@@ -46,7 +43,6 @@ export default function Dashboard() {
   }
 
   return (<div>
-    <p>{session && JSON.stringify(session)}</p>
     <p>{user && JSON.stringify(user)}</p>
     This is the dashboard.
     <button onClick={handleSignOut}>Sign Out</button>
