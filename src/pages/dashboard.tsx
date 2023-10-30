@@ -14,19 +14,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const { data, error } = await getSession();
-    //   if (error) {
-    //     setError(error.message);
-    //   }
-
-    //   if (data) {
-    //     setSession(data);
-    //   }
-    // };
-
-    // fetchData()
-    //   .catch(console.error);
     getSession().then(({ data: { session }, error }) => {
       console.log("GET SESSION");
       console.log(`session: ${session}`);
