@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
 import { signIn } from "../utils/supabase";
-import { BsGoogle, BsApple } from "react-icons/bs";
+import { BsGoogle, BsApple, BsEyeFill, BsEyeSlashFill, BsEye, BsEyeSlash } from "react-icons/bs";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
@@ -44,7 +45,10 @@ export default function Login() {
         <p className="mt-5 font-semibold">Email:</p>
         <input className="bg-[#F4F6F8] rounded shadow-inner pl-1" onChange={handleEmailChange} type="email"></input>
         <p className="mt-3 font-semibold">Password:</p>
-        <input className="bg-[#F4F6F8] rounded shadow-inner pl-1" onChange={handlePasswordChange} type="password"></input>
+        <div className="flex">
+          <input className="bg-[#F4F6F8] rounded shadow-inner pl-1 mr-1 w-full" onChange={handlePasswordChange} type={`${showPassword ? "text" : "password"}`}></input>
+          {showPassword ? <BsEyeFill size={"25px"} onClick={() => setShowPassword(!showPassword)} /> : <BsEyeSlashFill size={"25px"} onClick={() => setShowPassword(!showPassword)} />}
+        </div>
         <button className="bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 mt-5 place-self-center active:shadow-inner" type='submit'>Submit</button>
         {error && <p className="mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit place-self-center px-5">{error}</p>}
         <div className="flex flex-row mt-5 place-items-center">
