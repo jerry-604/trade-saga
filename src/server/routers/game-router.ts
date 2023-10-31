@@ -50,4 +50,18 @@ export const gameRouter = router({
         const create = await prisma.game.create({ data: createGameObject });
         return create;
     }),
+    fetchGameWithId: publicProcedure.input(z.object({shareId: z.string()})).query(async ({ ctx, input }) => {
+        const game = await prisma.game.findFirst({
+            where: {
+            shareId: input.shareId,
+            },
+            include: {
+                playerData: true,
+                users: true,
+                creator: true,
+            }
+        })
+        console.log(game);
+        return game;
+    }),
 });
