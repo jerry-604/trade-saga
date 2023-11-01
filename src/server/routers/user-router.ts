@@ -77,6 +77,11 @@ export const userRouter = router({
 
     const { data, error } = await signUp(input.email, input.password);
     if (error) {
+      const deletion = await prisma.user.delete({
+        where: {
+          email: result.email
+        }
+      });
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         message: error.message,
