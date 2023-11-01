@@ -6,17 +6,26 @@ import Layout from "../../components/layout";
 import type { ReactElement } from "react";
 import { useRouter } from 'next/router';
 import { useState } from "react";
+import { MultiQueryLoadingBoundary } from "@/src/components/multi-query-loading-boundary";
+import { compareAsc, format } from 'date-fns'
 import { LoadingBoundary } from "@/src/components/loading-boundary";
 
 export default function GamePage() {
   const { query } = useRouter();
   const id = query.id as string;
   const [postText, setPostText] = useState('');
+
+  const getFormattedDate = (input: Date) => {
+    return format(input, 'MMMM dd');
+  };
+
   return (
-    <LoadingBoundary query={trpc.gameRouter.fetchGameWithId.useQuery({
-      shareId: id,
-    })}>
-      {(gameData) => (
+    <MultiQueryLoadingBoundary queries={trpc.useQueries((t) => [
+      t.gameRouter.fetchGameWithId({shareId: id}),
+      t.userRouter.getUserFromContext(),
+    ])
+      }>
+      {([gameData, user]) => (
     <div className="flex flex-col space-y-0">
       <div className="bg-[url('/game-background-1.png')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px]">
         <div className="flex justify-between items-center mb-4">
@@ -46,12 +55,12 @@ export default function GamePage() {
               alt="User"
               className="rounded-full w-10 h-10 mr-4"
             />
-            <span className="font-semibold">TradeSaga Player</span>
+            <span className="font-semibold">{user.Fname} {user.Lname}</span>
           </header>
         </div>
         <div className="mb-4 mt-14">
           <h1 className="text-[28px] font-semibold">{gameData?.name ?? ""}</h1>
-          <p className="text-gray-600 text-[20px]">Hosted by {gameData?.creator?.name ?? ""} | October 5 - October 19</p>
+          <p className="text-gray-600 text-[20px]">Hosted by {gameData?.creator?.name ?? ""} | {getFormattedDate(gameData.dateStart)} - {getFormattedDate(gameData.dateEnd)}</p>
         </div>
       </div>
 
@@ -128,7 +137,7 @@ export default function GamePage() {
       </div>
     </div>
       )}
-      </LoadingBoundary>
+      </MultiQueryLoadingBoundary>
   );
 }
 
