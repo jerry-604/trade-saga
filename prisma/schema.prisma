@@ -17,7 +17,6 @@ model User {
   Fname        String
   Lname        String
   email        String       @unique
-  password     String
   createdAt    DateTime     @default(now())
   role         String?
   dollars      Float

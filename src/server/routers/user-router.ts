@@ -9,7 +9,7 @@ import { TRPCError } from '@trpc/server';
 export const userRouter = router({
   getUser: publicProcedure
     .query(async ({ ctx }) => {
-      return await prisma.user.findMany();
+      return ctx.user;
     }),
   createUser: publicProcedure.input(z.object({ name: z.string(), Fname: z.string(), Lname: z.string(), email: z.string(), password: z.string(), confirmPassword: z.string() })).mutation(async (opts) => {
     const input = opts.input;
@@ -77,6 +77,11 @@ export const userRouter = router({
 
     const { data, error } = await signUp(input.email, input.password);
     if (error) {
+      const deletion = await prisma.user.delete({
+        where: {
+          email: result.email
+        }
+      });
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         message: error.message,
