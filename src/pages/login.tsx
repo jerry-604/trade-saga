@@ -50,7 +50,7 @@ export default function Login() {
           {showPassword ? <BsEyeFill size={"25px"} onClick={() => setShowPassword(!showPassword)} /> : <BsEyeSlashFill size={"25px"} onClick={() => setShowPassword(!showPassword)} />}
         </div>
         <button className="bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 mt-5 place-self-center active:shadow-inner" type='submit'>Submit</button>
-        {error && <p className="mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit place-self-center px-5">{error}</p>}
+        {error && <p className="mt-5 bg-red-100 rounded border border-red-200 border-solid w-fit place-self-center px-5">{error}</p>}
         <div className="flex flex-row mt-5 place-items-center">
           <div className="border-t border-[#EBEEF3] border-solid w-full" />
           <p className="w-fit mx-1 text-[#EBEEF3]">or</p>
