@@ -37,7 +37,7 @@ export default function Login() {
       console.error('Sign-in error:', error);
     } else {
       console.log('Sign-in successful:', data);
-      // window.location.href = "/dashboard";
+      window.location.href = "/dashboard";
     }
   };
 
