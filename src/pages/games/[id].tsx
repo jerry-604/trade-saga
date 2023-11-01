@@ -121,7 +121,7 @@ export default function GamePage() {
             </div>
           </div>
         </div>
-
+        <div className="flex flex-col items-center space-y-[25px]">
         <div className="flex flex-col items-center bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-[200px]">
           <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
             <img
@@ -147,7 +147,23 @@ export default function GamePage() {
             </button>
           </div>
         </div>
-
+        <div className="font-bold text-[20px] text-[#1D1D1D] mr-[350px]">Feed</div>
+        {
+          gameData.posts.map((post) => (
+            <div className="flex flex-col items-start bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-[200px]">
+            <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
+              <img
+                src="/create-background.png"
+                alt="AAPL"
+                className="w-[40px] h-[40px] rounded-full"
+              />
+              <p className="text-[#1D1D1D] text-[16px] font-semibold">{getNameForPlayer(post.creator)}</p>
+            </div>
+            <p className="pl-4 font-medium text-[#666666] text-[16px]">{post.content}</p>
+          </div>
+          ))
+        }
+        </div>
 
         <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px]">
           <p className="text-[18px] font-bold mb-4 text-[#1D1D1D] mt-[15px] ml-[15px]">Market Movers</p>

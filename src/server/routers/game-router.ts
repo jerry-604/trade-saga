@@ -62,7 +62,11 @@ export const gameRouter = router({
                 },
                 users: true,
                 creator: true,
-                posts: true,
+                posts: {
+                    include: {
+                        creator: true,
+                    }
+                },
             }
         })
         console.log(game);
