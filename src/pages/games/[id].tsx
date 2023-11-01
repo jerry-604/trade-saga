@@ -18,6 +18,34 @@ export default function GamePage() {
   const getFormattedDate = (input: Date) => {
     return format(input, 'MMMM dd');
   };
+  //we should acutally use user object in the future, but any is ok for now.
+  const getNameForPlayer = (input: any) => {
+    return input.Fname + " " + input.Lname
+  }
+
+  function numberWithCommas(x: any) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
+  const computeWorthForPlayer = (input : any) => {
+    console.log(input);
+    const cash = input.cashBalance;
+    let securitiesTotal = 0;
+    for(let i = 0; i < input.stocksHeld.length; i++) {
+      securitiesTotal += input.stocksHeld[i].numShares*123;
+    }
+    return "$"+`${numberWithCommas(securitiesTotal+cash)}`
+  }
+
+  const { mutate, isLoading } = trpc.gameRouter.createPost.useMutation({});
+
+  const createPost = (gameID: number, content: string) => {
+    mutate({
+      gameID,
+      content,
+    });
+
+    }
 
   return (
     <MultiQueryLoadingBoundary queries={trpc.useQueries((t) => [
@@ -60,7 +88,7 @@ export default function GamePage() {
         </div>
         <div className="mb-4 mt-14">
           <h1 className="text-[28px] font-semibold">{gameData?.name ?? ""}</h1>
-          <p className="text-gray-600 text-[20px]">Hosted by {gameData?.creator?.name ?? ""} | {getFormattedDate(gameData.dateStart)} - {getFormattedDate(gameData.dateEnd)}</p>
+          <p className="text-gray-600 text-[20px]">Hosted by {gameData?.creator?.name ?? ""} | {getFormattedDate(gameData?.dateStart ?? new Date())} - {getFormattedDate(gameData?.dateEnd ?? new Date())}</p>
         </div>
       </div>
 
@@ -77,9 +105,9 @@ export default function GamePage() {
             src="/create-background.png"
             className="w-[64px] h-[64px] rounded-full mb-4"
           />
-          <p className="text-[14px] font-semibold mb-1 text-[#FBFBFB]">TradeSaga Player</p>
+          <p className="text-[14px] font-semibold mb-1 text-[#FBFBFB]">{getNameForPlayer(gameData.users.find((item: any) => item.id === user.id))}</p>
           <div className="text-center mt-[32px]">
-            <p className="text-[22px] text-[#FBFBFB] font-bold mb-1">$100,000</p>
+            <p className="text-[22px] text-[#FBFBFB] font-bold mb-1">{computeWorthForPlayer(gameData.playerData.find((item: any) => item.userId === user.id))}</p>
             <p className="text-[#C8C8C8] text-[14px] font-bold">Net Worth</p>
           </div>
           <div className="flex justify-between w-full mt-[32px] pl-[5px] pr-[5px]">
@@ -107,10 +135,12 @@ export default function GamePage() {
             type="text"
             placeholder="Share an update..."
             className="p-2 w-full rounded-md mb-4"
+            value={postText}
+            onChange={(e) => setPostText(e.target.value)}
           />
           <div className="flex flex-row w-[400px] justify-end">
             <button
-              onClick={() => null}
+              onClick={() => createPost(gameData.id, postText)}
               className="mr-[20px] w-[82px] h-[30px] bg-indigo-600 text-white rounded-full focus:outline-none hover:bg-indigo-500 transition duration-200 text-align-center font-bold text-[14px]"
             >
               Post

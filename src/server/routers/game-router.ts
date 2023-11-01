@@ -5,8 +5,7 @@ import { TRPCError } from '@trpc/server';
 import { User } from '@prisma/client';
 
 export const gameRouter = router({
-    createGame: publicProcedure.input(z.object({ gameTitle: z.string(), backgroundImage: z.string(), startDate: z.date(), endDate: z.date(), shareId: z.string() })).mutation(async (opts) => {
-        const input = opts.input;
+    createGame: publicProcedure.input(z.object({ gameTitle: z.string(), backgroundImage: z.string(), startDate: z.date(), endDate: z.date(), shareId: z.string() })).mutation(async ({ctx, input}) => {
 
         for (const field of Object.values(input)) {
             if (!field) {
@@ -17,7 +16,7 @@ export const gameRouter = router({
             }
         }
 
-        const user = await prisma.user.findFirst({});
+        const user = ctx.user
         const creatorID = user?.id ?? 1;
         const id = user?.id ?? 1;
 
@@ -56,12 +55,29 @@ export const gameRouter = router({
             shareId: input.shareId,
             },
             include: {
-                playerData: true,
+                playerData: {
+                    include: {
+                        stocksHeld: true,
+                    }
+                },
                 users: true,
                 creator: true,
+                posts: true,
             }
         })
         console.log(game);
         return game;
+    }),
+    createPost: publicProcedure.input(z.object({gameID: z.number(), content: z.string()})).mutation(async ({ctx, input}) => {
+        const user = ctx.user;
+        const userId = user.id;
+        const post = await prisma.gamePost.create({
+            data: {
+                userId,
+                gameID: input.gameID,
+                content: input.content,
+            }
+        });
+        return post;
     }),
 });
