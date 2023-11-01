@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
-import { signIn } from "../utils/supabase";
+import { signIn, signInWithOAuth } from "../utils/supabase";
 import { BsGoogle, BsApple, BsEyeFill, BsEyeSlashFill, BsEye, BsEyeSlash } from "react-icons/bs";
 
 export default function Login() {
@@ -27,6 +27,17 @@ export default function Login() {
     } else {
       console.log('Sign-in successful:', data);
       window.location.href = "/dashboard";
+    }
+  };
+
+  const handleOAuthSignIn = async (provider: 'google' | 'apple') => {
+    const { data, error } = await signInWithOAuth(provider);
+    if (error) {
+      setError(error.message);
+      console.error('Sign-in error:', error);
+    } else {
+      console.log('Sign-in successful:', data);
+      // window.location.href = "/dashboard";
     }
   };
 
@@ -57,11 +68,11 @@ export default function Login() {
           <div className="border-t border-[#EBEEF3] border-solid w-full" />
         </div>
         <div className="flex flex-col mt-5 items-center">
-          <div className="flex items-center bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1">
+          <div className="flex items-center bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('google')}>
             <BsGoogle size={"30px"} color={"white"} style={{ stroke: "black", strokeWidth: "0.1" }} />
             <p className="mx-2">Login with Google</p>
           </div>
-          <div className="flex items-center mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1">
+          <div className="flex items-center mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('apple')}>
             <BsApple size={"30px"} color="white" style={{ stroke: "black", strokeWidth: "0.1" }} />
             <p className="mx-2">Login with Apple</p>
           </div>
