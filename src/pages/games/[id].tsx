@@ -154,7 +154,7 @@ export default function GamePage() {
         <div className="font-bold text-[20px] text-[#1D1D1D] mr-[350px]">Feed</div>
         {
           gameData.posts.map((post) => (
-            <div className="flex flex-col items-start bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-[200px]">
+            <div className="flex flex-col items-start bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-fit min-h-[200px]">
             <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
               <img
                 src="/create-background.png"
