@@ -14,7 +14,7 @@ export default function GamePage() {
   const { query } = useRouter();
   const id = query.id as string;
   const [postText, setPostText] = useState('');
-
+  const utils = trpc.useContext()
   const getFormattedDate = (input: Date) => {
     return format(input, 'MMMM dd');
   };
@@ -37,7 +37,11 @@ export default function GamePage() {
     return "$"+`${numberWithCommas(securitiesTotal+cash)}`
   }
 
-  const { mutate, isLoading } = trpc.gameRouter.createPost.useMutation({});
+  const { mutate, isLoading } = trpc.gameRouter.createPost.useMutation({
+    onSuccess: () => {
+      utils.gameRouter.fetchGameWithId.invalidate()
+    }
+  });
 
   const createPost = (gameID: number, content: string) => {
     mutate({
@@ -165,7 +169,7 @@ export default function GamePage() {
         }
         </div>
 
-        <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px]">
+        <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px] h-fit min-h-[400px]">
           <p className="text-[18px] font-bold mb-4 text-[#1D1D1D] mt-[15px] ml-[15px]">Market Movers</p>
           <div className="flex justify-between items-center bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
             <img
