@@ -23,5 +23,8 @@ export function getSession() {
 export function signInWithOAuth(provider: 'google' | 'apple') {
   return supabase.auth.signInWithOAuth({
     provider: provider,
+    options: {
+      redirectTo: '/dashboard'
+    }
   });
 }
