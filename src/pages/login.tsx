@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
-import { signIn } from "../utils/supabase";
+import { signIn, signInWithOAuth } from "../utils/supabase";
 import { BsGoogle, BsApple, BsEyeFill, BsEyeSlashFill, BsEye, BsEyeSlash } from "react-icons/bs";
 
 export default function Login() {
@@ -30,6 +30,16 @@ export default function Login() {
     }
   };
 
+  const handleOAuthSignIn = async (provider: 'google' | 'apple') => {
+    const { data, error } = await signInWithOAuth(provider);
+    if (error) {
+      setError(error.message);
+      console.error('Sign-in error:', error);
+    } else {
+      console.log('Sign-in successful:', data);
+    }
+  };
+
   return <div className="h-screen flex justify-center bg-[#F5F7F9]">
     {/* <Image
       src="/background-2.png"
@@ -50,18 +60,18 @@ export default function Login() {
           {showPassword ? <BsEyeFill size={"25px"} onClick={() => setShowPassword(!showPassword)} /> : <BsEyeSlashFill size={"25px"} onClick={() => setShowPassword(!showPassword)} />}
         </div>
         <button className="bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 mt-5 place-self-center active:shadow-inner" type='submit'>Submit</button>
-        {error && <p className="mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit place-self-center px-5">{error}</p>}
+        {error && <p className="mt-5 bg-red-100 rounded border border-red-200 border-solid w-fit place-self-center px-5">{error}</p>}
         <div className="flex flex-row mt-5 place-items-center">
           <div className="border-t border-[#EBEEF3] border-solid w-full" />
           <p className="w-fit mx-1 text-[#EBEEF3]">or</p>
           <div className="border-t border-[#EBEEF3] border-solid w-full" />
         </div>
         <div className="flex flex-col mt-5 items-center">
-          <div className="flex items-center bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1">
+          <div className="flex items-center bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('google')}>
             <BsGoogle size={"30px"} color={"white"} style={{ stroke: "black", strokeWidth: "0.1" }} />
             <p className="mx-2">Login with Google</p>
           </div>
-          <div className="flex items-center mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1">
+          <div className="flex items-center mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('apple')}>
             <BsApple size={"30px"} color="white" style={{ stroke: "black", strokeWidth: "0.1" }} />
             <p className="mx-2">Login with Apple</p>
           </div>

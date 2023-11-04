@@ -19,3 +19,12 @@ export function signOut() {
 export function getSession() {
   return supabase.auth.getSession();
 }
+
+export function signInWithOAuth(provider: 'google' | 'apple') {
+  return supabase.auth.signInWithOAuth({
+    provider: provider,
+    options: {
+      redirectTo: '/dashboard'
+    }
+  });
+}
