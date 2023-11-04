@@ -20,7 +20,7 @@ export function getSession() {
   return supabase.auth.getSession();
 }
 
-export function signInWithOAuth(provider: 'google' | 'apple') {
+export function signInWithOAuth(provider: 'google' | 'github') {
   return supabase.auth.signInWithOAuth({
     provider: provider,
     options: {

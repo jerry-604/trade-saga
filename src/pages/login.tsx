@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
 import { signIn, signInWithOAuth } from "../utils/supabase";
-import { BsGoogle, BsApple, BsEyeFill, BsEyeSlashFill, BsEye, BsEyeSlash } from "react-icons/bs";
+import { BsGoogle, BsEyeFill, BsEyeSlashFill, BsEye, BsEyeSlash, BsGithub } from "react-icons/bs";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -30,7 +30,7 @@ export default function Login() {
     }
   };
 
-  const handleOAuthSignIn = async (provider: 'google' | 'apple') => {
+  const handleOAuthSignIn = async (provider: 'google' | 'github') => {
     const { data, error } = await signInWithOAuth(provider);
     if (error) {
       setError(error.message);
@@ -41,14 +41,6 @@ export default function Login() {
   };
 
   return <div className="h-screen flex justify-center bg-[#F5F7F9]">
-    {/* <Image
-      src="/background-2.png"
-      priority={true}
-      width={0}
-      height={0}
-      sizes="100vw"
-      style={{ width: '100%', height: 'auto', position: 'absolute', zIndex: -1 }}
-      alt="background" /> */}
     <div className="flex flex-col items-center place-self-center self-center border border-[#EBEEF3] border-solid rounded py-5 px-10 w-[450px] h-[500px] bg-white shadow-sm">
       <h1 className="text-xl text-bold border-b border-[#EBEEF3] border-solid px-5 font-bold">Login</h1>
       <form className="flex flex-col w-full" onSubmit={handleSubmit}>
@@ -71,9 +63,9 @@ export default function Login() {
             <BsGoogle size={"30px"} color={"white"} style={{ stroke: "black", strokeWidth: "0.1" }} />
             <p className="mx-2">Login with Google</p>
           </div>
-          <div className="flex items-center mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('apple')}>
-            <BsApple size={"30px"} color="white" style={{ stroke: "black", strokeWidth: "0.1" }} />
-            <p className="mx-2">Login with Apple</p>
+          <div className="flex items-center mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('github')}>
+            <BsGithub size={"30px"} color="white" style={{ stroke: "black", strokeWidth: "0.1" }} />
+            <p className="mx-2">Login with GitHub</p>
           </div>
         </div>
       </form>
