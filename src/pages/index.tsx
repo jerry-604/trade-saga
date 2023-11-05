@@ -1,22 +1,33 @@
 import { trpc } from "../utils/trpc";
 import { User } from "@prisma/client";
 import PropTypes from "prop-types";
-import React from "react";
-import Layout from "../components/layout";
-import type { ReactElement } from "react";
-import Header from "../components/Header";
-import StockSummary from "../components/StockSummary";
-import sampleStocks from "../utils/sampleStocks";
-// import React from 'react';
-
-
-
+import React, { ReactElement } from 'react';
+import { Grid } from '@mui/material';
+import Header from '../components/Header';
+import StockSummary from '../components/StockSummary';
+import sampleStocks from '../utils/sampleStocks';
+import RecentlyViewedStocks from '../components/RecentlyViewedStocks';
+// import TradingViewWidget from '../components/TradingViewWidget';
+import Layout from '../components/layout';
 
 export default function HomePage() {
-  return (   <div>
-    <Header/>
-    <StockSummary  stocks={sampleStocks}/>
-  </div>);
+  return (
+    <div className="flex-grow p-5">
+      <div className="mb-4">
+        <Header />
+        <h2 className="ml-4 my-4">Stock Dashboard</h2>
+        <StockSummary stocks={sampleStocks} />
+      </div>
+      <Grid container spacing={5}>
+        <Grid item md={8}>
+          {/* <TradingViewWidget /> */}
+        </Grid>
+        <Grid item md={4}>
+          <RecentlyViewedStocks stocks={sampleStocks} />
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
 
 HomePage.getLayout = function getLayout(page: ReactElement) {

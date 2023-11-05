@@ -1,11 +1,14 @@
-import Sidebar from './sidebar'
-export default function Layout({ children }: {children: any}) {
+import Sidebar from './sidebar';
+
+export default function Layout({ children }: { children: any }) {
   return (
-    <main className="flex flex-col h-screen">
-      <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-        <main className="ml-[350px] bg-[#F5F7F9] w-screen">{children}</main>
+    <div className="flex h-screen">
+      <div className="flex-none w-[350px]">
+        <Sidebar />
       </div>
-    </main>
+      <main className="flex-grow bg-[#F5F7F9] overflow-auto p-4">
+        {children}
+      </main>
+    </div>
   );
 }
