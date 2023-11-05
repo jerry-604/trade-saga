@@ -4,10 +4,15 @@ import PropTypes from "prop-types";
 import React from "react";
 import Layout from "../components/layout";
 import type { ReactElement } from "react";
+import Header from "../components/Header";
+// import React from 'react';
+
+
+
 
 export default function HomePage() {
   return (   <div>
-    This is the home page.
+    <Header/>
   </div>);
 }
 
