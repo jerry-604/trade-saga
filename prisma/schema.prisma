@@ -20,9 +20,12 @@ model User {
   createdAt    DateTime     @default(now())
   role         String?
   dollars      Float
+  // [public_id, format, version]
+  image        String[]     @default(["", "", ""])
   joinedGames  Game[]
   GamePlayer   GamePlayer[]
   createdGames Game[]       @relation("Creator")
+  GamePost     GamePost[]
 }
 
 model Game {
@@ -36,9 +39,9 @@ model Game {
   shareId    String
   playerData GamePlayer[]
   users      User[]
-
-  creator   User @relation(name: "Creator", fields: [creatorID], references: [id])
-  creatorID Int
+  posts      GamePost[]
+  creator    User         @relation(name: "Creator", fields: [creatorID], references: [id])
+  creatorID  Int
 
   @@index([creatorID])
 }
@@ -59,4 +62,14 @@ model StockHolding {
   numShares    Int
   gamePlayer   GamePlayer @relation(fields: [gamePlayerId], references: [id])
   gamePlayerId Int
+}
+
+model GamePost {
+  id      Int    @id @default(autoincrement())
+  creator User   @relation(fields: [userId], references: [id])
+  userId  Int
+  game    Game   @relation(fields: [gameID], references: [id])
+  gameID  Int
+  content String
+  createdAt    DateTime     @default(now())
 }
