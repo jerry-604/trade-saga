@@ -20,6 +20,8 @@ model User {
   createdAt    DateTime     @default(now())
   role         String?
   dollars      Float
+  // [public_id, format, version]
+  image        String[]     @default(["", "", ""])
   joinedGames  Game[]
   GamePlayer   GamePlayer[]
   createdGames Game[]       @relation("Creator")
