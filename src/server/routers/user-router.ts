@@ -1,6 +1,7 @@
 import { publicProcedure, router } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma';
+import { uploadImage } from "../../utils/cloudinary";
 import bcrypt from 'bcryptjs';
 import { signUp } from '@/src/utils/supabase';
 import { signIn } from '@/src/utils/supabase';
@@ -11,6 +12,24 @@ export const userRouter = router({
     .query(async ({ ctx }) => {
       return ctx.user;
     }),
+  uploadImage: publicProcedure.input(z.object({ image: z.string() })).mutation(async (opts) => {
+    const input = opts.input;
+
+    // TODO validation checking
+    const image = input.image;
+
+    // const imageUploaded = await getImage(req);
+
+    // const imageData = await uploadImage(imageUploaded.path);
+
+    // const result = await prisma.user.create({
+    //   data: {
+    //     image: [imageData.public_id, imageData.format, imageData.version.toString()]
+    //   },
+    // });
+
+    // return result;
+  }),
   createUser: publicProcedure.input(z.object({ name: z.string(), Fname: z.string(), Lname: z.string(), email: z.string(), password: z.string(), confirmPassword: z.string() })).mutation(async (opts) => {
     const input = opts.input;
 
