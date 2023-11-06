@@ -5,12 +5,12 @@ type Props = {
     gameData: any
 }
 
-export default function GameUserInfo({
+export default function GameUserInfoTrading({
     user,
     gameData
 }: Props) {
     return (
-        <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] w-[250px] h-[330px] sticky top-[100px]">
+        <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] h-[430px] w-[430px] sticky top-[100px]">
         <img
           src="/create-background.png"
           className="w-[64px] h-[64px] rounded-full mb-4"

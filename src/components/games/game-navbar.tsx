@@ -2,10 +2,14 @@ import { getFormattedDate } from "@/src/utils/game-helpers";
 
 type Props = {
     isSticky: boolean
+    isTrading: boolean
+    setIsTrading: any
 }
 
 export default function GameNavBar({
     isSticky,
+    isTrading,
+    setIsTrading,
 }: Props) {
     return (
         <div
@@ -34,7 +38,7 @@ export default function GameNavBar({
           action={"Portfolio"}
           selected={false}
         />
-        <TradeButton onClick={() => console.log()} />
+        <TradeButton onClick={() => setIsTrading(true)} />
       </div>
     );
 }
