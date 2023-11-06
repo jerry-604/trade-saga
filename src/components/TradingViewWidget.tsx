@@ -1,12 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 
+interface TradingViewWidgetProps {
+  symbol: string;
+}
+
 let tvScriptLoadingPromise: Promise<void> | null = null;
 
-const TradingViewWidget: React.FC = () => {
+const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ symbol }) => {
   const onLoadScriptRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    onLoadScriptRef.current = () => createWidget();
+    onLoadScriptRef.current = () => createWidget(symbol);
 
     if (!tvScriptLoadingPromise) {
         tvScriptLoadingPromise = new Promise<void>((resolve) => {
@@ -26,24 +30,24 @@ const TradingViewWidget: React.FC = () => {
     return () => {
         onLoadScriptRef.current = () => {};
     };
+  }, [symbol]);  // Add symbol as a dependency to the useEffect hook
 
-    function createWidget() {
-        if (typeof window !== 'undefined' && 'TradingView' in window && document.getElementById('tradingview_e76e3')) {
-            new (window as any).TradingView.widget({
-                autosize: true,
-                symbol: "NASDAQ:AAPL",
-                interval: "D",
-                timezone: "Etc/UTC",
-                theme: "light",
-                style: "1",
-                locale: "en",
-                enable_publishing: false,
-                allow_symbol_change: true,
-                container_id: "tradingview_e76e3"
-            });
-        }
+  function createWidget(symbol: string) {
+    if (typeof window !== 'undefined' && 'TradingView' in window && document.getElementById('tradingview_e76e3')) {
+        new (window as any).TradingView.widget({
+            autosize: true,
+            symbol:`NASDAQ:${symbol}`,  // Replace with symbol
+            interval: "D",
+            timezone: "Etc/UTC",
+            theme: "light",
+            style: "1",
+            locale: "en",
+            enable_publishing: false,
+            allow_symbol_change: true,
+            container_id: "tradingview_e76e3"
+        });
     }
-}, []);
+  }
 
   return (
     <div className='tradingview-widget-container' style={{ height: "100%", width: "100%", }}>
