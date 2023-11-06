@@ -27,6 +27,10 @@ export default function GamePage() {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  const getPostFormattedDate = (input: Date) => {
+    return format(input, `MMM d, h:mm a`);
+  };
+
   const computeTotalReturn = (input: any) => {
     const cash = input.cashBalance;
     let securitiesTotal = 0;
@@ -238,7 +242,7 @@ export default function GamePage() {
               <div className="font-bold text-[20px] text-[#1D1D1D] mr-[350px]">
                 Feed
               </div>
-              {gameData.posts.map((post) => (
+              {gameData.posts.sort((a, b) => {return b.createdAt - a.createdAt}).map((post) => (
                 <div className="flex flex-col items-start bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-fit min-h-[200px] animate-fade">
                   <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
                     <img
@@ -248,6 +252,9 @@ export default function GamePage() {
                     />
                     <p className="text-[#1D1D1D] text-[16px] font-semibold">
                       {getNameForPlayer(post.creator)}
+                    </p>
+                    <p className="text-[#666666] text-[14px] font-regular flex-grow text-right">
+                      {getPostFormattedDate(post.createdAt)}
                     </p>
                   </div>
                   <p className="pl-4 font-medium text-[#666666] text-[16px]">
