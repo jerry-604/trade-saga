@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
 
 
   return (
-    <div className="flex items-center justify-between p-4 bg-white shadow-md">
+    <div className="flex items-center justify-between p-4 bg-white shadow-md top-0 sticky">
       <div className="relative">
         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <InputBase

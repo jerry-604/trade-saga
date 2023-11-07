@@ -15,7 +15,9 @@ interface StockSummaryProps {
 
 const StockSummary: React.FC<StockSummaryProps> = ({ stocks }) => {
   return (
-    <div className=" p-5 bg-gray-100 rounded-lg overflow-x-auto">
+    <div className=" p-2 bg-gray-100 rounded-lg">
+      <p className="  m-1 ml-6 font-bold">Trending stocks</p>
+    <div className=" p-5 pt-2 bg-gray-100 rounded-lg overflow-x-auto">
       <div className="flex space-x-5">
         {stocks.map((stock, idx) => (
           <div key={idx} className="flex-none" style={{ width: '290px' }}>
@@ -23,6 +25,7 @@ const StockSummary: React.FC<StockSummaryProps> = ({ stocks }) => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }

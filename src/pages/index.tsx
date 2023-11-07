@@ -19,10 +19,11 @@ const handleSymbolChange = (newSymbol: string) => {
 };
 
   return (
-    <div className="flex-grow p-5">
-      <div className="mb-4">
+    <>
     <Header onSymbolChange={handleSymbolChange} />
-        <h2 className="ml-4 my-4">Stock Dashboard</h2>
+    <div className="flex-grow p-5 pt-0">
+      <div className="mb-4">
+        <h2 className="ml-4 my-5 font-extrabold text-xl">Stock Dashboard</h2>
         <StockSummary stocks={sampleStocks} />
       </div>
       <Grid container spacing={5}>
@@ -34,6 +35,7 @@ const handleSymbolChange = (newSymbol: string) => {
         </Grid>
       </Grid>
     </div>
+    </>
   );
 }
 

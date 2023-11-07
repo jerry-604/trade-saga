@@ -15,7 +15,7 @@ export default function Layout({ children }) {
       <div className="flex-none" style={{  zIndex: 1000 }}>
         <Sidebar onToggleSidebar={toggleSidebar} />
       </div>
-      <main className={`flex-grow overflow-auto p-4 duration-300 transition-ml ml-[${sidebarWidth}]`} >
+      <main className={`flex-grow overflow-auto  pr-0 pt-0 duration-300 transition-ml ml-[${sidebarWidth}]`} >
         {children}
       </main>
     </div>
