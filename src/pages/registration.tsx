@@ -1,5 +1,6 @@
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
+import Image from "next/image"
 
 export default function Registration() {
   const [name, setName] = useState('');
@@ -48,17 +49,43 @@ export default function Registration() {
       });
   };
 
-  return <div>
-    <p>This will be the registration page</p>
-    <form onSubmit={handleSubmit}>
-      <input onChange={handleNameChange} type="text" placeholder="Username"></input>
-      <input onChange={handleEmailChange} type="text" placeholder="Email"></input>
-      <input onChange={handleFnameChange} type="text" placeholder="First Name"></input>
-      <input onChange={handleLnameChange} type="text" placeholder="Last Name"></input>
-      <input onChange={handlePasswordChange} type="password" placeholder="password"></input>
-      <input onChange={handleConfirmPasswordChange} type="password" placeholder="password"></input>
-      <button type="submit">Submit</button>
-      {error && <p>Error: {error}</p>}
-    </form>
+  return <div className="h-screen relative">
+    <Image src="/create-background.png" height={1000} width={1000} alt="text" className="transform absolute top-0 left-0 w-screen h-screen z-0"></Image>
+    <div className="z-10 h-full">
+      <form onSubmit={handleSubmit}>
+      <div className="fixed top-[120px] left-[550px] w-[600px] h-[700px] bg-white
+      rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg z-15"></div>
+      <p className="fixed top-[180px] left-[750px] text-xl bg-black-100 z-20">Create your Account</p>
+        <div className="fixed top-[250px] left-[645px] z-20">
+          <input onChange={handleNameChange} type="text" placeholder=" Username" 
+          className="w-[400px] h-[40px] bg-gray-200"></input>
+        </div>
+        <div className="fixed top-[320px] left-[645px] z-20">
+          <input onChange={handleEmailChange} type="text" placeholder=" Email"
+          className="w-[400px] h-[40px] bg-gray-200"></input>
+        </div>
+        <div className="absolute top-[390px] left-[645px] z-20">
+          <input onChange={handleFnameChange} type="text" placeholder=" First Name"
+          className="w-[400px] h-[40px] bg-gray-200"></input>
+        </div>
+        <div className="absolute top-[460px] left-[645px] z-20">
+          <input onChange={handleLnameChange} type="text" placeholder=" Last Name"
+          className="w-[400px] h-[40px] bg-gray-200"></input>
+        </div>
+        <div className="absolute top-[530px] left-[645px] z-20">
+          <input onChange={handlePasswordChange} type="password" placeholder=" Password"
+          className="w-[400px] h-[40px] bg-gray-200"></input>
+        </div>
+        <div className="absolute top-[600px] left-[645px] z-20">
+          <input onChange={handleConfirmPasswordChange} type="password" placeholder=" Password"
+          className="w-[400px] h-[40px] bg-gray-200"></input>
+        </div>
+        <div className="absolute top-[680px] left-[800px] w-[92px] h-[62px] bg-blue-700 rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg z-17"></div>
+        <div className="absolute top-[700px] left-[820px] z-20">
+          <button type="submit">Submit</button>
+          {error && <p>Error: {error}</p>}
+        </div>
+      </form>
+    </div>
   </div>;
 }
