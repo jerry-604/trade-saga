@@ -36,7 +36,7 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ symbol }) => {
     if (typeof window !== 'undefined' && 'TradingView' in window && document.getElementById('tradingview_e76e3')) {
         new (window as any).TradingView.widget({
             autosize: true,
-            symbol:`NASDAQ:${symbol}`,  // Replace with symbol
+            symbol:`${symbol}`,  // Replace with symbol
             interval: "D",
             timezone: "Etc/UTC",
             theme: "light",
