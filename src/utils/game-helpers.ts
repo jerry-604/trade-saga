@@ -36,3 +36,11 @@ export const computeTotalReturn = (input: any) => {
     }
     return "$" + `${numberWithCommas(securitiesTotal + cash)}`;
   };
+
+  export const computeStockBalance = (input: any) => {
+    let securitiesTotal = 0;
+    for (let i = 0; i < input.stocksHeld.length; i++) {
+      securitiesTotal += input.stocksHeld[i].numShares * 123;
+    }
+    return securitiesTotal;
+  };
