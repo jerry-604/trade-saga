@@ -23,7 +23,7 @@ export default function GameStockNews({
             {
                 "feedMode": "symbol",
                 "symbol": "${symbol}",
-                "colorTheme": "light",
+                "colorTheme": "dark",
                 "isTransparent": true,
                 "displayMode": "regular",
                 "width": "100%",
@@ -38,8 +38,6 @@ export default function GameStockNews({
 
 return (
 <div className="tradingview-widget-container" ref={container}>
-  <div className="tradingview-widget-container__widget"></div>
-  <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
 </div>
 )
 };

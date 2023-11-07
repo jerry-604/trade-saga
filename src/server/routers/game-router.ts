@@ -84,4 +84,27 @@ export const gameRouter = router({
         });
         return post;
     }),
+    executeTrade: publicProcedure.input(z.object({gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number()})).mutation(async ({ctx, input}) => {
+        const user = ctx.user;
+        const userId = user.id;
+        const trade = await prisma.stockHolding.create({
+            data: {
+                gamePlayerId: input.gamePlayerId,
+                numShares: input.quantity,
+                symbol: input.symbol,
+            }
+        })
+            const total = input.price * input.quantity;
+            const updatePlayer = await prisma.gamePlayer.update({
+                where: {
+                  id: input.gamePlayerId,
+                },
+                data: {
+                  cashBalance: {
+                    increment: -total,
+                  },
+                },
+              })
+        return trade;
+    }),
 });
