@@ -26,7 +26,7 @@ const Modal = ({ isOpen, children, onClose }) => {
           className={`fixed inset-0 z-50 overflow-auto flex items-center justify-center transition-opacity duration-150 ${isOpen && isAnimating ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         >
           <div
-            className="relative bg-white p-8 w-full max-w-md m-auto rounded-lg shadow-lg transition-transform duration-150"
+            className="relative bg-white p-6 mx-6 flex m-auto rounded-[14px] shadow-lg transition-transform duration-150"
             style={{ transform: isOpen ? 'scale(1)' : 'scale(0.95)' }}
             onClick={(e) => e.stopPropagation()}
           >

@@ -3,12 +3,15 @@ import {
   computeWorthForPlayer,
   computeTotalReturn,
   getPostFormattedDate,
+  getPriceForStock,
 } from "@/src/utils/game-helpers";
 import GameTradingHeader from "./game-trading-header";
-import React, { ReactElement, useState, useEffect } from "react";
+import React, { ReactElement, useState, useEffect, useRef } from "react";
 import TradingWidget from "./trading-widget";
 import GameUserInfoTrading from "./game-trading-user-info";
 import Modal from './trading-modal'
+import GameStockNews from "./trading-stock-news-widget";
+import GameStockInfo from "./games-stock-info";
 
 type Props = {
   user: any;
@@ -28,14 +31,35 @@ export default function GameTradingPage({ user, gameData }: Props) {
   const handleSymbolChange = (newSymbol: string) => {
     setSymbol(newSymbol);
   };
+
+
+  const [stockPrice, setStockPrice] = useState(0);
+
+  useEffect( () => { 
+    const fetchData = async () => {
+      const price = await getPriceForStock(symbol)
+      setStockPrice(price);
+    }
+    fetchData();
+}, [symbol, isModalOpen]);
+
   return (
     <div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div>
+        <div className="flex flex-col h-[700px]">
+        <div className="flex flex-row h-[700px]">
+          <div className="px-[100px]">
           <h2 className="text-2xl font-bold">Stock Title</h2>
           <p>Trading Content</p>
+          <p>{stockPrice}</p>
+          </div>
+          <div className="flex flex-col h-[650px]">
+          <GameStockNews user={user} gameData={gameData} symbol={symbol}/>
+          <GameStockInfo user={user} gameData={gameData} symbol={symbol}/>
+          </div>
+          </div>
           <button
-            className="bg-black text-white font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+            className="bg-black text-white font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-2 mt-2"
             type="button"
             style={{ transition: "all .15s ease" }}
             onClick={closeModal}

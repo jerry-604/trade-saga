@@ -44,3 +44,17 @@ export const computeTotalReturn = (input: any) => {
     }
     return securitiesTotal;
   };
+
+  export async function getPriceForStock(input: string) {
+    const result = await fetch(`/api/lookup?query=${input}`)
+    .then(response => {
+        return response.json();
+    }).then(data =>{
+      return data.current_price
+    }
+      )
+    .catch(error => {
+        console.error(error);
+    });
+    return await result as number;
+  }
