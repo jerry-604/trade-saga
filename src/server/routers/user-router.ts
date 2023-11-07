@@ -1,6 +1,7 @@
 import { publicProcedure, router } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma';
+import { uploadImage } from "../../utils/cloudinary";
 import bcrypt from 'bcryptjs';
 import { signUp } from '@/src/utils/supabase';
 import { signIn } from '@/src/utils/supabase';
@@ -9,8 +10,26 @@ import { TRPCError } from '@trpc/server';
 export const userRouter = router({
   getUser: publicProcedure
     .query(async ({ ctx }) => {
-      return await prisma.user.findMany();
+      return ctx.user;
     }),
+  uploadImage: publicProcedure.input(z.object({ image: z.string() })).mutation(async (opts) => {
+    const input = opts.input;
+
+    // TODO validation checking
+    const image = input.image;
+
+    // const imageUploaded = await getImage(req);
+
+    // const imageData = await uploadImage(imageUploaded.path);
+
+    // const result = await prisma.user.create({
+    //   data: {
+    //     image: [imageData.public_id, imageData.format, imageData.version.toString()]
+    //   },
+    // });
+
+    // return result;
+  }),
   createUser: publicProcedure.input(z.object({ name: z.string(), Fname: z.string(), Lname: z.string(), email: z.string(), password: z.string(), confirmPassword: z.string() })).mutation(async (opts) => {
     const input = opts.input;
 
@@ -77,6 +96,11 @@ export const userRouter = router({
 
     const { data, error } = await signUp(input.email, input.password);
     if (error) {
+      const deletion = await prisma.user.delete({
+        where: {
+          email: result.email
+        }
+      });
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         message: error.message,
@@ -86,5 +110,9 @@ export const userRouter = router({
     }
 
     return data;
+  }),
+  getUserFromContext: publicProcedure
+  .query(async ({ ctx }) => {
+    return ctx.user;
   }),
 });
