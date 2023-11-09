@@ -16,7 +16,7 @@ import GameUserInfo from '../../components/games/game-user-info'
 import GameCreatePost from '../../components/games/game-create-post'
 import GameFeed from "../../components/games/game-feed";
 import GameTradingPage from "@/src/components/games/game-trading-page";
-
+import MarketMoversWidget from "../../components/games/market-movers-widget"
 import {
   computeTotalReturn,
 } from "@/src/utils/game-helpers";
@@ -95,10 +95,11 @@ export default function GamePage() {
                 </div>
     
                 <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px] h-fit min-h-[400px] sticky top-[100px]">
-                  <p className="text-[18px] font-bold mb-4 text-[#1D1D1D] mt-[15px] ml-[15px]">
+                  <p className="text-[18px] font-bold mb-2 text-[#1D1D1D] mt-[15px] ml-[15px]">
                     Market Movers
                   </p>
-                  <div className="flex justify-between items-center bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
+                  <MarketMoversWidget />
+                  {/* <div className="flex justify-between items-center bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
                     <img
                       src="/create-background.png"
                       alt="AAPL"
@@ -111,7 +112,7 @@ export default function GamePage() {
                       <p className="text-[14px] font-bold text-[#161616]">$170</p>
                       <p className="text-[14px] font-bold text-red-500">-1.27%</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               </>
