@@ -116,7 +116,7 @@ export default function GamePage() {
               </div>
               </>
             ) : (
-              <GameTradingPage user={user} gameData={gameData} stockData={stockData}/>
+              <GameTradingPage user={user} gameData={gameData} stockData={stockData} setIsTrading={setIsTrading}/>
             )
           }
         </div>

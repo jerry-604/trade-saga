@@ -1,4 +1,5 @@
 import { getFormattedDate } from "@/src/utils/game-helpers";
+import { backgroundForGame } from "../../utils/game-helpers"
 
 type Props = {
     user: any
@@ -10,7 +11,7 @@ export default function GameHeader({
     gameData
 }: Props) {
     return (
-        <div className="bg-[url('/game-background-1.png')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px] border-b-[2px] border-[#CDCDCD]">
+        <div className={`bg-[url('/${backgroundForGame(gameData.coverImageId)}')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px] border-b-[2px] border-[#CDCDCD]`}>
         <div className="flex justify-between items-center mb-4">
           <div className="relative">
             <input

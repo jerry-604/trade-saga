@@ -34,7 +34,7 @@ export const computeTotalReturn = (playerData: any, stockData: any) => {
     for (let i = 0; i < playerData.stocksHeld.length; i++) {
       securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
     }
-    return "$" + `${numberWithCommas(securitiesTotal + cash)}`;
+    return "$" + `${numberWithCommas(Math.round((securitiesTotal + cash)*100)/100)}`;
   };
 
   export const computeStockBalance = (playerData: any, stockData: any) => {
@@ -44,6 +44,19 @@ export const computeTotalReturn = (playerData: any, stockData: any) => {
     }
     return Math.round(securitiesTotal*100)/100;
   };
+
+  export const backgroundForGame = (input_background: string) => {
+switch(input_background) {
+  case "create-background":
+    return "game-background-1.png"
+  case "background-2":
+    return "background-2.png"
+    case "background-3":
+      return "background-3.png"
+      case "background-4":
+        return "background-4.png"
+}
+  }
 
   export async function getPriceForStock(input: string) {
     const result = await fetch(`/api/lookup?query=${input}`)

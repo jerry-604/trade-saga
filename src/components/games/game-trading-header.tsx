@@ -2,17 +2,19 @@ import { getFormattedDate } from "@/src/utils/game-helpers";
 import React, { useState, useEffect } from 'react';
 import { IconButton, InputBase, Badge, Avatar } from '@mui/material';
 import { Search, Notifications, AccountCircle } from '@mui/icons-material';
-
+import { backgroundForGame } from '../../utils/game-helpers'
 type Props = {
     user: any
     gameData: any
     onSymbolChange: (symbol: string) => void;
+    setIsTrading: any
 }
 
 export default function GameTradingHeader({
     user,
     gameData,
-    onSymbolChange
+    onSymbolChange,
+    setIsTrading
 }: Props) {
     const [searchValue, setSearchValue] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -40,9 +42,11 @@ export default function GameTradingHeader({
     }, [searchValue]);
 
     return (
-        <div className="bg-[url('/game-background-1.png')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px] border-b-[2px] border-[#CDCDCD]">
+        <div className={`bg-[url('/${backgroundForGame(gameData.coverImageId)}')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px] border-b-[2px] border-[#CDCDCD]`}>
             <div className="flex justify-between items-center mb-4">
+            <button onClick={() => setIsTrading(false)} className="h-[38px] w-[114px] rounded-[8px] bg-[#F9F9F9] border-[#E2E2E2] border-[2px] font-semibold text-[#767676] text-[14px]">← Back</button>
                 <header className="flex flex-grow items-center justify-end">
+                  
                     <img
                         src="/create-background.png"
                         alt="User"

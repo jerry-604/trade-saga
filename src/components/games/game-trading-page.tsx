@@ -20,9 +20,10 @@ type Props = {
   user: any;
   gameData: any;
   stockData: any;
+  setIsTrading: any;
 };
 
-export default function GameTradingPage({ user, gameData, stockData }: Props) {
+export default function GameTradingPage({ user, gameData, stockData, setIsTrading }: Props) {
   const utils = trpc.useContext();
 
   const [symbol, setSymbol] = useState("AAPL");
@@ -150,6 +151,7 @@ export default function GameTradingPage({ user, gameData, stockData }: Props) {
         user={user}
         gameData={gameData}
         onSymbolChange={handleSymbolChange}
+        setIsTrading={setIsTrading}
       />
       <div className="flex justify-between p-8 h-[530px] space-x-[30px]">
         <TradingWidget symbol={symbol} />
@@ -159,7 +161,7 @@ export default function GameTradingPage({ user, gameData, stockData }: Props) {
             className="w-[345px] h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold drop-shadow-sm"
             onClick={() => openModal()}
           >
-            Trade
+            Trade {symbol}
           </button>
         </div>
       </div>
