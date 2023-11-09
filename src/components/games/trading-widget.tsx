@@ -7,15 +7,15 @@ interface TradingViewWidgetProps {
 let tvScriptLoadingPromise: Promise<void> | null = null;
 
 const TradingWidget: React.FC<TradingViewWidgetProps> = ({ symbol }) => {
-    const container = useRef();
+  const container = useRef<HTMLDivElement>(null);
 
-    useEffect(
-      () => {
-        const script = document.createElement("script");
-        script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
-        script.type = "text/javascript";
-        script.async = false;
-        script.innerHTML = `
+  useEffect(
+    () => {
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
+      script.type = "text/javascript";
+      script.async = false;
+      script.innerHTML = `
           {
             "symbols": [
               [
@@ -56,18 +56,20 @@ const TradingWidget: React.FC<TradingViewWidgetProps> = ({ symbol }) => {
               "all|1M"
             ]
           }`;
-          container.current.innerHTML = "";
+      if (container.current) {
+        container.current.innerHTML = "";
         container.current.appendChild(script);
-      },
-      [symbol]
-    );
-  
-    return (
-        <div className="bg-[#FFFFFF] rounded-[14px] w-[100%]">
+      }
+    },
+    [symbol]
+  );
+
+  return (
+    <div className="bg-[#FFFFFF] rounded-[14px] w-[100%]">
       <div className="tradingview-widget-container" ref={container}>
       </div>
-      </div>
-    );
+    </div>
+  );
 }
 
 export default TradingWidget;

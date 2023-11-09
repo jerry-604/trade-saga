@@ -12,14 +12,14 @@ export default function GameStockInfo({
     gameData,
     symbol
 }: Props) {
-    const container = useRef();
+    const container = useRef<HTMLDivElement>(null);
     useEffect(
         () => {
-          const script = document.createElement("script");
-          script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js";
-          script.type = "text/javascript";
-          script.async = true;
-          script.innerHTML = `
+            const script = document.createElement("script");
+            script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js";
+            script.type = "text/javascript";
+            script.async = true;
+            script.innerHTML = `
             {
                 "symbol": "${symbol}",
                 "colorTheme": "dark",
@@ -28,14 +28,16 @@ export default function GameStockInfo({
                 "height": "100%",
                 "locale": "en"
             }`;
-            container.current.innerHTML = "";
-          container.current.appendChild(script);
+            if (container.current) {
+                container.current.innerHTML = "";
+                container.current.appendChild(script);
+            }
         },
         [symbol]
-      );
+    );
 
-return (
-<div className="tradingview-widget-container" ref={container}>
-</div>
-)
+    return (
+        <div className="tradingview-widget-container" ref={container}>
+        </div>
+    )
 };

@@ -8,14 +8,14 @@ type Props = {
 export default function TechnicalAnalysisWidget({
     symbol
 }: Props) {
-    const container = useRef();
+    const container = useRef<HTMLDivElement>(null);
     useEffect(
         () => {
-          const script = document.createElement("script");
-          script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
-          script.type = "text/javascript";
-          script.async = true;
-          script.innerHTML = `
+            const script = document.createElement("script");
+            script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+            script.type = "text/javascript";
+            script.async = true;
+            script.innerHTML = `
             {
                 "interval": "1m",
                 "width": "100%",
@@ -27,16 +27,18 @@ export default function TechnicalAnalysisWidget({
                 "locale": "en",
                 "colorTheme": "dark"
             }`;
-            container.current.innerHTML = "";
-          container.current.appendChild(script);
+            if (container.current) {
+                container.current.innerHTML = "";
+                container.current.appendChild(script);
+            }
         },
         [symbol]
-      );
+    );
 
-return (
-    <div className="h-[375px]">
-<div className="tradingview-widget-container" ref={container}>
-</div>
-</div>
-)
+    return (
+        <div className="h-[375px]">
+            <div className="tradingview-widget-container" ref={container}>
+            </div>
+        </div>
+    )
 };

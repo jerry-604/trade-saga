@@ -58,10 +58,12 @@ export default function GamePage() {
     // Assuming you have a ref to your navbar element
     const navbar = document.getElementById("navbar");
     // Get the top position of the navbar
+    if(navbar) {
     const topPosition = navbar.getBoundingClientRect().top;
-
+    
     // Check if the navbar is at the top of the viewport
     setIsSticky(topPosition <= 0);
+    }
   };
 
   useEffect(() => {

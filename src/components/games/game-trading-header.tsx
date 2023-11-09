@@ -17,7 +17,7 @@ export default function GameTradingHeader({
     setIsTrading
 }: Props) {
     const [searchValue, setSearchValue] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState<any[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [isInputFocused, setIsInputFocused] = useState(false);
 

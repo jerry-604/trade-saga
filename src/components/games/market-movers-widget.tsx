@@ -3,14 +3,14 @@ import React, { useEffect, useRef } from 'react';
 
 export default function MarketMoversWidget({
 }) {
-    const container = useRef();
+    const container = useRef<HTMLDivElement>(null);
     useEffect(
         () => {
-          const script = document.createElement("script");
-          script.src = "https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js";
-          script.type = "text/javascript";
-          script.async = true;
-          script.innerHTML = `
+            const script = document.createElement("script");
+            script.src = "https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js";
+            script.type = "text/javascript";
+            script.async = true;
+            script.innerHTML = `
           {
             "colorTheme": "light",
             "dateRange": "12M",
@@ -33,16 +33,18 @@ export default function MarketMoversWidget({
             "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
             "symbolActiveColor": "rgba(41, 98, 255, 0.12)"
           }`;
-            container.current.innerHTML = "";
-          container.current.appendChild(script);
+            if (container.current) {
+                container.current.innerHTML = "";
+                container.current.appendChild(script);
+            }
         },
         []
-      );
+    );
 
-return (
-<div className='flex flex-grow h-[525px] pb-[20px]'>
-<div className="tradingview-widget-container" ref={container}>
-</div>
-</div>
-)
+    return (
+        <div className='flex flex-grow h-[525px] pb-[20px]'>
+            <div className="tradingview-widget-container" ref={container}>
+            </div>
+        </div>
+    )
 };
