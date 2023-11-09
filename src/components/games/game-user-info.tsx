@@ -38,7 +38,7 @@ export default function GameUserInfo({
           <div className="text-center">
             <p className="font-bold text-[#FBFBFB] text-[22px]">+0%</p>
             <p className="text-[#C8C8C8] text-[14px] font-semibold">
-              Today's Return
+              Today&apos;s Return
             </p>
           </div>
           <div className="text-center">
