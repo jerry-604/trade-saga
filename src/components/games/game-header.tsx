@@ -45,7 +45,7 @@ export default function GameHeader({
   return (
     <div className={`bg-[url('/${backgroundForGame(gameData.coverImageId)}')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px] border-b-[2px] border-[#CDCDCD]`}>
       <div className="flex justify-between items-center mb-4">
-        <div className="flex flex-grow flex-col justify-bottom">
+        <div className="">
           <div className="relative">
             <input
               className="bg-[#F5F7F9] p-2 pl-10 rounded-[8px] focus:outline-none w-[360px] text-medium border-[1px] border-[#E2E2E2]"
@@ -71,7 +71,7 @@ export default function GameHeader({
             </svg>
           </div>
           {showModal && isInputFocused && (
-            <div onMouseDown={(e) => e.preventDefault()} className=" top-full mt-2 w-[475px] bg-white border border-gray-300 rounded-lg shadow-lg z-50">
+            <div onMouseDown={(e) => e.preventDefault()} className=" top-full mt-2 w-[475px] bg-white border border-gray-300 rounded-lg shadow-lg z-50 relative min-h-[242px] max-h-[242px] overflow-auto">
               {searchResults.map((result) => (
                 <div
                   key={result.id}

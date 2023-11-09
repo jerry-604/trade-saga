@@ -88,8 +88,8 @@ export default function GamePage() {
       ])}
     >
       {([gameData, stockData, user]) => (
-        <div>
-          <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user}/>
+         <div>
+           <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user}/>
         <div className="flex flex-col space-y-0">
           {
             !isTrading ? (
