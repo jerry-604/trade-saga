@@ -22,7 +22,6 @@ type Props = {
 };
 
 export default function GameTradingPage({ user, gameData }: Props) {
-
   const utils = trpc.useContext();
 
   const [symbol, setSymbol] = useState("AAPL");
@@ -55,17 +54,24 @@ export default function GameTradingPage({ user, gameData }: Props) {
     return max;
   };
 
-  const handleChange = (event: Event, newValue: number) => {
-    setNumShares(newValue as number);
+  const handleChange = (e: any) => {
+    setNumShares(Number(e.target.value));
   };
 
   const { mutate, isLoading } = trpc.gameRouter.executeTrade.useMutation({
     onSuccess: () => {
       utils.gameRouter.fetchGameWithId.invalidate();
+      closeModal();
+      setNumShares(0);
     },
   });
 
-  const createTrade = (gamePlayerId: number, symbol: string, price: number, quantity: number) => {
+  const createTrade = (
+    gamePlayerId: number,
+    symbol: string,
+    price: number,
+    quantity: number
+  ) => {
     mutate({
       gamePlayerId,
       symbol,
@@ -73,7 +79,6 @@ export default function GameTradingPage({ user, gameData }: Props) {
       quantity,
     });
   };
-
 
   return (
     <div>
@@ -86,41 +91,20 @@ export default function GameTradingPage({ user, gameData }: Props) {
                 <p className="font-bold text-[20px] text-gray-300">
                   Trading Execution:
                 </p>
-                <p>
-                  Max:{" "}
-                  {computeMaxShares(
-                    gameData.playerData.find(
-                      (item: any) => item.userId === user.id
-                    ).cashBalance,
-                    stockPrice
-                  )}
+                <p className="font-bold text-gray-300 text-[16px] pt-3">
+                  Shares of {symbol}: {numShares}
                 </p>
-                <Slider
-                  aria-label="Shares"
-                  color="secondary"
-                  // getAriaValueText={"Shares"}
-                  valueLabelDisplay="auto"
-                  value={numShares}
-                  onChange={handleChange}
-                  step={1}
-                  marks={[{
-                    value: 0,
-                    label: '0 Shares',
-                  },
-                  {
-                    value: computeMaxShares(
-                      gameData.playerData.find(
-                        (item: any) => item.userId === user.id
-                      ).cashBalance,
-                      stockPrice
-                    ),
-                    label: `${computeMaxShares(
-                      gameData.playerData.find(
-                        (item: any) => item.userId === user.id
-                      ).cashBalance,
-                      stockPrice
-                    )} Shares`,
-                  }]}
+                <p className="font-bold text-gray-300 text-[16px] pt-3">
+                  Estimated Total: ${Math.round(numShares*stockPrice*100)/100}
+                </p>
+                <p className="font-bold text-gray-300 text-[16px] pt-3 pb-5">
+                  Remaining Cash: ${Math.round( (gameData.playerData.find(
+                      (item: any) => item.userId === user.id
+                    ).cashBalance - numShares*stockPrice)*100)/100}
+                </p>
+                <input
+                  type="range"
+                  className="flex flex-col w-[345px] appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-[#3c3c3c] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-[20px] [&::-webkit-slider-thumb]:w-[20px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-300 border-[1.75px] border-[#6f6f6f] rounded-full" 
                   min={0}
                   max={computeMaxShares(
                     gameData.playerData.find(
@@ -128,16 +112,26 @@ export default function GameTradingPage({ user, gameData }: Props) {
                     ).cashBalance,
                     stockPrice
                   )}
+                  value={numShares}
+                  onChange={handleChange}
                 />
                 <button
-                  className="w-[345px] h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold drop-shadow-sm mt-[100px]"
-                  onClick={() => createTrade(
-                    gameData.playerData.find(
-                      (item: any) => item.userId === user.id
-                    ).id, symbol, stockPrice, numShares
-                  )}
+                  className="w-[345px] h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold drop-shadow-sm mt-[70px]"
+                  onClick={() =>
+                    numShares > 0 ?
+                    createTrade(
+                      gameData.playerData.find(
+                        (item: any) => item.userId === user.id
+                      ).id,
+                      symbol,
+                      stockPrice,
+                      numShares
+                    )
+                    :
+                    null
+                  }
                 >
-                  Buy
+                  Execute Buy
                 </button>
               </div>
             </div>

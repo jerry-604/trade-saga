@@ -37,8 +37,8 @@ export default function GameUserInfoTrading({ user, gameData }: Props) {
           <p className="font-bold text-[#FBFBFB] text-[22px]">
             $
             {numberWithCommas(
-              gameData.playerData.find((item: any) => item.userId === user.id)
-                .cashBalance)
+              Math.round(gameData.playerData.find((item: any) => item.userId === user.id)
+                .cashBalance*100)/100)
             }
           </p>
           <p className="text-[#C8C8C8] text-[14px] font-semibold">Available</p>
