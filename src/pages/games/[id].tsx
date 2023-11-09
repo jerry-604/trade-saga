@@ -17,6 +17,7 @@ import GameCreatePost from '../../components/games/game-create-post'
 import GameFeed from "../../components/games/game-feed";
 import GameTradingPage from "@/src/components/games/game-trading-page";
 import MarketMoversWidget from "../../components/games/market-movers-widget"
+import GameSearchModal from "../../components/games/game-search-modal"
 import {
   computeTotalReturn,
 } from "@/src/utils/game-helpers";
@@ -49,6 +50,10 @@ export default function GamePage() {
 
   const [isSticky, setIsSticky] = useState(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+
   const handleScroll = () => {
     // Assuming you have a ref to your navbar element
     const navbar = document.getElementById("navbar");
@@ -67,6 +72,13 @@ export default function GamePage() {
     };
   }, []);
 
+  const handleSymbolChange = (newSymbol: string) => {
+    setSymbol(newSymbol);
+  };
+
+  const [symbol, setSymbol] = useState("AAPL");
+
+
   return (
     <MultiQueryLoadingBoundary
       queries={trpc.useQueries((t) => [
@@ -76,11 +88,13 @@ export default function GamePage() {
       ])}
     >
       {([gameData, stockData, user]) => (
+        <div>
+          <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user}/>
         <div className="flex flex-col space-y-0">
           {
             !isTrading ? (
               <>
-              <GameHeader user={user} gameData={gameData} />
+              <GameHeader user={user} gameData={gameData} showStockModal={isModalOpen} setShowStockModal={setIsModalOpen} onSymbolChange={handleSymbolChange}/>
               <GameNavBar isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading}/>
     
               <div className="flex justify-between p-8">
@@ -120,6 +134,7 @@ export default function GamePage() {
               <GameTradingPage user={user} gameData={gameData} stockData={stockData} setIsTrading={setIsTrading}/>
             )
           }
+        </div>
         </div>
       )}
     </MultiQueryLoadingBoundary>
