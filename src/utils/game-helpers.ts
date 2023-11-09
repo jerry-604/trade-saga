@@ -16,33 +16,33 @@ export const getPostFormattedDate = (input: Date) => {
     return format(input, `MMM d, h:mm a`);
   };
 
-export const computeTotalReturn = (input: any) => {
-    const cash = input.cashBalance;
+export const computeTotalReturn = (playerData: any, stockData: any) => {
+    const cash = playerData.cashBalance;
     let securitiesTotal = 0;
-    for (let i = 0; i < input.stocksHeld.length; i++) {
-      securitiesTotal += input.stocksHeld[i].numShares * 123;
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
     }
     const percent_return = (securitiesTotal + cash - 100000)/100000
     const rounded = Math.round(percent_return * 100) / 100
     return rounded > 0 ? `+${rounded}` : `${rounded}`
   };
 
- export const computeWorthForPlayer = (input: any) => {
-    console.log(input);
-    const cash = input.cashBalance;
+ export const computeWorthForPlayer = (playerData: any, stockData: any) => {
+    console.log(playerData);
+    const cash = playerData.cashBalance;
     let securitiesTotal = 0;
-    for (let i = 0; i < input.stocksHeld.length; i++) {
-      securitiesTotal += input.stocksHeld[i].numShares * 123;
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
     }
     return "$" + `${numberWithCommas(securitiesTotal + cash)}`;
   };
 
-  export const computeStockBalance = (input: any) => {
+  export const computeStockBalance = (playerData: any, stockData: any) => {
     let securitiesTotal = 0;
-    for (let i = 0; i < input.stocksHeld.length; i++) {
-      securitiesTotal += input.stocksHeld[i].numShares * 123;
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
     }
-    return securitiesTotal;
+    return Math.round(securitiesTotal*100)/100;
   };
 
   export async function getPriceForStock(input: string) {

@@ -19,9 +19,10 @@ import { trpc } from "../../utils/trpc";
 type Props = {
   user: any;
   gameData: any;
+  stockData: any;
 };
 
-export default function GameTradingPage({ user, gameData }: Props) {
+export default function GameTradingPage({ user, gameData, stockData }: Props) {
   const utils = trpc.useContext();
 
   const [symbol, setSymbol] = useState("AAPL");
@@ -49,7 +50,7 @@ export default function GameTradingPage({ user, gameData }: Props) {
     fetchData();
   }, [symbol, isModalOpen]);
 
-  const computeMaxShares = (cash, price) => {
+  const computeMaxShares = (cash: number, price: number) => {
     const max = Math.floor(cash / price);
     return max;
   };
@@ -61,6 +62,7 @@ export default function GameTradingPage({ user, gameData }: Props) {
   const { mutate, isLoading } = trpc.gameRouter.executeTrade.useMutation({
     onSuccess: () => {
       utils.gameRouter.fetchGameWithId.invalidate();
+      utils.gameRouter.getStockDataForPlayer.invalidate();
       closeModal();
       setNumShares(0);
     },
@@ -152,7 +154,7 @@ export default function GameTradingPage({ user, gameData }: Props) {
       <div className="flex justify-between p-8 h-[530px] space-x-[30px]">
         <TradingWidget symbol={symbol} />
         <div className="flex flex-col space-y-[15px]">
-          <GameUserInfoTrading user={user} gameData={gameData} />
+          <GameUserInfoTrading user={user} gameData={gameData} stockData={stockData} />
           <button
             className="w-[345px] h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold drop-shadow-sm"
             onClick={() => openModal()}

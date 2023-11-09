@@ -17,6 +17,10 @@ import GameCreatePost from '../../components/games/game-create-post'
 import GameFeed from "../../components/games/game-feed";
 import GameTradingPage from "@/src/components/games/game-trading-page";
 
+import {
+  computeTotalReturn,
+} from "@/src/utils/game-helpers";
+
 export default function GamePage() {
   const { query } = useRouter();
   const id = query.id as string;
@@ -27,38 +31,7 @@ export default function GamePage() {
     return format(input, "MMMM dd");
   };
   //we should acutally use user object in the future, but any is ok for now.
-  const getNameForPlayer = (input: any) => {
-    return input.Fname + " " + input.Lname;
-  };
 
-  function numberWithCommas(x: any) {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  }
-
-  const getPostFormattedDate = (input: Date) => {
-    return format(input, `MMM d, h:mm a`);
-  };
-
-  const computeTotalReturn = (input: any) => {
-    const cash = input.cashBalance;
-    let securitiesTotal = 0;
-    for (let i = 0; i < input.stocksHeld.length; i++) {
-      securitiesTotal += input.stocksHeld[i].numShares * 123;
-    }
-    const percent_return = (securitiesTotal + cash - 100000) / 100000
-    const rounded = Math.round(percent_return * 100) / 100
-    return rounded > 0 ? `+${rounded}` : `${rounded}`
-  };
-
-  const computeWorthForPlayer = (input: any) => {
-    console.log(input);
-    const cash = input.cashBalance;
-    let securitiesTotal = 0;
-    for (let i = 0; i < input.stocksHeld.length; i++) {
-      securitiesTotal += input.stocksHeld[i].numShares * 123;
-    }
-    return "$" + `${numberWithCommas(securitiesTotal + cash)}`;
-  };
 
   const { mutate, isLoading } = trpc.gameRouter.createPost.useMutation({
     onSuccess: () => {
@@ -98,10 +71,11 @@ export default function GamePage() {
     <MultiQueryLoadingBoundary
       queries={trpc.useQueries((t) => [
         t.gameRouter.fetchGameWithId({ shareId: id }),
+        t.gameRouter.getStockDataForPlayer({ shareId: id }),
         t.userRouter.getUserFromContext(),
       ])}
     >
-      {([gameData, user]) => (
+      {([gameData, stockData, user]) => (
         <div className="flex flex-col space-y-0">
           {
             !isTrading ? (
@@ -110,7 +84,7 @@ export default function GamePage() {
               <GameNavBar isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading}/>
     
               <div className="flex justify-between p-8">
-                <GameUserInfo user={user} gameData={gameData} />
+                <GameUserInfo user={user} gameData={gameData} stockData={stockData}/>
                 <div className="flex flex-col items-center space-y-[25px]">
                   <GameCreatePost user={user} gameData={gameData} postText={postText} setPostText={setPostText} createPost={
                     () => createPost(gameData.id, postText)} />
@@ -142,7 +116,7 @@ export default function GamePage() {
               </div>
               </>
             ) : (
-              <GameTradingPage user={user} gameData={gameData}/>
+              <GameTradingPage user={user} gameData={gameData} stockData={stockData}/>
             )
           }
         </div>

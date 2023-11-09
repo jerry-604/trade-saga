@@ -10,9 +10,10 @@ import {
 type Props = {
   user: any;
   gameData: any;
+  stockData: any;
 };
 
-export default function GameUserInfoTrading({ user, gameData }: Props) {
+export default function GameUserInfoTrading({ user, gameData, stockData }: Props) {
   return (
     <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] h-[430px] w-[345px]">
       <img
@@ -27,7 +28,7 @@ export default function GameUserInfoTrading({ user, gameData }: Props) {
       <div className="text-center mt-[32px]">
         <p className="text-[22px] text-[#FBFBFB] font-bold mb-1">
           {computeWorthForPlayer(
-            gameData.playerData.find((item: any) => item.userId === user.id)
+            gameData.playerData.find((item: any) => item.userId === user.id), stockData
           )}
         </p>
         <p className="text-[#C8C8C8] text-[14px] font-bold">Net Worth</p>
@@ -47,7 +48,8 @@ export default function GameUserInfoTrading({ user, gameData }: Props) {
           <p className="font-bold text-[#FBFBFB] text-[22px]">
             $
             {numberWithCommas(computeStockBalance(
-              gameData.playerData.find((item: any) => item.userId === user.id)
+              gameData.playerData.find((item: any) => item.userId === user.id),
+              stockData
             ))}
           </p>
           <p className="text-[#C8C8C8] text-[14px] font-semibold">In Stock</p>
