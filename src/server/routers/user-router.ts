@@ -112,7 +112,7 @@ export const userRouter = router({
     return data;
   }),
   getUserFromContext: publicProcedure
-  .query(async ({ ctx }) => {
-    return ctx.user;
-  }),
+    .query(async ({ ctx }) => {
+      return ctx.user;
+    }),
 });
