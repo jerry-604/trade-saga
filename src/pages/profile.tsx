@@ -18,13 +18,13 @@ export default function Profile() {
       return;
     }
 
-    const { data, error } = await uploadAvatar(image);
-    if (error) {
-      setError(error.toString);
-      console.error('Upload error:', error);
+    const data = await uploadAvatar(image);
+    if (data.error) {
+      setError(data.error.toString);
+      console.error('Upload error:', data.error.toString);
     } else {
       console.log('Upload successful:', data);
-      // window.location.href = "/dashboard";
+      window.location.href = "/dashboard";
     }
   };
 
