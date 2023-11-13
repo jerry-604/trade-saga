@@ -21,6 +21,7 @@ import GameSearchModal from "../../components/games/game-search-modal"
 import {
   computeTotalReturn,
 } from "@/src/utils/game-helpers";
+import GamePortfolio from "@/src/components/games/game-portfolio-page";
 
 export default function GamePage() {
   const { query } = useRouter();
@@ -52,17 +53,19 @@ export default function GamePage() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [selectedTab, setSelectedTab] = useState(0);
+
   const openModal = () => setIsModalOpen(true);
 
   const handleScroll = () => {
     // Assuming you have a ref to your navbar element
     const navbar = document.getElementById("navbar");
     // Get the top position of the navbar
-    if(navbar) {
-    const topPosition = navbar.getBoundingClientRect().top;
-    
-    // Check if the navbar is at the top of the viewport
-    setIsSticky(topPosition <= 0);
+    if (navbar) {
+      const topPosition = navbar.getBoundingClientRect().top;
+
+      // Check if the navbar is at the top of the viewport
+      setIsSticky(topPosition <= 0);
     }
   };
 
@@ -90,53 +93,21 @@ export default function GamePage() {
       ])}
     >
       {([gameData, stockData, user]) => (
-         <div>
-           <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user}/>
-        <div className="flex flex-col space-y-0">
-          {
-            !isTrading ? (
-              <>
-              <GameHeader user={user} gameData={gameData} showStockModal={isModalOpen} setShowStockModal={setIsModalOpen} onSymbolChange={handleSymbolChange}/>
-              <GameNavBar isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading}/>
-    
-              <div className="flex justify-between p-8">
-                <GameUserInfo user={user} gameData={gameData} stockData={stockData}/>
-                <div className="flex flex-col items-center space-y-[25px]">
-                  <GameCreatePost user={user} gameData={gameData} postText={postText} setPostText={setPostText} createPost={
-                    () => createPost(gameData.id, postText)} />
-                  <div className="font-bold text-[20px] text-[#1D1D1D] mr-[350px]">
-                    Feed
-                  </div>
-                  <GameFeed user={user} gameData={gameData} />
-                </div>
-    
-                <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px] h-fit min-h-[400px] sticky top-[100px]">
-                  <p className="text-[18px] font-bold mb-2 text-[#1D1D1D] mt-[15px] ml-[15px]">
-                    Market Movers
-                  </p>
-                  <MarketMoversWidget />
-                  {/* <div className="flex justify-between items-center bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
-                    <img
-                      src="/create-background.png"
-                      alt="AAPL"
-                      className="w-[35px] h-[35px] rounded-full"
-                    />
-                    <p className="text-[#1D1D1D] text-[18px] font-bold mr-[90px]">
-                      AAPL
-                    </p>
-                    <div>
-                      <p className="text-[14px] font-bold text-[#161616]">$170</p>
-                      <p className="text-[14px] font-bold text-red-500">-1.27%</p>
-                    </div>
-                  </div> */}
-                </div>
-              </div>
-              </>
-            ) : (
-              <GameTradingPage user={user} gameData={gameData} stockData={stockData} setIsTrading={setIsTrading}/>
-            )
-          }
-        </div>
+        <div>
+          <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user} />
+          <div className="flex flex-col space-y-0">
+            {
+              !isTrading ? (
+                <>
+                  <GameHeader user={user} gameData={gameData} showStockModal={isModalOpen} setShowStockModal={setIsModalOpen} onSymbolChange={handleSymbolChange} />
+                  <GameNavBar isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                  <PageForTab input={selectedTab} user={user} gameData={gameData} stockData={stockData} createPost={createPost} postText={postText} setPostText={setPostText} />
+                </>
+              ) : (
+                <GameTradingPage user={user} gameData={gameData} stockData={stockData} setIsTrading={setIsTrading} />
+              )
+            }
+          </div>
         </div>
       )}
     </MultiQueryLoadingBoundary>
@@ -147,3 +118,51 @@ export default function GamePage() {
 GamePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+interface PTProps {
+  input: number;
+  user: any;
+  gameData: any;
+  stockData: any;
+  createPost: any;
+  postText: any;
+  setPostText: any;
+}
+
+const PageForTab = ({
+  input,
+  user,
+  gameData,
+  stockData,
+  createPost,
+  postText,
+  setPostText }: PTProps) => {
+  switch (input) {
+    case 0:
+      return (
+        <div className="flex justify-between p-8">
+          <GameUserInfo user={user} gameData={gameData} stockData={stockData} />
+          <div className="flex flex-col items-center space-y-[25px]">
+            <GameCreatePost user={user} gameData={gameData} postText={postText} setPostText={setPostText} createPost={
+              () => createPost(gameData.id, postText)} />
+            <div className="font-bold text-[20px] text-[#1D1D1D] mr-[350px]">
+              Feed
+            </div>
+            <GameFeed user={user} gameData={gameData} />
+          </div>
+
+          <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px] h-fit min-h-[400px] sticky top-[100px]">
+            <p className="text-[18px] font-bold mb-2 text-[#1D1D1D] mt-[15px] ml-[15px]">
+              Market Movers
+            </p>
+            <MarketMoversWidget />
+          </div>
+        </div>
+      )
+    case 3:
+      return (
+<GamePortfolio user={user} gameData={gameData} stockData={stockData} />
+      )
+    default: return (null)
+  }
+}
