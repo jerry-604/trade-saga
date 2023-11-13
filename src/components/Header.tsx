@@ -47,11 +47,11 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
         
       />
       {showModal && isInputFocused && (
-        <div onMouseDown={(e) => e.preventDefault()}  className="absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50">
+        <div onMouseDown={(e) => e.preventDefault()}  className="absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-[9999999999999999999999999999999999]">
           {searchResults.map((result) => (
             <div
               key={result.id}
-              className="flex items-center p-2 hover:bg-gray-100"
+              className="flex items-center p-2 hover:bg-gray-100 z-[9999999999999999999999999999999999]"
               onClick={() => 
                 {onSymbolChange(result.symbol)
                 setShowModal(false); // Hide the modal after selecting
