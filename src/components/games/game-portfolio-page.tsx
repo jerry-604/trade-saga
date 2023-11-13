@@ -148,7 +148,7 @@ export default function GamePortfolio({
                                         <p className="text-[18px] font-semibold mb-1 text-[#ABABAB]" >{stock.numShares} Shares Held</p>
                                     </div>
                                     <button
-                                        className="h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold drop-shadow-sm mr-[20px]"
+                                        className="h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold mr-[20px] min-w-[130px]"
                                         onClick={() => {
                                             setMax(stock.numShares);
                                             setSymbol(stock.symbol);
