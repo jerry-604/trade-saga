@@ -51,7 +51,7 @@ export async function uploadAvatar(avatarFile: any) {
   return supabase
     .storage
     .from('avatars')
-    .createSignedUrl(upload.data.path, 60);
+    .createSignedUrl(upload.data.path, 60 * 60 * 24 * 7 * 52 * 10);
 }
 
 export async function initializeAvatar(avatarFile: any, email: string) {
