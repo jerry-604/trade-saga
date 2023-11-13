@@ -9,6 +9,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState();
   const [error, setError] = useState("");
+  const mutation = trpc.userRouter.uploadImage.useMutation();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -24,7 +25,18 @@ export default function Profile() {
       console.error('Upload error:', data.error.toString);
     } else {
       console.log('Upload successful:', data);
-      window.location.href = "/dashboard";
+      mutation.mutate(
+        {
+          imageUrl: data.data.signedUrl
+        },
+        {
+          onSuccess: (data) => {
+            window.location.href = "/dashboard";
+          },
+          onError: (error) => {
+            setError(error.message);
+          },
+        });
     }
   };
 
@@ -61,7 +73,7 @@ export default function Profile() {
 
         <input
           onChange={handleChange}
-          accept=".jpg, .png, .gif, .jpeg"
+          accept=".jpg, .png, .jpeg"
           type="file"
         ></input>
 
