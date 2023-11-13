@@ -23,6 +23,7 @@
     "@trpc/next": "^10.38.5",
     "@trpc/react-query": "^10.38.5",
     "@trpc/server": "^10.38.5",
+    "base64-arraybuffer": "^1.0.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.41.0",
@@ -57,5 +58,4 @@
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   }
-
 }
