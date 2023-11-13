@@ -12,23 +12,21 @@ export const userRouter = router({
     .query(async ({ ctx }) => {
       return ctx.user;
     }),
-  uploadImage: publicProcedure.input(z.object({ image: z.string() })).mutation(async (opts) => {
+  uploadImage: publicProcedure.input(z.object({ imageUrl: z.string() })).mutation(async (opts) => {
     const input = opts.input;
 
-    // TODO validation checking
-    const image = input.image;
+    const imageUrl = input.imageUrl;
 
-    // const imageUploaded = await getImage(req);
+    const result = await prisma.user.update({
+      where: {
+        email: opts.ctx.user.email
+      },
+      data: {
+        imageUrl: imageUrl,
+      },
+    });
 
-    // const imageData = await uploadImage(imageUploaded.path);
-
-    // const result = await prisma.user.create({
-    //   data: {
-    //     image: [imageData.public_id, imageData.format, imageData.version.toString()]
-    //   },
-    // });
-
-    // return result;
+    return result;
   }),
   createUser: publicProcedure.input(z.object({ name: z.string(), Fname: z.string(), Lname: z.string(), email: z.string(), password: z.string(), confirmPassword: z.string() })).mutation(async (opts) => {
     const input = opts.input;
