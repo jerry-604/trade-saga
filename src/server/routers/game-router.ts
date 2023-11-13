@@ -3,6 +3,7 @@ import { z } from 'zod';
 import prisma from '../prisma'
 import { TRPCError } from '@trpc/server';
 import { User } from '@prisma/client';
+import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
 export const gameRouter = router({
     createGame: publicProcedure.input(z.object({ gameTitle: z.string(), backgroundImage: z.string(), startDate: z.date(), endDate: z.date(), shareId: z.string() })).mutation(async ({ctx, input}) => {
@@ -84,4 +85,64 @@ export const gameRouter = router({
         });
         return post;
     }),
+    executeTrade: publicProcedure.input(z.object({gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number()})).mutation(async ({ctx, input}) => {
+        const user = ctx.user;
+        const userId = user.id;
+        const trade = await prisma.stockHolding.create({
+            data: {
+                gamePlayerId: input.gamePlayerId,
+                numShares: input.quantity,
+                symbol: input.symbol,
+            }
+        })
+            const total = input.price * input.quantity;
+            const updatePlayer = await prisma.gamePlayer.update({
+                where: {
+                  id: input.gamePlayerId,
+                },
+                data: {
+                  cashBalance: {
+                    increment: -total,
+                  },
+                },
+              })
+        return trade;
+    }),
+    getStockDataForPlayer: publicProcedure.input(z.object({shareId: z.string()})).query(async ({ ctx, input }) => {
+        const user = ctx.user
+        const gamePlayer = await prisma.gamePlayer.findFirst({
+            where: {
+                userId: user.id,
+                game: {
+                    shareId: input.shareId,
+                },
+            },
+            include: {
+                stocksHeld: true,
+            }
+        }
+        )
+        const stockData = await Promise.all(
+            (gamePlayer?.stocksHeld ?? []).map(async p => {
+                const response = await fetch(`https://www.wealthbase.com/investments/${p.symbol}/details`, {
+                    headers: {
+                      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'
+                    }
+                  });
+                  
+                if (!response.ok) {
+                  throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                const genData: GeneratedStockData = {symbol: p.symbol, price: data.current_price}
+                return genData;
+            })
+          );
+        return stockData;
+    }),
 });
+
+export type GeneratedStockData = {
+    symbol: string;
+    price: number;
+  };

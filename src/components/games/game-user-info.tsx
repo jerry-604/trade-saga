@@ -3,11 +3,13 @@ import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn} from "@/sr
 type Props = {
     user: any
     gameData: any
+    stockData: any
 }
 
-export default function GameCreatePost({
+export default function GameUserInfo({
     user,
-    gameData
+    gameData,
+    stockData,
 }: Props) {
     return (
         <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] w-[250px] h-[330px] sticky top-[100px]">
@@ -25,7 +27,7 @@ export default function GameCreatePost({
             {computeWorthForPlayer(
               gameData.playerData.find(
                 (item: any) => item.userId === user.id
-              )
+              ), stockData
             )}
           </p>
           <p className="text-[#C8C8C8] text-[14px] font-bold">
@@ -36,14 +38,14 @@ export default function GameCreatePost({
           <div className="text-center">
             <p className="font-bold text-[#FBFBFB] text-[22px]">+0%</p>
             <p className="text-[#C8C8C8] text-[14px] font-semibold">
-              Today's Return
+              Today&apos;s Return
             </p>
           </div>
           <div className="text-center">
               <p className="font-bold text-[#FBFBFB] text-[22px]">{computeTotalReturn(    
                 gameData.playerData.find(
                 (item: any) => item.userId === user.id
-              )
+              ), stockData
               )}%</p>
             <p className="text-[#C8C8C8] text-[14px] font-semibold">
               Total Return
