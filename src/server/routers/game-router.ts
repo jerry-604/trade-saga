@@ -108,6 +108,42 @@ export const gameRouter = router({
               })
         return trade;
     }),
+    executeSell: publicProcedure.input(z.object({gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number(), max: z.number()})).mutation(async ({ctx, input}) => {
+        const user = ctx.user;
+        const userId = user.id;
+        const total = input.price * input.quantity;
+        const txn = await prisma.$transaction(
+            [
+                prisma.gamePlayer.update({
+                    where: {
+                      id: input.gamePlayerId,
+                    },
+                    data: {
+                      cashBalance: {
+                        increment: total,
+                      },
+                    },
+                  }),
+                  prisma.stockHolding.deleteMany({
+                    where: {
+                      gamePlayerId: input.gamePlayerId,
+                      symbol: input.symbol,
+                    },
+                  }),
+            ],
+          );
+          if(input.quantity < input.max) {
+            const newNumShares = input.max - input.quantity;
+            await prisma.stockHolding.create({
+                data: {
+                    gamePlayerId: input.gamePlayerId,
+                    numShares: newNumShares,
+                    symbol: input.symbol,
+                }
+            })
+          }
+          return txn;
+    }),
     getStockDataForPlayer: publicProcedure.input(z.object({shareId: z.string()})).query(async ({ ctx, input }) => {
         const user = ctx.user
         const gamePlayer = await prisma.gamePlayer.findFirst({
