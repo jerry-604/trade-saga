@@ -1,4 +1,4 @@
-import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn, computeNumericalTotalReturn } from "@/src/utils/game-helpers";
+import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn, computeNumericalTotalReturn, computeNumericalWorthForPlayer } from "@/src/utils/game-helpers";
 import { GeneratedStockData } from "@/src/server/routers/game-router";
 import { LoadingBoundary } from "../loading-boundary";
 import { trpc } from "../../utils/trpc";
@@ -22,11 +22,11 @@ export default function GameLeaderboard({
 
                 <div className="flex flex-col justify-center items-center space-y-[20px] pt-[20px]">
                     {
-                        gameData.playerData.sort(async (a: any, b: any) => {
-                            computeWorthForPlayer(
-                                a, await stockData
-                            ) > computeWorthForPlayer(
-                                b, await stockData
+                        gameData.playerData.sort((a: any, b: any) => {
+                            return computeNumericalWorthForPlayer(
+                                b, stockData
+                            ) - computeNumericalWorthForPlayer(
+                                a, stockData
                             )
                         }).map((player: any, index: number) => {
                             return (<div className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[75%] max-w-[800px]">

@@ -48,6 +48,18 @@ export const computeTotalReturn = (playerData: any, stockData: any) => {
     return "$" + `${numberWithCommas(Math.round((securitiesTotal + cash)*100)/100)}`;
   };
 
+  export const computeNumericalWorthForPlayer = (playerData: any, stockData: any) => {
+    console.log(playerData);
+    const cash = playerData.cashBalance;
+    let securitiesTotal = 0;
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
+    }
+    console.log(securitiesTotal+cash, playerData.id, "ZK")
+    return securitiesTotal+cash;
+  };
+
+
   export const computeStockBalance = (playerData: any, stockData: any) => {
     let securitiesTotal = 0;
     for (let i = 0; i < playerData.stocksHeld.length; i++) {
