@@ -169,7 +169,7 @@ export default function GamePortfolio({
     );
 }
 
-function mergeStocks(stocks: any[]): any[] {
+export function mergeStocks(stocks: any[]): any[] {
     const merged: Record<string, any> = {};
 
     stocks.forEach(stock => {
