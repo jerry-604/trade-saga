@@ -50,7 +50,7 @@ export default function GameTradingHeader({
                     <img
                         src={user.imageUrl}
                         alt="User"
-                        className="rounded-full w-10 h-10 mr-3"
+                        className="rounded-full w-10 h-10 mr-3 object-cover"
                     />
                     <span className="font-semibold">
                         {user.Fname} {user.Lname}

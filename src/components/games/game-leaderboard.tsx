@@ -34,8 +34,10 @@ export default function GameLeaderboard({
                                     <p className={`text-[22px] font-bold mb-1 ${index == 0 ? "text-[#CEB04E]" : index == 1 ? "text-[#C0C0C0]" : index == 2 ? "text-[#91754B]" : "text-[#ABABAB]"} pl-4`} >#{index + 1}</p>
                                     <div className="flex flex-grow flex-row pl-4 h-full items-center">
                                         <img
-                                            src="/create-background.png"
-                                            className="w-[30px] h-[30px] rounded-full"
+                                            src={gameData.users.find(
+                                                (item: any) => item.id === player.userId
+                                            ).imageUrl}
+                                            className="w-[30px] h-[30px] rounded-full object-cover"
                                         />
                                         <p className="text-[18px] font-bold text-[#FBFBFB] pl-2" >{getNameForPlayer(gameData.users.find((item: any) => item.id === player.userId))}</p>
                                     </div>

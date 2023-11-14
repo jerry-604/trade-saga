@@ -16,7 +16,7 @@ export default function GameFeed({
                 <img
                   src={post.creator.imageUrl}
                   alt="AAPL"
-                  className="w-[40px] h-[40px] rounded-full"
+                  className="w-[40px] h-[40px] rounded-full object-cover"
                 />
                 <p className="text-[#1D1D1D] text-[16px] font-semibold">
                   {getNameForPlayer(post.creator)}

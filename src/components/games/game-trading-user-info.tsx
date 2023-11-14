@@ -17,8 +17,8 @@ export default function GameUserInfoTrading({ user, gameData, stockData }: Props
   return (
     <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] h-[430px] w-[345px]">
       <img
-        src="/create-background.png"
-        className="w-[64px] h-[64px] rounded-full mb-4"
+        src={user.imageUrl}
+        className="w-[64px] h-[64px] rounded-full mb-4 object-cover"
       />
       <p className="text-[14px] font-semibold mb-1 text-[#FBFBFB]">
         {getNameForPlayer(

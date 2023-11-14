@@ -15,7 +15,7 @@ export default function GameUserInfo({
         <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] w-[250px] h-[330px] sticky top-[100px]">
         <img
           src={user.imageUrl}
-          className="w-[64px] h-[64px] rounded-full mb-4"
+          className="w-[64px] h-[64px] rounded-full mb-4 object-cover"
         />
         <p className="text-[14px] font-semibold mb-1 text-[#FBFBFB]">
           {getNameForPlayer(
