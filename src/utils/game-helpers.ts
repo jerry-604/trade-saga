@@ -22,7 +22,7 @@ export const computeTotalReturn = (playerData: any, stockData: any) => {
     for (let i = 0; i < playerData.stocksHeld.length; i++) {
       securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
     }
-    const percent_return = (securitiesTotal + cash - 100000)/100000
+    const percent_return = (securitiesTotal + cash - 100000)/100000*100
     const rounded = Math.round(percent_return * 100) / 100
     return rounded >= 0 ? `+${rounded}` : `${rounded}`
   };
