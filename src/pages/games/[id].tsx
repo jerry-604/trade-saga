@@ -24,7 +24,7 @@ import {
 import GamePortfolio from "@/src/components/games/game-portfolio-page";
 import GameLeaderboard from "@/src/components/games/game-leaderboard";
 import TickerTapeWidget from "@/src/components/games/ticker-tape-widget";
-import GamePerformance from "@/src/components/games/game-performance";
+import GameAnalysis from "@/src/components/games/game-analysis-page";
 
 export default function GamePage() {
   const { query } = useRouter();
@@ -210,7 +210,7 @@ const PageForTab = ({
     case 1:
       return (<GameLeaderboard user={user} gameData={gameData} shareId={shareId} />)
     case 2:
-      return (<GamePerformance user={user} gameData={gameData} stockData={stockData}/>)
+      return (<GameAnalysis user={user} gameData={gameData} stockData={stockData}/>)
     case 3:
       return (
         <GamePortfolio user={user} gameData={gameData} stockData={stockData} />

@@ -34,7 +34,7 @@ export default function GameNavBar({
       />
       <ActionButton
         onClick={() => setSelectedTab(2)}
-        action={"Performance"}
+        action={"Analysis"}
         selected={selectedTab == 2}
       />
       <ActionButton
