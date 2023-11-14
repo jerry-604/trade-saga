@@ -54,7 +54,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
   );
 
   const computePercentage = (value: number) => {
-    return (Math.round((value / netWorth) * 100) / 100).toFixed(2);
+    return (Math.round((value / netWorth) * 10000) / 100).toFixed(1);
   };
 
   return (
