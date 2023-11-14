@@ -14,7 +14,7 @@ export default function GameFeed({
             <div key={post.id} className="flex flex-col items-start bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-fit min-h-[200px] animate-fade">
               <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
                 <img
-                  src="/create-background.png"
+                  src={post.creator.imageUrl}
                   alt="AAPL"
                   className="w-[40px] h-[40px] rounded-full"
                 />

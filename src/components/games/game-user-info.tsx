@@ -14,7 +14,7 @@ export default function GameUserInfo({
     return (
         <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] w-[250px] h-[330px] sticky top-[100px]">
         <img
-          src="/create-background.png"
+          src={user.imageUrl}
           className="w-[64px] h-[64px] rounded-full mb-4"
         />
         <p className="text-[14px] font-semibold mb-1 text-[#FBFBFB]">

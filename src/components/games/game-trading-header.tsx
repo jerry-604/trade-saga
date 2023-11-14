@@ -48,9 +48,9 @@ export default function GameTradingHeader({
                 <header className="flex flex-grow items-center justify-end">
                   
                     <img
-                        src="/create-background.png"
+                        src={user.imageUrl}
                         alt="User"
-                        className="rounded-full w-10 h-10 mr-4"
+                        className="rounded-full w-10 h-10 mr-3"
                     />
                     <span className="font-semibold">
                         {user.Fname} {user.Lname}

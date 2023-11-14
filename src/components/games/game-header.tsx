@@ -98,11 +98,11 @@ export default function GameHeader({
             </div>
           )}
         </div>
-        <header className={`flex flex-grow items-center justify-end ${showModal && isInputFocused ? 'pb-[250px]' : null}`}>
+        <header className={`flex flex-grow items-center justify-end ${showModal && isInputFocused ? 'pb-[260px]' : 'pb-[10px]'}`}>
           <img
-            src="/create-background.png"
+            src={user.imageUrl}
             alt="User"
-            className="rounded-full w-10 h-10 mr-4"
+            className="rounded-full w-10 h-10 mr-3"
           />
           <span className="font-semibold">
             {user.Fname} {user.Lname}
