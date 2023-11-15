@@ -166,7 +166,7 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
                                 <div className={`bg-red-200 w-[50px] text-[#E3E3E3] text-center content-center shrink-0`} style={{
                                     height: `${240 * (Math.abs(data.beta - 1))}px`, backgroundColor: chartData.find(
                                         (item: any) => item.title === data.symbol
-                                    ).color.toLocaleUpperCase(),
+                                    )?.color.toLocaleUpperCase(),
                                      marginBottom: data.beta - 1 < 0 ? `-${240 * (Math.abs(data.beta - 1))}px` : "0px",
                                      paddingTop: data.beta - 1 < 0 ? `${240 * (Math.abs(data.beta - 1))}px` : "0px",
                                      borderBottom:  data.beta - 1 < 0 ? undefined : "solid",
