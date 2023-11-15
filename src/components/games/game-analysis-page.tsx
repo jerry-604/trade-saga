@@ -101,7 +101,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
                         <p className="text-[20px] font-semibold text-[#FBFBFB]">
                             Portfolio Risk
                         </p>
-                        <PortfolioRisk user={user} gameData={gameData} stockData={stockData} chartData={chartData}/>
+                        <PortfolioRisk user={user} gameData={gameData} stockData={stockData} chartData={chartData} />
                     </div>
                     <div className="h-[460px] w-full bg-[#131313] rounded-[14px] p-8 content-start">
                         <p className="text-[20px] font-semibold text-[#FBFBFB]">
@@ -135,35 +135,38 @@ type PRProps = {
 function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
 
     const computePortfolioBeta = (data: any[]) => {
-        let beta=0;
-        for(let i=0;i<data.length;i++) {
+        let beta = 0;
+        for (let i = 0; i < data.length; i++) {
             beta += data[i].beta;
         }
-        return beta/data.length;
+        return beta / data.length;
     }
 
     return (
         <LoadingBoundary query={
             trpc.gameRouter.getBetaDataForPlayer.useQuery({ shareId: gameData.shareId })
-          }>
+        }>
             {(betaData) => (
                 <div>
-            <div className="text-white">{computePortfolioBeta(mergeStocks(betaData))}</div>
-            <div className="flex flex-row h-full items-end">
-                {
-                    mergeStocks(betaData.sort((a,b) => {
-                        return (b.beta - 1) - (a.beta - 1)
-                    })).map((data) => (
-                        <div className={`bg-red-200 w-[40px]`} style={{height: `${240*(data.beta-1)}px`,    backgroundColor: chartData.find(
-                            (item: any) => item.title === data.symbol
-                          ).color.toLocaleUpperCase(),}}>
-{data.symbol}
-                            </div>
-                    ))
-                }
-            </div>
-            </div>
-        )}
+                    <div className="text-white">{computePortfolioBeta(mergeStocks(betaData))}</div>
+                    <div className="flex flex-row h-full items-end">
+                        {
+                            mergeStocks(betaData.sort((a, b) => {
+                                return (b.beta - 1) - (a.beta - 1)
+                            })).map((data) => (
+                                <div className={`bg-red-200 w-[40px]`} style={{
+                                    height: `${240 * (Math.abs(data.beta - 1))}px`, backgroundColor: chartData.find(
+                                        (item: any) => item.title === data.symbol
+                                    ).color.toLocaleUpperCase(),
+                                    transform: data.beta - 1 < 0 ? `translateY(${240 * (Math.abs(data.beta - 1))}px)` : "translateY(0px)"
+                                }}>
+                                    {data.symbol}
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+            )}
         </LoadingBoundary>
     )
 }
