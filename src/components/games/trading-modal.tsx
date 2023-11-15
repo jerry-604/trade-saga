@@ -1,6 +1,13 @@
 import React, { ReactElement, useState, useEffect } from "react";
 
-const Modal = ({ isOpen, children, onClose }) => {
+
+interface ModalProps {
+  isOpen: any;
+  children: any;
+  onClose: any;
+}
+
+const Modal = ({ isOpen, children, onClose }: ModalProps) => {
     const [isAnimating, setIsAnimating] = useState(false);
   
     useEffect(() => {
