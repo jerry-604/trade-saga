@@ -81,9 +81,9 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
                                 paddingAngle={5}
                                 lineWidth={20}
                             />
-                            <div className="grid grid-rows-4 grid-flow-col gap-2">
+                            <div className="grid grid-rows-4 grid-flow-col gap-2 overflow-scroll">
                                 {(chartData as Data[]).map((item) => (
-                                    <div className="flex flex-row justify-center items-center flex-grow">
+                                    <div className="flex flex-row justify-center items-center flex-grow shrink-0">
                                         <div
                                             className={`h-[10px] w-[10px]`}
                                             style={{
@@ -153,7 +153,7 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
         }>
             {(betaData) => (
                 <div>
-                    <div className="text-white pt-2"> Your portfolio is <b>{computeRiskPercentage(mergeStocks(betaData))}%</b> more volatile than the overall market</div>
+                    <div className="text-white pt-2"> Your portfolio is <b>{Math.abs(computeRiskPercentage(mergeStocks(betaData)))}%</b> {computeRiskPercentage(mergeStocks(betaData)) < 0 ? "less" : "more"} volatile than the overall market.</div>
                     <p className="text-[15px] font-semibold text-[#FBFBFB] pt-4 pb-4">
                             Contribution to risk
                     </p>
@@ -169,6 +169,8 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
                                     ).color.toLocaleUpperCase(),
                                      marginBottom: data.beta - 1 < 0 ? `-${240 * (Math.abs(data.beta - 1))}px` : "0px",
                                      paddingTop: data.beta - 1 < 0 ? `${240 * (Math.abs(data.beta - 1))}px` : "0px",
+                                     borderBottom:  data.beta - 1 < 0 ? undefined : "solid",
+                                     borderTop:  data.beta - 1 >= 0 ? undefined : "solid"
 
                                 }}>
                                     {/* {Math.round(data.beta*100)/100} */}
@@ -181,7 +183,7 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
                             mergeStocks(betaData.sort((a, b) => {
                                 return (b.beta - 1) - (a.beta - 1)
                             })).map((data) => (
-                            <p className={`pt-[40px] w-[50px] text-[#E3E3E3] text-center content-center  shrink-0`}>{data.symbol}</p>
+                            <p className={`pt-[40px] w-[50px] text-[#E3E3E3] text-center content-center font-bold shrink-0`}>{data.symbol}</p>
                             ))
                         }
                     </div>

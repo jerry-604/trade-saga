@@ -59,6 +59,14 @@ export const computeTotalReturn = (playerData: any, stockData: any) => {
     return securitiesTotal+cash;
   };
 
+  export const computeCashGainForPlayer = (playerData: any, stockData: any) => {
+    return kFormatter(computeStockBalance(playerData, stockData));
+  }
+
+  function kFormatter(num: number) {
+    return Math.abs(num) > 999 ? Math.sign(num)*((Math.round(Math.abs(num)/100)/10)) + 'k' : Math.sign(num)*Math.abs(num)
+}
+
 
   export const computeStockBalance = (playerData: any, stockData: any) => {
     let securitiesTotal = 0;

@@ -1,4 +1,4 @@
-import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn} from "@/src/utils/game-helpers";
+import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn, computeCashGainForPlayer} from "@/src/utils/game-helpers";
 
 type Props = {
     user: any
@@ -36,9 +36,11 @@ export default function GameUserInfo({
         </div>
         <div className="flex justify-between w-full mt-[32px] pl-[5px] pr-[5px]">
           <div className="text-center">
-            <p className="font-bold text-[#FBFBFB] text-[22px]">+0%</p>
+            <p className="font-bold text-[#FBFBFB] text-[22px]">${computeCashGainForPlayer(gameData.playerData.find(
+                (item: any) => item.userId === user.id
+              ), stockData)}</p>
             <p className="text-[#C8C8C8] text-[14px] font-semibold">
-              Today&apos;s Return
+              Open Positions
             </p>
           </div>
           <div className="text-center">
