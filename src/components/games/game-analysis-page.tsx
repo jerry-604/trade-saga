@@ -149,18 +149,18 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
             {(betaData) => (
                 <div>
                     <div className="text-white">{computePortfolioBeta(mergeStocks(betaData))}</div>
-                    <div className="flex flex-row h-full items-end">
+                    <div className="flex flex-row h-full items-end space-x-[8px]">
                         {
                             mergeStocks(betaData.sort((a, b) => {
                                 return (b.beta - 1) - (a.beta - 1)
                             })).map((data) => (
-                                <div className={`bg-red-200 w-[40px]`} style={{
+                                <div className={`bg-red-200 w-[50px] text-[#E3E3E3] text-center content-center`} style={{
                                     height: `${240 * (Math.abs(data.beta - 1))}px`, backgroundColor: chartData.find(
                                         (item: any) => item.title === data.symbol
                                     ).color.toLocaleUpperCase(),
                                     transform: data.beta - 1 < 0 ? `translateY(${240 * (Math.abs(data.beta - 1))}px)` : "translateY(0px)"
                                 }}>
-                                    {data.symbol}
+                                    {Math.round(data.beta*100)/100}
                                 </div>
                             ))
                         }

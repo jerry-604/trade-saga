@@ -51,7 +51,7 @@ export default function Registration() {
 
   return <div className="flex h-screen w-screen relative">
     <Image src="/create-background.png" height={3000} width={3000} alt="text"
-     className="transform absolute top-0 left-0 w-screen h-screen"></Image>
+     className="transform absolute top-0 left-0 w-screen h-screen object-cover bg-no-repeat mix-blend-color-burn"></Image>
     <div className="flex h-full w-full">
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-center h-screen w-screen">
