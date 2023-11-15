@@ -29,7 +29,7 @@ export default function GameLeaderboard({
                                 a, stockData
                             )
                         }).map((player: any, index: number) => {
-                            return (<div className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[75%] max-w-[800px]">
+                            return (<div key={index} className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[75%] max-w-[800px]">
                                 <div className="flex flex-row items-center">
                                     <p className={`text-[22px] font-bold mb-1 ${index == 0 ? "text-[#CEB04E]" : index == 1 ? "text-[#C0C0C0]" : index == 2 ? "text-[#91754B]" : "text-[#ABABAB]"} pl-4`} >#{index + 1}</p>
                                     <div className="flex flex-grow flex-row pl-4 h-full items-center">

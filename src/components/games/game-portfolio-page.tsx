@@ -141,7 +141,7 @@ export default function GamePortfolio({
                         (item: any) => item.userId === user.id
                     ).stocksHeld ?? [])).map((stock: any) => {
                         return (
-                            <div className="flex flex-grow flex-row items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4">
+                            <div key={stock.symbol} className="flex flex-grow flex-row items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4">
                                 <div className="flex flex-grow flex-col pl-4 h-full pt-2" >
                                     <div className="flex flex-grow flex-col pl-4 h-full pt-2">
                                         <p className="text-[18px] font-bold mb-1 text-[#FBFBFB]" >{stock.symbol}</p>

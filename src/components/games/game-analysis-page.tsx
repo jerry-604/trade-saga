@@ -83,7 +83,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
                             />
                             <div className="grid grid-rows-4 grid-flow-col gap-2 overflow-scroll">
                                 {(chartData as Data[]).map((item) => (
-                                    <div className="flex flex-row justify-center items-center flex-grow shrink-0">
+                                    <div key={item.value} className="flex flex-row justify-center items-center flex-grow shrink-0">
                                         <div
                                             className={`h-[10px] w-[10px]`}
                                             style={{
@@ -112,7 +112,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
                             {
                                 // <div className="w-[400px]">
                                 stockData.map((stock: any) => (
-                                    <div className="flex flex-grow w-[300px] shrink-0">
+                                    <div key={stock.symbol} className="flex flex-grow w-[300px] shrink-0">
                                         <TechnicalAnalysisWidget symbol={stock.symbol} />
                                     </div>
                                 ))
@@ -163,7 +163,7 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
                             mergeStocks(betaData.sort((a, b) => {
                                 return (b.beta - 1) - (a.beta - 1)
                             })).map((data) => (
-                                <div className={`bg-red-200 w-[50px] text-[#E3E3E3] text-center content-center shrink-0`} style={{
+                                <div key={data.symbol} className={`bg-red-200 w-[50px] text-[#E3E3E3] text-center content-center shrink-0`} style={{
                                     height: `${240 * (Math.abs(data.beta - 1))}px`, backgroundColor: chartData.find(
                                         (item: any) => item.title === data.symbol
                                     )?.color.toLocaleUpperCase(),
@@ -183,7 +183,7 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
                             mergeStocks(betaData.sort((a, b) => {
                                 return (b.beta - 1) - (a.beta - 1)
                             })).map((data) => (
-                            <p className={`pt-[40px] w-[50px] text-[#E3E3E3] text-center content-center font-bold shrink-0`}>{data.symbol}</p>
+                            <p key={data.symbol} className={`pt-[40px] w-[50px] text-[#E3E3E3] text-center content-center font-bold shrink-0`}>{data.symbol}</p>
                             ))
                         }
                     </div>
