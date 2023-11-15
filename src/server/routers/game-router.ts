@@ -176,21 +176,34 @@ export const gameRouter = router({
         );
         return stockData;
     }),
-    isGameMember: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+    getGameStatus: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
         const user = ctx.user;
-        const exists = !!await prisma.gamePlayer.findFirst({
-            where: {
-                userId: user.id,
-                game: {
+        const [gameExists, userExists] = await prisma.$transaction([
+            prisma.game.findFirst({
+                where: {
                     shareId: input.shareId,
                 },
-            },
-            include: {
-                stocksHeld: true,
             }
+            ),
+            prisma.gamePlayer.findFirst({
+                where: {
+                    userId: user.id,
+                    game: {
+                        shareId: input.shareId,
+                    },
+                },
+                include: {
+                    stocksHeld: true,
+                }
+            }
+            ),
+        ])
+        if (!!gameExists) {
+            const isOngoing = gameExists.dateEnd > (new Date())
+            return [!!gameExists, !!userExists, !!isOngoing]
+        } else {
+        return [false, false, false];
         }
-        );
-        return exists;
     }),
     joinGame: publicProcedure.input(z.object({ shareId: z.string() })).mutation(async ({ ctx, input }) => {
         const user = ctx.user;

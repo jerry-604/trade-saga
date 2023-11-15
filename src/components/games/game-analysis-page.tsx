@@ -140,7 +140,7 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
         for (let i = 0; i < data.length; i++) {
             beta += data[i].beta;
         }
-        return beta / data.length;
+        return data.length == 0 ? 1 : beta / data.length;
     }
 
    const computeRiskPercentage = (data: any[]) => {

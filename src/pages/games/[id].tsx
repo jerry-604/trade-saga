@@ -91,7 +91,7 @@ export default function GamePage() {
     onSuccess: () => {
       utils.gameRouter.fetchGameWithId.invalidate();
       utils.gameRouter.getStockDataForPlayer.invalidate();
-      utils.gameRouter.isGameMember.invalidate()
+      utils.gameRouter.getGameStatus.invalidate()
     },
   });
 
@@ -105,51 +105,62 @@ export default function GamePage() {
 
   return (
     <LoadingBoundary query={
-      trpc.gameRouter.isGameMember.useQuery({ shareId: id })
+      trpc.gameRouter.getGameStatus.useQuery({ shareId: id })
     }>
-      {(exists) => (
-        exists ? (
-          <MultiQueryLoadingBoundary
-            queries={trpc.useQueries((t) => [
-              t.gameRouter.fetchGameWithId({ shareId: id }),
-              t.gameRouter.getStockDataForPlayer({ shareId: id }),
-              t.userRouter.getUserFromContext(),
-            ])}
-          >
-            {([gameData, stockData, user]) => (
-              <div>
-                <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user} />
-                <div className="flex flex-col space-y-0">
-                  {
-                    !isTrading ? (
-                      <>
-                        <GameHeader user={user} gameData={gameData} showStockModal={isModalOpen} setShowStockModal={setIsModalOpen} onSymbolChange={handleSymbolChange} />
-                        <GameNavBar isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-                        <PageForTab input={selectedTab} user={user} gameData={gameData} stockData={stockData} createPost={createPost} postText={postText} setPostText={setPostText} shareId={id}/>
-                      </>
-                    ) : (
-                      <GameTradingPage user={user} gameData={gameData} stockData={stockData} setIsTrading={setIsTrading} />
-                    )
-                  }
+      {([gameExists, userExists, isOngoing]) => (
+        gameExists ? (
+          userExists ? (
+            <MultiQueryLoadingBoundary
+              queries={trpc.useQueries((t) => [
+                t.gameRouter.fetchGameWithId({ shareId: id }),
+                t.gameRouter.getStockDataForPlayer({ shareId: id }),
+                t.userRouter.getUserFromContext(),
+              ])}
+            >
+              {([gameData, stockData, user]) => (
+                <div>
+                  <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user} />
+                  <div className="flex flex-col space-y-0">
+                    {
+                      !isTrading ? (
+                        <>
+                          <GameHeader user={user} gameData={gameData} showStockModal={isModalOpen} setShowStockModal={setIsModalOpen} onSymbolChange={handleSymbolChange} />
+                          <GameNavBar isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                          <PageForTab input={selectedTab} user={user} gameData={gameData} stockData={stockData} createPost={createPost} postText={postText} setPostText={setPostText} shareId={id} />
+                        </>
+                      ) : (
+                        <GameTradingPage user={user} gameData={gameData} stockData={stockData} setIsTrading={setIsTrading} />
+                      )
+                    }
+                  </div>
+                </div>
+              )}
+            </MultiQueryLoadingBoundary>
+          ) : (
+            <div className="grid h-screen place-items-center">
+              <div className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[800px]">
+
+                <div className="flex flex-grow flex-col pl-4 h-full pt-5 pb-10]">
+                  <p className="text-[18px] font-bold mb-1 text-[#FBFBFB]" >Not a Member</p>
+                  <p className="text-[18px] font-semibold mb-1 text-[#ABABAB]" >You are not a member of this game, would you like to join?</p>
+                  <button
+                    className="h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold mt-5"
+                    onClick={() => {
+                      joinGame(id);
+                    }}
+                  >
+                    Join Game
+                  </button>
                 </div>
               </div>
-            )}
-          </MultiQueryLoadingBoundary>
+            </div>
+          )
         ) : (
           <div className="grid h-screen place-items-center">
             <div className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[800px]">
-
-              <div className="flex flex-grow flex-col pl-4 h-full pt-5 pb-10]">
-                <p className="text-[18px] font-bold mb-1 text-[#FBFBFB]" >Not a Member</p>
-                <p className="text-[18px] font-semibold mb-1 text-[#ABABAB]" >You are not a member of this game, would you like to join?</p>
-                <button
-                  className="h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold mt-5"
-                  onClick={() => {
-                    joinGame(id);
-                  }}
-                >
-                  Join Game
-                </button>
+              <div className="flex flex-grow flex-col pl-4 h-full pt-2 pb-10]">
+                <p className="text-[18px] font-bold mb-1 text-[#FBFBFB]"> <b className="text-red-500">Error: </b>Not Found</p>
+                <p className="text-[18px] font-semibold mb-1 text-[#ABABAB]" >This game does not exist.</p>
               </div>
             </div>
           </div>
@@ -183,7 +194,7 @@ const PageForTab = ({
   createPost,
   postText,
   setPostText,
-  shareId 
+  shareId
 }: PTProps) => {
   switch (input) {
     case 0:
@@ -210,7 +221,7 @@ const PageForTab = ({
     case 1:
       return (<GameLeaderboard user={user} gameData={gameData} shareId={shareId} />)
     case 2:
-      return (<GameAnalysis user={user} gameData={gameData} stockData={stockData}/>)
+      return (<GameAnalysis user={user} gameData={gameData} stockData={stockData} />)
     case 3:
       return (
         <GamePortfolio user={user} gameData={gameData} stockData={stockData} />
