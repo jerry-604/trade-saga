@@ -57,6 +57,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
     const computePercentage = (value: number) => {
         return (Math.round((value / netWorth) * 10000) / 100).toFixed(1);
     };
+
     return (
         <div>
             <TickerTapeWidget
@@ -97,7 +98,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
                             </div>
                         </div>
                     </div>
-                    <div className="h-[460px] w-full bg-[#131313] rounded-[14px] p-8 content-start">
+                    <div className="min-h-[460px] h-fit w-full bg-[#131313] rounded-[14px] p-8 content-start">
                         <p className="text-[20px] font-semibold text-[#FBFBFB]">
                             Portfolio Risk
                         </p>
@@ -142,29 +143,48 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
         return beta / data.length;
     }
 
+   const computeRiskPercentage = (data: any[]) => {
+       return Math.round((computePortfolioBeta(data)-1)*10000)/100
+   }
+
     return (
         <LoadingBoundary query={
             trpc.gameRouter.getBetaDataForPlayer.useQuery({ shareId: gameData.shareId })
         }>
             {(betaData) => (
                 <div>
-                    <div className="text-white">{computePortfolioBeta(mergeStocks(betaData))}</div>
+                    <div className="text-white pt-2"> Your portfolio is <b>{computeRiskPercentage(mergeStocks(betaData))}%</b> more volatile than the overall market</div>
+                    <p className="text-[15px] font-semibold text-[#FBFBFB] pt-4 pb-4">
+                            Contribution to risk
+                    </p>
+                    <div className="overflow-scroll">
                     <div className="flex flex-row h-full items-end space-x-[8px]">
                         {
                             mergeStocks(betaData.sort((a, b) => {
                                 return (b.beta - 1) - (a.beta - 1)
                             })).map((data) => (
-                                <div className={`bg-red-200 w-[50px] text-[#E3E3E3] text-center content-center`} style={{
+                                <div className={`bg-red-200 w-[50px] text-[#E3E3E3] text-center content-center shrink-0`} style={{
                                     height: `${240 * (Math.abs(data.beta - 1))}px`, backgroundColor: chartData.find(
                                         (item: any) => item.title === data.symbol
                                     ).color.toLocaleUpperCase(),
                                      marginBottom: data.beta - 1 < 0 ? `-${240 * (Math.abs(data.beta - 1))}px` : "0px",
+                                     paddingTop: data.beta - 1 < 0 ? `${240 * (Math.abs(data.beta - 1))}px` : "0px",
 
                                 }}>
-                                    {Math.round(data.beta*100)/100}
+                                    {/* {Math.round(data.beta*100)/100} */}
                                 </div>
                             ))
                         }
+                    </div>
+                    <div className="flex flex-row h-full items-end space-x-[8px]">
+                        {
+                            mergeStocks(betaData.sort((a, b) => {
+                                return (b.beta - 1) - (a.beta - 1)
+                            })).map((data) => (
+                            <p className={`pt-[40px] w-[50px] text-[#E3E3E3] text-center content-center  shrink-0`}>{data.symbol}</p>
+                            ))
+                        }
+                    </div>
                     </div>
                 </div>
             )}
