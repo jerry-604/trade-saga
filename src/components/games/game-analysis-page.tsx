@@ -158,7 +158,8 @@ function PortfolioRisk({ user, gameData, stockData, chartData }: PRProps) {
                                     height: `${240 * (Math.abs(data.beta - 1))}px`, backgroundColor: chartData.find(
                                         (item: any) => item.title === data.symbol
                                     ).color.toLocaleUpperCase(),
-                                    transform: data.beta - 1 < 0 ? `translateY(${240 * (Math.abs(data.beta - 1))}px)` : "translateY(0px)"
+                                     marginBottom: data.beta - 1 < 0 ? `-${240 * (Math.abs(data.beta - 1))}px` : "0px",
+
                                 }}>
                                     {Math.round(data.beta*100)/100}
                                 </div>
