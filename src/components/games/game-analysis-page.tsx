@@ -10,7 +10,7 @@ import { LoadingBoundary } from "../loading-boundary";
 import { trpc } from "../../utils/trpc";
 import GameUserInfo from "./game-user-info";
 import TickerTapeWidget from "./ticker-tape-widget";
-import { PieChart, Data, PieChartProps } from "react-minimal-pie-chart";
+import { PieChart, PieChartProps } from "react-minimal-pie-chart";
 import { useState, useEffect } from "react";
 import { mergeStocks } from "./game-portfolio-page"
 import TechnicalAnalysisWidget from "./technical-analysis-widget";
@@ -34,7 +34,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
                     color: `#${((Math.random() * 0xffffff) << 0)
                         .toString(16)
                         .padStart(6, "0")}`,
-                } as Data;
+                };
                 return obj;
             }),
         {
@@ -44,7 +44,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
             color: `#${((Math.random() * 0xffffff) << 0)
                 .toString(16)
                 .padStart(6, "0")}`,
-        } as Data,
+        },
     ]);
 
     const [netWorth, setNetWorth] = useState(
@@ -82,7 +82,7 @@ export default function GameAnalysis({ user, gameData, stockData }: Props) {
                                 lineWidth={20}
                             />
                             <div className="grid grid-rows-4 grid-flow-col gap-2 overflow-scroll">
-                                {(chartData as Data[]).map((item) => (
+                                {(chartData).map((item) => (
                                     <div key={item.value} className="flex flex-row justify-center items-center flex-grow shrink-0">
                                         <div
                                             className={`h-[10px] w-[10px]`}
