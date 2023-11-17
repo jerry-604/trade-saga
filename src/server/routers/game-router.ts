@@ -104,6 +104,9 @@ export const gameRouter = router({
                 cashBalance: {
                     increment: -total,
                 },
+                stocksBought: {
+                    increment: 1,
+                },
             },
         })
         return trade;
@@ -121,6 +124,9 @@ export const gameRouter = router({
                     data: {
                         cashBalance: {
                             increment: total,
+                        },
+                        stocksSold: {
+                            increment: 1,
                         },
                     },
                 }),

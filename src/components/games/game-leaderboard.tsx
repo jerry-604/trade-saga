@@ -23,12 +23,12 @@ export default function GameLeaderboard({
                 <div className="flex flex-col justify-center items-center space-y-[20px] pt-[20px]">
                     <div className="items-center bg-[#131313] rounded-[14px] h-auto pt-5 pb-4 pr-4 w-[75%] max-w-[800px] pl-[20px]">
                         <p className="text-[20px] font-semibold mb-1 text-[#FBFBFB] pb-[20px]">Achievements</p>
-                        <Achievement title={"Read about a stock."} isMet={true} />
-                        <Achievement title={"Buy a stock."} isMet={false} />
-                        <Achievement title={"Sell a stock."} isMet={false} />
-                        <Achievement title={"Read about 5 stocks."} isMet={false} />
-                        <Achievement title={"Portfolio up 1%."} isMet={true} />
-                        <Achievement title={"Portfolip up 5%."} isMet={false} isLast={true} />
+                        <Achievement title={"Read about a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksViewed > 0} />
+                        <Achievement title={"Buy a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 0} />
+                        <Achievement title={"Sell a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 0} />
+                        <Achievement title={"Read about 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksViewed > 4} />
+                        <Achievement title={"Portfolio up 1%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 1} />
+                        <Achievement title={"Portfolio up 5%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 5} isLast={true} />
                     </div>
                     <p className="font-semibold text-[20px] text-[#2D2D2D] w-[75%] max-w-[800px]">Today&apos;s Leaderboard</p>
                     {
