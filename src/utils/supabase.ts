@@ -1,8 +1,6 @@
 
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 
-import { decode } from 'base64-arraybuffer';
-
 // Create a single supabase client for interacting with your database
 const supabase = createPagesBrowserClient();
 
@@ -36,10 +34,24 @@ export async function uploadAvatar(avatarFile: any) {
   if (!session) {
     return { error: "No session" };
   }
-  return supabase.storage.from('avatars').update(`pfps/${session.user.email}.png`, avatarFile, {
+
+  if (!avatarFile) {
+    return { error: "No file" };
+  }
+
+  const upload = await supabase.storage.from('avatars').upload(`pfps/${session.user.email}.png`, avatarFile, {
     cacheControl: '3600',
     upsert: true
   });
+
+  if (upload.error) {
+    return { error: "Could not upload image" };
+  }
+
+  return supabase
+    .storage
+    .from('avatars')
+    .createSignedUrl(upload.data.path, 60 * 60 * 24 * 7 * 52 * 10);
 }
 
 export async function initializeAvatar(avatarFile: any, email: string) {

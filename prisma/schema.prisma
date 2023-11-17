@@ -53,6 +53,9 @@ model GamePlayer {
   cashBalance Float
   game        Game           @relation(fields: [gameID], references: [id])
   gameID      Int
+  stocksViewed Int @default(0)
+  stocksBought Int @default(0)
+  stocksSold Int @default(0)
 }
 
 model StockHolding {

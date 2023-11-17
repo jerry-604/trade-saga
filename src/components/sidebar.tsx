@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { FiHome, FiTrello, FiRss } from "react-icons/fi";
 import { BsFillQuestionCircleFill, BsFillArrowUpRightCircleFill } from "react-icons/bs";
-import Link from 'next/link'
-import { RxLink2 } from "react-icons/rx"
+import Link from 'next/link';
+import { RxLink2 } from "react-icons/rx";
 export default function Sidebar() {
   const router = useRouter();
   const currentRoute = router.pathname;
@@ -16,36 +16,36 @@ export default function Sidebar() {
           </h1>
         </div>
       </div>
-      <Link href="/" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242] ${currentRoute == "/" ? "bg-[#F4F6F8]" : null }`}>
+      <Link href="/" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242] ${currentRoute == "/" ? "bg-[#F4F6F8]" : null}`}>
         <FiHome size="25px" />
         <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">Home</span>
       </Link>
-      <Link href="/dashboard" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]  ${currentRoute == "/dashboard" ? "bg-[#F4F6F8]" : null }`}>
-      <FiTrello size="25px" />
+      <Link href="/dashboard" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]  ${currentRoute == "/dashboard" ? "bg-[#F4F6F8]" : null}`}>
+        <FiTrello size="25px" />
         <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
           Stock Dashboard
         </span>
       </Link>
-      <Link href="/news" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]  ${currentRoute == "/news" ? "bg-[#F4F6F8]" : null }`}>
-      <FiRss size="25px" />
+      <Link href="/news" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]  ${currentRoute == "/news" ? "bg-[#F4F6F8]" : null}`}>
+        <FiRss size="25px" />
         <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
           News
         </span>
       </Link>
-     <div className="absolute bottom-[40px] w-[310px]">
-     <div className="my-4 bg-[#D9D9D9] h-[2px] w-[275px] ml-[17.5px]"></div>
-      <div className="p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]">
-      <BsFillQuestionCircleFill size="25px" color="black" />
-        <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
-          Help
-        </span>
-      </div>
-      <div className="p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]">
-      <BsFillArrowUpRightCircleFill size="25px" color="black" />
-        <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
-          Settings
-        </span>
-      </div>
+      <div className="absolute bottom-[40px] w-[310px]">
+        <div className="my-4 bg-[#D9D9D9] h-[2px] w-[275px] ml-[17.5px]"></div>
+        <div className="p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]">
+          <BsFillQuestionCircleFill size="25px" color="black" />
+          <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
+            Help
+          </span>
+        </div>
+        <div className="p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]">
+          <BsFillArrowUpRightCircleFill size="25px" color="black" />
+          <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
+            <a href="/profile">Settings</a>
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -53,8 +53,8 @@ export default function Sidebar() {
 
 const CircleWithT = () => {
   return (
-      <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center">
-          <span className="text-white font-semibold text-[15px]">T</span>
-      </div>
+    <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center">
+      <span className="text-white font-semibold text-[15px]">T</span>
+    </div>
   );
-}
+};
