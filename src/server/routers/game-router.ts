@@ -323,6 +323,45 @@ export const gameRouter = router({
         );
         return betaData;
     }),
+    getBetaDataForGame: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+        const user = ctx.user
+        const gamePlayers = await prisma.gamePlayer.findMany({
+            where: {
+                game: {
+                    shareId: input.shareId,
+                },
+            },
+            include: {
+                stocksHeld: true,
+            }
+        }
+        )
+        var flattened = gamePlayers.map((data) => {
+            return data.stocksHeld;
+        }).flat().reduce((unique: any, item) => {
+            if (!unique.find((stock: any) => stock.symbol === item.symbol)) {
+                unique.push(item);
+            }
+            return unique;
+        }, []);
+        const betaData = await Promise.all(
+            (flattened ?? []).map(async p => {
+                const response = await fetch(`https://api.newtonanalytics.com/stock-beta/?ticker=${p.symbol}&index=^GSPC&interval=1mo%E2%80%8B&observations=1825`, {
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                const genData: GeneratedBetaData = { symbol: p.symbol, beta: data.data }
+                return genData;
+            })
+        );
+        return betaData;
+    }),
 });
 
 export type GeneratedStockData = {

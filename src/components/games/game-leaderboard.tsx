@@ -2,6 +2,7 @@ import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn, computeNum
 import { GeneratedStockData } from "@/src/server/routers/game-router";
 import { LoadingBoundary } from "../loading-boundary";
 import { trpc } from "../../utils/trpc";
+import { mergeStocks } from "./game-portfolio-page"
 
 type Props = {
     user: any
@@ -15,6 +16,22 @@ export default function GameLeaderboard({
     shareId,
 }: Props) {
 
+    const computePortfolioBeta = (stocksHeld: any[], betaData: any[]) => {
+        let beta = 0;
+        for (let i = 0; i < stocksHeld.length; i++) {
+            beta += betaData.find((item) => item.symbol == stocksHeld[i].symbol).beta;
+        }
+        return stocksHeld.length == 0 ? 1 : beta / stocksHeld.length;
+    }
+
+   const computeRiskPercentage = (stocksHeld: any[], betaData: any[]) => {
+       return Math.round((computePortfolioBeta(stocksHeld, betaData)-1)*10000)/100
+   }
+
+   const computeRiskToReward = (playerData: any[], stocksHeld: any[], betaData: any[], stockData: any[]) => {
+    return Math.round(computeNumericalTotalReturn(playerData, stockData)/computeRiskPercentage(stocksHeld, betaData)*100)/100
+   }
+
     return (
         <LoadingBoundary query={trpc.gameRouter.getStockDataForGame.useQuery({ shareId: shareId })}>
             {(stockData) => (
@@ -22,15 +39,15 @@ export default function GameLeaderboard({
 
                 <div className="flex flex-col justify-center items-center space-y-[20px] pt-[20px]">
                     <div className="items-center bg-[#131313] rounded-[14px] h-auto pt-5 pb-4 pr-4 w-[75%] max-w-[800px] pl-[20px]">
-                        <p className="text-[20px] font-semibold mb-1 text-[#FBFBFB] pb-[20px]">Achievements</p>
+                        <p className="text-[20px] font-semibold mb-1 text-[#FBFBFB] pb-[20px]">My Achievements</p>
                         <Achievement title={"Read about a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksViewed > 0} />
-                        <Achievement title={"Buy a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 0} />
-                        <Achievement title={"Sell a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 0} />
+                        <Achievement title={"Bought a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 0} />
+                        <Achievement title={"Sold a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 0} />
                         <Achievement title={"Read about 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksViewed > 4} />
                         <Achievement title={"Portfolio up 1%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 1} />
                         <Achievement title={"Portfolio up 5%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 5} />
-                        <Achievement title={"Buy 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 4} />
-                        <Achievement title={"Sell 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 4} isLast={true}/>
+                        <Achievement title={"Bought 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 4} />
+                        <Achievement title={"Sold 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 4} isLast={true} />
                     </div>
                     <p className="font-semibold text-[20px] text-[#2D2D2D] w-[75%] max-w-[800px]">Today&apos;s Leaderboard</p>
                     {
@@ -88,6 +105,37 @@ export default function GameLeaderboard({
                             </div>);
                         })
                     }
+                    <p className="font-semibold text-[20px] text-[#2D2D2D] w-[75%] max-w-[800px]">Risk to Reward Leaderboard</p>
+                    <p className="font-regular text-[16px] text-[#7D7D7D] w-[75%] max-w-[800px]">Part of trading is balancing risk wtih reward. This leaderboard shocases who in your game has been able to get the most return whilst taking on the least amount of risk. The higher the number the better.</p>
+                    <LoadingBoundary query={trpc.gameRouter.getBetaDataForGame.useQuery({ shareId: shareId })}>
+                        {(betaData) => (
+                            gameData.playerData.sort((a: any, b: any) => {
+                                return computeRiskToReward(
+                                    b, mergeStocks(b.stocksHeld ?? []), mergeStocks(betaData), stockData
+                                ) - computeRiskToReward(
+                                    a, mergeStocks(a.stocksHeld ?? []), mergeStocks(betaData), stockData
+                                )
+                            }).map((player: any, index: number) => {
+                                return (<div key={index} className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[75%] max-w-[800px]">
+                                    <div className="flex flex-row items-center">
+                                        <p className={`text-[22px] font-bold mb-1 ${index == 0 ? "text-[#CEB04E]" : index == 1 ? "text-[#C0C0C0]" : index == 2 ? "text-[#91754B]" : "text-[#ABABAB]"} pl-4`} >#{index + 1}</p>
+                                        <div className="flex flex-grow flex-row pl-4 h-full items-center">
+                                            <img
+                                                src={gameData.users.find(
+                                                    (item: any) => item.id === player.userId
+                                                ).imageUrl}
+                                                className="w-[30px] h-[30px] rounded-full object-cover"
+                                            />
+                                            <p className="text-[18px] font-bold text-[#FBFBFB] pl-2" >{getNameForPlayer(gameData.users.find((item: any) => item.id === player.userId))}</p>
+                                        </div>
+                                        <p className={`text-[18px] font-semibold text-[#FBFBFB] pl-2`} >{computeRiskToReward(
+                                    player, mergeStocks(player.stocksHeld ?? []), mergeStocks(betaData), stockData)}</p>
+                                    </div>
+                                </div>);
+                            })
+                        )}
+                    </LoadingBoundary>
+                    <div className="h-[20px]"></div>
                 </div>
             )}
         </LoadingBoundary>
