@@ -39,7 +39,7 @@ export async function uploadAvatar(avatarFile: any) {
     return { error: "No file" };
   }
 
-  const upload = await supabase.storage.from('avatars').update(`pfps/${session.user.email}.png`, avatarFile, {
+  const upload = await supabase.storage.from('avatars').upload(`pfps/${session.user.email}.png`, avatarFile, {
     cacheControl: '3600',
     upsert: true
   });
