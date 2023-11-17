@@ -151,13 +151,13 @@ const Achievement = ({ title, isMet, isLast = false }: AchievementProps) => {
     return (
         <>
             <div className="flex flex-row items-center mt-2">
-                <div className="relative">
+                <div className="flex">
                     <div className={`w-[22px] h-[22px] rounded-full border-2 border-gray-500 ${isMet ? "bg-indigo-500" : null}`}></div>
-                    {isMet ? <p className="absolute top-[3px] left-[5.75px] text-white font-bold text-[12px]">✓</p> : null}
+                    {isMet ? <p className="mt-[2.5px] ml-[-16.5px] text-white font-bold text-[12px]">✓</p> : <p className="mt-[2.5px] ml-[-16.5px] text-clear font-bold text-[12px]">✓</p>}
                 </div>
-                <p className="text-[16px] font-semibold text-[#DBDBDB] pl-[10px] flex flex-grow">{title}</p>
+                <p className="text-[16px] font-semibold text-[#DBDBDB] pl-[15px] flex flex-grow">{title}</p>
             </div>
-            <div className={`flex h-[2px] mt-4 mb-4 mr-[20px] ml-[20px] ${!isLast ? "bg-gray-800" : null}`}></div>
+            <div className={`flex h-[2px] mt-4 mb-4 mr-[20px] ml-[31.5px] ${!isLast ? "bg-gray-800" : null}`}></div>
         </>
     );
 }
