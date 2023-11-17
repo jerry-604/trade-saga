@@ -28,7 +28,9 @@ export default function GameLeaderboard({
                         <Achievement title={"Sell a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 0} />
                         <Achievement title={"Read about 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksViewed > 4} />
                         <Achievement title={"Portfolio up 1%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 1} />
-                        <Achievement title={"Portfolio up 5%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 5} isLast={true} />
+                        <Achievement title={"Portfolio up 5%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 5} />
+                        <Achievement title={"Buy 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 4} />
+                        <Achievement title={"Sell 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 4} isLast={true}/>
                     </div>
                     <p className="font-semibold text-[20px] text-[#2D2D2D] w-[75%] max-w-[800px]">Today&apos;s Leaderboard</p>
                     {
@@ -53,7 +55,7 @@ export default function GameLeaderboard({
                                     </div>
                                     <p className={`text-[18px] font-semibold ${computeDailyChangeForPlayer(player, stockData) >= 0 ? "text-green-400" : "text-red-400"} pl-2`} >{computePercentDailyChangeForPlayer(player, stockData)}%</p>
                                     <p className="text-[18px] font-bold text-[#A2A2A2] pl-2" >|</p>
-                                    <p className="text-[18px] font-bold text-[#FBFBFB] pl-2" >${computeDailyChangeForPlayer(player, stockData)}</p>
+                                    <p className="text-[18px] font-bold text-[#FBFBFB] pl-2" > {computeDailyChangeForPlayer(player, stockData) < 0 ? "-" : null}${Math.abs(computeDailyChangeForPlayer(player, stockData))}</p>
                                 </div>
                             </div>);
                         })
