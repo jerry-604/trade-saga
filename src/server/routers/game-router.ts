@@ -170,7 +170,7 @@ export const gameRouter = router({
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
                 const data = await response.json();
-                const genData: GeneratedStockData = { symbol: p.symbol, price: data.current_price }
+                const genData: GeneratedStockData = { symbol: p.symbol, price: data.current_price, change: data.change }
                 return genData;
             })
         );
@@ -279,7 +279,7 @@ export const gameRouter = router({
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
                 const data = await response.json();
-                const genData: GeneratedStockData = { symbol: p.symbol, price: data.current_price }
+                const genData: GeneratedStockData = { symbol: p.symbol, price: data.current_price, change: data.change }
                 return genData;
             })
         );
@@ -322,6 +322,7 @@ export const gameRouter = router({
 export type GeneratedStockData = {
     symbol: string;
     price: number;
+    change: number;
 };
 
 export type GeneratedBetaData = {

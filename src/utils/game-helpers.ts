@@ -59,6 +59,31 @@ export const computeTotalReturn = (playerData: any, stockData: any) => {
     return securitiesTotal+cash;
   };
 
+
+  export const computeDailyChangeForPlayer = (playerData: any, stockData: any) => {
+    let securitiesTotal = 0;
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.change ?? 1);
+    }
+    console.log(securitiesTotal, playerData.id, "ZK")
+    return Math.round(securitiesTotal*100)/100;
+  };
+
+  export const computePercentDailyChangeForPlayer = (playerData: any, stockData: any) => {
+    let securitiesTotal = 0;
+    let changeTotal = 0;
+    const cash = playerData.cashBalance;
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      changeTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.change ?? 1);
+    }
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
+    }
+    securitiesTotal+=cash;
+    return Math.round((securitiesTotal - (securitiesTotal-changeTotal))/(securitiesTotal-changeTotal)*10000)/100
+  };
+
+
   export const computeCashGainForPlayer = (playerData: any, stockData: any) => {
     return kFormatter(computeStockBalance(playerData, stockData));
   }
