@@ -106,7 +106,7 @@ export default function GameLeaderboard({
                         })
                     }
                     <p className="font-semibold text-[20px] text-[#2D2D2D] w-[75%] max-w-[800px]">Risk to Reward Leaderboard</p>
-                    <p className="font-regular text-[16px] text-[#7D7D7D] w-[75%] max-w-[800px]">Part of trading is balancing risk wtih reward. This leaderboard shocases who in your game has been able to get the most return whilst taking on the least amount of risk. The higher the number the better.</p>
+                    <p className="font-regular text-[16px] text-[#7D7D7D] w-[75%] max-w-[800px]">Part of trading is balancing risk with reward. This leaderboard showcases who in your game has been able to get the most return whilst taking on the least amount of risk. The higher the number the better.</p>
                     <LoadingBoundary query={trpc.gameRouter.getBetaDataForGame.useQuery({ shareId: shareId })}>
                         {(betaData) => (
                             gameData.playerData.sort((a: any, b: any) => {
