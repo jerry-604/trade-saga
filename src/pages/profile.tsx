@@ -84,6 +84,7 @@ export default function Profile() {
   } else {
     return <div>
       <h1>Profile Settings</h1>
+      {/* @ts-ignore */}
       <Image src={user.data.imageUrl} width={100} height={100} alt="profile picture" />
 
       {JSON.stringify(user)}
