@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getSession, signOut, uploadAvatar } from "../utils/supabase";
+import Image from "next/image";
 
 import { trpc } from "../utils/trpc";
 
@@ -10,6 +11,8 @@ export default function Profile() {
   const [image, setImage] = useState();
   const [error, setError] = useState("");
   const mutation = trpc.userRouter.uploadImage.useMutation();
+  const query = trpc.userRouter.getUser.useQuery();
+  const [user, setUser] = useState({});
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -19,24 +22,29 @@ export default function Profile() {
       return;
     }
 
-    const data = await uploadAvatar(image);
-    if (data.error) {
-      setError(data.error.toString);
-      console.error('Upload error:', data.error.toString);
-    } else {
-      console.log('Upload successful:', data);
-      mutation.mutate(
-        {
-          imageUrl: data.data.signedUrl
-        },
-        {
-          onSuccess: (data) => {
-            window.location.href = "/dashboard";
+    try {
+      const data = await uploadAvatar(image);
+      if (data.error) {
+        setError(data.error.toString);
+        console.error('Upload error:', data.error.toString);
+      } else {
+        console.log('Upload successful:', data);
+        mutation.mutate(
+          {
+            // @ts-ignore
+            imageUrl: data.data.signedUrl
           },
-          onError: (error) => {
-            setError(error.message);
-          },
-        });
+          {
+            onSuccess: (data) => {
+              window.location.href = "/dashboard";
+            },
+            onError: (error) => {
+              setError(error.message);
+            },
+          });
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -45,6 +53,7 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    setUser(query);
     getSession().then(({ data: { session }, error }) => {
       if (error) {
         setError(error.message);
@@ -61,15 +70,28 @@ export default function Profile() {
   }
 
   if (Object.keys(session).length === 0) {
+    return (
+      <div>
+        <p>Please log in to see profile settings</p>
+        <button onClick={() => window.location.href = "/login"}>Login</button>
+
+        <div>
+          <h2>[Other Settings Go Here Maybe Probably]</h2>
+        </div>
+      </div>
+    );
     window.location.href = "/login";
   } else {
     return <div>
       <h1>Profile Settings</h1>
+      <Image src={user.data.imageUrl} width={100} height={100} alt="profile picture" />
+
+      {JSON.stringify(user)}
       {/* @ts-ignore */}
-      {JSON.stringify(session.user.email)}
+      <p>Email: {JSON.stringify(session.user.email)}</p>
       {error && <p>{JSON.stringify(error)}</p>}
       <form onSubmit={handleSubmit}>
-        <h1>Upload Image</h1>
+        <h2>Update Profile Picture</h2>
 
         <input
           onChange={handleChange}
