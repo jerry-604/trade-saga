@@ -362,6 +362,21 @@ export const gameRouter = router({
         );
         return betaData;
     }),
+    readingOccured: publicProcedure.input(z.object({ gamePlayerId: z.number()})).mutation(async ({ ctx, input }) => {
+        const user = ctx.user;
+        const userId = user.id;
+        const updatePlayer = await prisma.gamePlayer.update({
+            where: {
+                id: input.gamePlayerId,
+            },
+            data: {
+                stocksViewed: {
+                    increment: 1,
+                },
+            },
+        })
+        return updatePlayer;
+    }),
 });
 
 export type GeneratedStockData = {

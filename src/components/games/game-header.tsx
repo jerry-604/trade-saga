@@ -1,6 +1,7 @@
 import { getFormattedDate } from "@/src/utils/game-helpers";
 import { backgroundForGame } from "../../utils/game-helpers"
 import React, { useState, useEffect } from 'react';
+import { trpc } from "@/src/utils/trpc"
 
 type Props = {
   user: any
@@ -22,6 +23,8 @@ export default function GameHeader({
   const [showModal, setShowModal] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
+  const mutation = trpc.gameRouter.readingOccured.useMutation();
+
   useEffect(() => {
     if (searchValue.length > 0) {
       fetch(`/api/search?query=${searchValue}`)
@@ -41,6 +44,10 @@ export default function GameHeader({
       setShowModal(false);
     }
   }, [searchValue]);
+
+  const updateReading = () => {
+mutation.mutate({gamePlayerId: gameData.playerData.find((item: any) => item.userId == user.id).id})
+  }
 
   return (
     <div className={`bg-[url('/${backgroundForGame(gameData.coverImageId)}')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px] border-b-[2px] border-[#CDCDCD]`}>
@@ -80,6 +87,7 @@ export default function GameHeader({
                     onSymbolChange(result.symbol)
                     setShowModal(false); // Hide the modal after selecting
                     setShowStockModal(true);
+                    updateReading();
                   }
                   }
                 >
