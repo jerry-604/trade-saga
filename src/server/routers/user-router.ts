@@ -1,10 +1,7 @@
 import { publicProcedure, router } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma';
-import { uploadImage } from "../../utils/cloudinary";
-import bcrypt from 'bcryptjs';
-import { signUp } from '@/src/utils/supabase';
-import { signIn } from '@/src/utils/supabase';
+import { getSession, signUp } from '@/src/utils/supabase';
 import { TRPCError } from '@trpc/server';
 
 export const userRouter = router({
@@ -108,6 +105,31 @@ export const userRouter = router({
     }
 
     return data;
+  }),
+  validateOAuthUser: publicProcedure.input(z.any()).mutation(async (opts) => {
+    console.log(opts);
+    if (!opts.input) {
+      return;
+    }
+    const existing = await prisma.user.findUnique({
+      where: {
+        email: opts.input
+      }
+    });
+    if (!existing) {
+      await prisma.user.create({
+        data: {
+          email: opts.input,
+          name: opts.input.split("@")[0] + (Math.floor(Math.random() * 10000)),
+          Fname: opts.input.split("@")[0],
+          Lname: opts.input.split("@")[0],
+          role: "user",
+          dollars: 0,
+        }
+      });
+    }
+    console.log(existing);
+    return {};
   }),
   getUserFromContext: publicProcedure
     .query(async ({ ctx }) => {

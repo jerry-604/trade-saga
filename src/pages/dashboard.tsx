@@ -12,12 +12,22 @@ export default function Dashboard() {
   const [user, setUser] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const mutation = trpc.userRouter.validateOAuthUser.useMutation();
 
   useEffect(() => {
     getSession().then(({ data: { session }, error }) => {
       if (error) {
         setError(error.message);
       }
+      console.log(session);
+      mutation.mutate(session?.user.email, {
+        onSuccess: (data) => {
+          console.log(`ValidateOAuthUserSucces: ${data}`);
+        },
+        onError: (error) => {
+          console.error(error);
+        }
+      });
       setSession(session || {});
       setUser(session?.user || {});
       setLoading(false);
