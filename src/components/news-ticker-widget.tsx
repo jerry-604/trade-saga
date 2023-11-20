@@ -152,7 +152,7 @@ export default function NewsTickerWidget({
                 "showSymbolLogo": true,
                 "colorTheme": "light",
                 "isTransparent": false,
-                "displayMode": "compact",
+                "displayMode": "regular",
                 "locale": "en"
               }`;
             if (container.current) {
