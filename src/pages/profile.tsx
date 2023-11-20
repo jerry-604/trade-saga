@@ -60,6 +60,10 @@ export default function Profile() {
     setLname(e.target.value);
   };
 
+  const handleNameChanges = async () => {
+    console.log("in handle name changes");
+  };
+
   useEffect(() => {
     setUser(query);
     getSession().then(({ data: { session }, error }) => {
@@ -114,6 +118,7 @@ export default function Profile() {
       <div>
         <input onChange={handleFNameChange} value={Fname} placeholder="first name"></input>
         <input onChange={handleLNameChange} value={Lname} placeholder="last name"></input>
+        <button onClick={handleNameChanges}>Submit Changes</button>
       </div>
     </div>;
   }
