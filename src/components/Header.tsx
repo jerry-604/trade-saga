@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
 
 
   return (
-    <div className="flex items-center justify-between p-4 bg-white shadow-md top-0 sticky">
+    <div className="flex items-center justify-between p-4 bg-white shadow-md top-0 sticky z-50">
       <div className="relative">
         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <InputBase
@@ -47,11 +47,11 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
         
       />
       {showModal && isInputFocused && (
-        <div onMouseDown={(e) => e.preventDefault()}  className="absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-[9999999999999999999999999999999999]">
+        <div onMouseDown={(e) => e.preventDefault()}  className="absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50">
           {searchResults.map((result) => (
             <div
               key={result.id}
-              className="flex items-center p-2 hover:bg-gray-100 z-[9999999999999999999999999999999999]"
+              className="flex items-center p-2 hover:bg-gray-100 z-50"
               onClick={() => 
                 {onSymbolChange(result.symbol)
                 setShowModal(false); // Hide the modal after selecting

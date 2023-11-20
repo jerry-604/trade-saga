@@ -43,7 +43,7 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ symbol }) => {
             style: "1",
             locale: "en",
             enable_publishing: false,
-            allow_symbol_change: true,
+            // allow_symbol_change: true,
             container_id: "tradingview_e76e3"
         });
     }

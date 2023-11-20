@@ -15,7 +15,8 @@ import Layout from '../components/layout';
 export default function HomePage() {
   const [symbol, setSymbol] = useState('AAPL');
   const [trendingStocks, setTrendingStocks] = useState([]);
-  // console.log(getTrendingStocks());
+  const [recentluViewedStocks, setRecentlyViewedStocks] = useState([]);
+  console.log(trendingStocks);
 
 const handleSymbolChange = (newSymbol: string) => {
   setSymbol(newSymbol);
@@ -31,6 +32,14 @@ useEffect(() => {
     .catch((error) => {
       console.error('Failed to fetch trending stocks:', error);
     });
+  fetch('/api/recentlyViewedStocks')
+    .then((res) => res.json())
+    .then((data) => {
+      setRecentlyViewedStocks(data);
+    })
+    .catch((error) => {
+      console.log('Failed to fetch recently viewed stocks:', error);
+    });
 }, []);
 
 
@@ -42,14 +51,16 @@ useEffect(() => {
         <h2 className="ml-4 my-5 font-extrabold text-xl">Stock Dashboard</h2>
         <StockSummary stocks={trendingStocks} />
       </div>
-      <Grid container spacing={5}>
-        <Grid item md={8}>
-    <TradingViewWidget symbol={symbol} />
-        </Grid>
-        <Grid item md={4}>
-          <RecentlyViewedStocks stocks={sampleStocks} />
-        </Grid>
-      </Grid>
+
+  <Grid container spacing={5}>
+    <Grid item md={8} className="min-h-[500px]">
+      <TradingViewWidget symbol={symbol} />
+    </Grid>
+    <Grid item md={4} className="min-h-[500px]">
+      <RecentlyViewedStocks stocks={recentluViewedStocks} />
+    </Grid>
+  </Grid>
+
     </div>
     </>
   );

@@ -2,20 +2,18 @@ import React, { useState } from 'react';
 import Sidebar from './sidebar';
 
 export default function Layout({ children }) {
-  const [sidebarWidth, setSidebarWidth] = useState('300px'); // default sidebar width
-
+  const [sidebarWidth, setSidebarWidth] = useState(300); // default sidebar width in pixels
 
   const toggleSidebar = () => {
-    setSidebarWidth(currentWidth => currentWidth === '300px' ? '70px' : '300px'); // toggle between expanded and collapsed widths
+    setSidebarWidth(sidebarWidth === 300 ? 70 : 300); // Toggle between 300px and 70px
   };
 
   return (
     <div className="flex h-screen bg-[#F5F7F9]">
-
-      <div className="flex-none" style={{  zIndex: 1000 }}>
+      <div style={{ zIndex: 1000 }}>
         <Sidebar onToggleSidebar={toggleSidebar} />
       </div>
-      <main className={`flex-grow overflow-auto  pr-0 pt-0 duration-300 transition-ml ml-[${sidebarWidth}]`} >
+      <main className="flex-grow overflow-auto pr-0 pt-0 transition-all duration-300" style={{ marginLeft: `${sidebarWidth}px` }}>
         {children}
       </main>
     </div>

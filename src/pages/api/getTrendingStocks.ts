@@ -1,4 +1,3 @@
- // You might need to install 'node-fetch' to use fetch in a Node environment.
 import fetch from 'node-fetch';
 
 interface WealthbaseDetails {
@@ -42,20 +41,18 @@ async function getTrendingStocks(): Promise<TrendingStock[]> {
   const detailsPromises = symbols.map(symbol => getWealthbaseDetails(symbol));
   const details = await Promise.all(detailsPromises);
 
-  // Assuming you have a way to fetch the share price and movementData from somewhere.
-  // Here we're just creating dummy data for illustration.
+
   const trendingStocks: TrendingStock[] = details.map(detail => ({
     stockName: detail.display_symbol,
-    sharePrice: detail.current_price, // Placeholder, you'll need actual data
+    sharePrice: detail.current_price, 
     movement: detail.change_percent,
     logo: detail.logo_url,
-    movementData: [], // Placeholder, you'll need actual data
+    movementData: detail.historical_data, 
   }));
 
   return trendingStocks;
 }
 
-// Run the function and log the output
-getTrendingStocks().then(console.log);
+
 
 export default getTrendingStocks;
