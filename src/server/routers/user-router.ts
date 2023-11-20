@@ -106,7 +106,7 @@ export const userRouter = router({
 
     return data;
   }),
-  validateOAuthUser: publicProcedure.input(z.any()).mutation(async (opts) => {
+  validateOAuthUser: publicProcedure.input(z.string()).mutation(async (opts) => {
     console.log(opts);
     if (!opts.input) {
       return;
