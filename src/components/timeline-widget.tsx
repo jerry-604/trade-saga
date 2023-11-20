@@ -13,7 +13,7 @@ export default function TimelineWidget({
       {
         "feedMode": "all_symbols",
         "colorTheme": "light",
-        "isTransparent": false,
+        "isTransparent": true,
         "displayMode": "regular",
         "width": "100%",
         "height": "100%",
@@ -28,7 +28,7 @@ export default function TimelineWidget({
     );
 
     return (
-        <div className="h-full">
+        <div className="h-full bg-white rounded-[14px] p-4">
             <div className="tradingview-widget-container" ref={container}>
             </div>
         </div>

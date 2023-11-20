@@ -17,7 +17,7 @@ export default function NewsMarketOverviewWidget({
                 "width": "100%",
                 "height": "100%",
                 "largeChartUrl": "",
-                "isTransparent": false,
+                "isTransparent": true,
                 "showSymbolLogo": true,
                 "showFloatingTooltip": false,
                 "plotLineColorGrowing": "rgba(41, 98, 255, 1)",
@@ -157,7 +157,7 @@ export default function NewsMarketOverviewWidget({
     );
 
     return (
-        <div className="h-full">
+        <div className="h-full bg-white rounded-[14px] p-4">
             <div className="tradingview-widget-container" ref={container}>
             </div>
         </div>

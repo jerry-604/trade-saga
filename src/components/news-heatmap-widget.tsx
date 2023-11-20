@@ -23,7 +23,8 @@ export default function NewsHeatmapWidget({
                 "isZoomEnabled": true,
                 "hasSymbolTooltip": true,
                 "width": "100%",
-                "height": "100%"
+                "height": "100%",
+                "isTransparent": true,
               }`;
             if (container.current) {
                 container.current.innerHTML = "";

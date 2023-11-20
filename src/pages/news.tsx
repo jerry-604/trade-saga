@@ -9,20 +9,18 @@ import NewsTickerWidget from "../components/news-ticker-widget"
 import NewsHeatmapWidget from "../components/news-heatmap-widget";
 import NewsMarketOverviewWidget from "../components/news-marketoverview-widget";
 export default function News() {
-  return (  
+  return (
     <div>
       <NewsTickerWidget />
-    {/* <div className="container mx-auto px-4"> */}
-    <div className="grid grid-cols-2 w-full">
-        <div className="p-6 h-[1000px]">
+      <div className="grid grid-cols-2 w-full">
+        <div className="p-6 h-screen min-h-[1000px]">
           <TimelineWidget />
         </div>
-        <div className="p-6 h-[1000px]">
+        <div className="p-6 h-screen min-h-[1000px]">
           <NewsMarketOverviewWidget />
         </div>
+      </div>
     </div>
-{/* </div> */}
-</div>
   );
 }
 
