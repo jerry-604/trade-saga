@@ -25,7 +25,7 @@ export const userRouter = router({
 
     return result;
   }),
-  createUser: publicProcedure.input(z.object({ name: z.string(), Fname: z.string(), Lname: z.string(), email: z.string(), password: z.string(), confirmPassword: z.string() })).mutation(async (opts) => {
+  createUser: publicProcedure.input(z.object({ Fname: z.string(), Lname: z.string(), email: z.string(), password: z.string(), confirmPassword: z.string() })).mutation(async (opts) => {
     const input = opts.input;
 
     for (const field of Object.values(input)) {
@@ -47,18 +47,7 @@ export const userRouter = router({
     // Check if user already exists
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          {
-            name: {
-              equals: input.name
-            }
-          },
-          {
-            email: {
-              equals: input.email
-            }
-          }
-        ]
+        email: input.email
       },
     });
 
@@ -71,7 +60,6 @@ export const userRouter = router({
 
     const result = await prisma.user.create({
       data: {
-        name: input.name,
         Fname: input.Fname,
         Lname: input.Lname,
         email: input.email,
@@ -120,7 +108,6 @@ export const userRouter = router({
       await prisma.user.create({
         data: {
           email: opts.input,
-          name: opts.input.split("@")[0] + (Math.floor(Math.random() * 10000)),
           Fname: opts.input.split("@")[0],
           Lname: opts.input.split("@")[0],
           role: "user",
