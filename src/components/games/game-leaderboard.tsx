@@ -21,7 +21,7 @@ export default function GameLeaderboard({
         for (let i = 0; i < stocksHeld.length; i++) {
             beta += betaData.find((item) => item.symbol == stocksHeld[i].symbol).beta;
         }
-        return stocksHeld.length == 0 ? 1 : beta / stocksHeld.length;
+        return stocksHeld.length == 0 ? 2 : beta / stocksHeld.length;
     }
 
    const computeRiskPercentage = (stocksHeld: any[], betaData: any[]) => {
@@ -29,7 +29,8 @@ export default function GameLeaderboard({
    }
 
    const computeRiskToReward = (playerData: any[], stocksHeld: any[], betaData: any[], stockData: any[]) => {
-    return Math.round(computeNumericalTotalReturn(playerData, stockData)/computeRiskPercentage(stocksHeld, betaData)*100)/100
+       console.log(computeNumericalTotalReturn(playerData, stockData), computeRiskPercentage(stocksHeld, betaData));
+    return computeRiskPercentage(stocksHeld, betaData) == 100 ? 0 : Math.round((computeNumericalTotalReturn(playerData, stockData)*100)/computeRiskPercentage(stocksHeld, betaData)*10000)/100
    }
 
     return (
