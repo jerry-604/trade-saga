@@ -110,6 +110,11 @@ export default function Profile() {
 
         <input className="cursor-pointer" type="submit" value="Upload" />
       </form>
+
+      <div>
+        <input onChange={handleFNameChange} value={Fname} placeholder="first name"></input>
+        <input onChange={handleLNameChange} value={Lname} placeholder="last name"></input>
+      </div>
     </div>;
   }
 
