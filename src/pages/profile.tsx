@@ -16,9 +16,8 @@ export default function Profile() {
   const query = trpc.userRouter.getUser.useQuery();
   const [user, setUser] = useState({});
 
-  const handleSubmit = async (e: any) => {
+  const handleImageUpload = async (e: any) => {
     e.preventDefault();
-    console.log("In handle submit");
 
     if (!image) {
       return;
@@ -50,7 +49,7 @@ export default function Profile() {
     }
   };
 
-  const handleChange = (event: any) => {
+  const handleImageChange = (event: any) => {
     setImage(event.target.files[0]);
   };
 
@@ -100,11 +99,11 @@ export default function Profile() {
       {/* @ts-ignore */}
       <p>Email: {JSON.stringify(session.user.email)}</p>
       {error && <p>{JSON.stringify(error)}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleImageUpload}>
         <h2>Update Profile Picture</h2>
 
         <input
-          onChange={handleChange}
+          onChange={handleImageChange}
           accept=".jpg, .png, .jpeg"
           type="file"
         ></input>
