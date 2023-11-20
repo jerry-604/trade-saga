@@ -13,7 +13,6 @@ datasource db {
 
 model User {
   id           Int          @id @default(autoincrement())
-  name         String       @unique
   Fname        String
   Lname        String
   email        String       @unique
@@ -46,16 +45,16 @@ model Game {
 }
 
 model GamePlayer {
-  id          Int            @id @default(autoincrement())
-  user        User           @relation(fields: [userId], references: [id])
-  userId      Int
-  stocksHeld  StockHolding[]
-  cashBalance Float
-  game        Game           @relation(fields: [gameID], references: [id])
-  gameID      Int
-  stocksViewed Int @default(0)
-  stocksBought Int @default(0)
-  stocksSold Int @default(0)
+  id           Int            @id @default(autoincrement())
+  user         User           @relation(fields: [userId], references: [id])
+  userId       Int
+  stocksHeld   StockHolding[]
+  cashBalance  Float
+  game         Game           @relation(fields: [gameID], references: [id])
+  gameID       Int
+  stocksViewed Int            @default(0)
+  stocksBought Int            @default(0)
+  stocksSold   Int            @default(0)
 }
 
 model StockHolding {

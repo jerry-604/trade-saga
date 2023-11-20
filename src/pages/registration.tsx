@@ -4,7 +4,6 @@ import Image from "next/image";
 import { signIn } from "../utils/supabase";
 
 export default function Registration() {
-  const [name, setName] = useState('');
   const [Fname, setFname] = useState('');
   const [Lname, setLname] = useState('');
   const [email, setEmail] = useState('');
@@ -14,9 +13,6 @@ export default function Registration() {
 
   const mutation = trpc.userRouter.createUser.useMutation();
 
-  const handleNameChange = (e: any) => {
-    setName(e.target.value);
-  };
   const handleFnameChange = (e: any) => {
     setFname(e.target.value);
   };
@@ -38,7 +34,7 @@ export default function Registration() {
 
     mutation.mutate(
       {
-        name, Fname, Lname, email, password, confirmPassword
+        Fname, Lname, email, password, confirmPassword
       },
       {
         onSuccess: async (data) => {
@@ -60,10 +56,6 @@ export default function Registration() {
           <div className="w-[600px] h-[700px] bg-white rounded-lg z-10">
             <p className="flex justify-center mt-[50px] text-xl font-bold
              text-shadow bg-black-100 z-20">Create your TradeSaga Account</p>
-            <div className="flex justify-center mt-[50px] z-20">
-              <input onChange={handleNameChange} type="text" placeholder="Username"
-                className="w-[400px] h-[40px] rounded shadow-inner bg-gray-200 pl-[10px]"></input>
-            </div>
             <div className="flex justify-center mt-[30px] z-20">
               <input onChange={handleEmailChange} type="text" placeholder="Email"
                 className="w-[400px] h-[40px] rounded shadow-inner bg-gray-200 pl-[10px]"></input>
