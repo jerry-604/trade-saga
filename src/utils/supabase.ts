@@ -28,3 +28,42 @@ export function signInWithOAuth(provider: 'google' | 'github') {
     }
   });
 }
+
+export async function uploadAvatar(avatarFile: any) {
+  const { data: { session }, error } = await getSession();
+  if (!session) {
+    return { error: "No session" };
+  }
+
+  if (!avatarFile) {
+    return { error: "No file" };
+  }
+
+  const upload = await supabase.storage.from('avatars').upload(`pfps/${session.user.email}.png`, avatarFile, {
+    cacheControl: '3600',
+    upsert: true
+  });
+
+  if (upload.error) {
+    return { error: "Could not upload image" };
+  }
+
+  return supabase
+    .storage
+    .from('avatars')
+    .createSignedUrl(upload.data.path, 60 * 60 * 24 * 7 * 52 * 10);
+}
+
+export async function initializeAvatar(avatarFile: any, email: string) {
+  return supabase.storage.from('avatars').upload(`pfps/${email}.png`, avatarFile, {
+    cacheControl: '3600',
+    upsert: false
+  });
+}
+
+export async function deleteAvatar(email: string) {
+  return supabase
+    .storage
+    .from('avatars')
+    .remove([`pfps/${email}.png`]);
+}

@@ -4,160 +4,228 @@ import PropTypes from "prop-types";
 import React from "react";
 import Layout from "../../components/layout";
 import type { ReactElement } from "react";
-import { useRouter } from 'next/router';
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { MultiQueryLoadingBoundary } from "@/src/components/multi-query-loading-boundary";
+import { compareAsc, format } from "date-fns";
 import { LoadingBoundary } from "@/src/components/loading-boundary";
+
+import GameHeader from '../../components/games/game-header'
+import GameNavBar from '../../components/games/game-navbar'
+import GameUserInfo from '../../components/games/game-user-info'
+import GameCreatePost from '../../components/games/game-create-post'
+import GameFeed from "../../components/games/game-feed";
+import GameTradingPage from "@/src/components/games/game-trading-page";
+import MarketMoversWidget from "../../components/games/market-movers-widget"
+import GameSearchModal from "../../components/games/game-search-modal"
+import {
+  computeTotalReturn,
+} from "@/src/utils/game-helpers";
+import GamePortfolio from "@/src/components/games/game-portfolio-page";
+import GameLeaderboard from "@/src/components/games/game-leaderboard";
+import TickerTapeWidget from "@/src/components/games/ticker-tape-widget";
+import GameAnalysis from "@/src/components/games/game-analysis-page";
 
 export default function GamePage() {
   const { query } = useRouter();
   const id = query.id as string;
-  const [postText, setPostText] = useState('');
+  const [postText, setPostText] = useState("");
+  const [isTrading, setIsTrading] = useState(false);
+  const utils = trpc.useContext();
+  const getFormattedDate = (input: Date) => {
+    return format(input, "MMMM dd");
+  };
+  //we should acutally use user object in the future, but any is ok for now.
+
+
+  const { mutate, isLoading } = trpc.gameRouter.createPost.useMutation({
+    onSuccess: () => {
+      utils.gameRouter.fetchGameWithId.invalidate();
+      setPostText("");
+    },
+  });
+
+  const createPost = (gameID: number, content: string) => {
+    mutate({
+      gameID,
+      content,
+    });
+  };
+
+  const [isSticky, setIsSticky] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const openModal = () => setIsModalOpen(true);
+
+  const handleScroll = () => {
+    // Assuming you have a ref to your navbar element
+    const navbar = document.getElementById("navbar");
+    // Get the top position of the navbar
+    if (navbar) {
+      const topPosition = navbar.getBoundingClientRect().top;
+
+      // Check if the navbar is at the top of the viewport
+      setIsSticky(topPosition <= 0);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleSymbolChange = (newSymbol: string) => {
+    setSymbol(newSymbol);
+  };
+
+  const [symbol, setSymbol] = useState("AAPL");
+
+
+  const joinMutation = trpc.gameRouter.joinGame.useMutation({
+    onSuccess: () => {
+      utils.gameRouter.fetchGameWithId.invalidate();
+      utils.gameRouter.getStockDataForPlayer.invalidate();
+      utils.gameRouter.getGameStatus.invalidate()
+    },
+  });
+
+  const joinGame = (
+    shareId: string,
+  ) => {
+    joinMutation.mutate({
+      shareId: shareId,
+    });
+  };
+
   return (
-    <LoadingBoundary query={trpc.gameRouter.fetchGameWithId.useQuery({
-      shareId: id,
-    })}>
-      {(gameData) => (
-    <div className="flex flex-col space-y-0">
-      <div className="bg-[url('/game-background-1.png')] bg-cover bg-no-repeat bg-left h-[260px] p-5 pl-[30px]">
-        <div className="flex justify-between items-center mb-4">
-          <div className="relative">
-            <input
-              className="bg-[#F5F7F9] p-2 pl-10 rounded-[8px] focus:outline-none w-[360px] text-medium border-[1px] border-[#E2E2E2]"
-              type="text"
-              placeholder="Search for a stock..."
-            />
-            <svg
-              className="absolute left-3 top-3 w-5 h-5 text-gray-500"
-              fill="none"
-              stroke="#949494"
-              viewBox="0 0 24 24"
+    <LoadingBoundary query={
+      trpc.gameRouter.getGameStatus.useQuery({ shareId: id })
+    }>
+      {([gameExists, userExists, isOngoing]) => (
+        gameExists ? (
+          userExists ? (
+            <MultiQueryLoadingBoundary
+              queries={trpc.useQueries((t) => [
+                t.gameRouter.fetchGameWithId({ shareId: id }),
+                t.gameRouter.getStockDataForPlayer({ shareId: id }),
+                t.userRouter.getUserFromContext(),
+              ])}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-6a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </div>
-          <header className="flex items-center">
-            <img
-              src="/create-background.png"
-              alt="User"
-              className="rounded-full w-10 h-10 mr-4"
-            />
-            <span className="font-semibold">TradeSaga Player</span>
-          </header>
-        </div>
-        <div className="mb-4 mt-14">
-          <h1 className="text-[28px] font-semibold">{gameData?.name ?? ""}</h1>
-          <p className="text-gray-600 text-[20px]">Hosted by {gameData?.creator?.name ?? ""} | October 5 - October 19</p>
-        </div>
-      </div>
+              {([gameData, stockData, user]) => (
+                <div>
+                  <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user} />
+                  <div className="flex flex-col space-y-0">
+                    {
+                      !isTrading ? (
+                        <>
+                          <GameHeader user={user} gameData={gameData} showStockModal={isModalOpen} setShowStockModal={setIsModalOpen} onSymbolChange={handleSymbolChange} />
+                          <GameNavBar isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                          <PageForTab input={selectedTab} user={user} gameData={gameData} stockData={stockData} createPost={createPost} postText={postText} setPostText={setPostText} shareId={id} />
+                        </>
+                      ) : (
+                        <GameTradingPage user={user} gameData={gameData} stockData={stockData} setIsTrading={setIsTrading} />
+                      )
+                    }
+                  </div>
+                </div>
+              )}
+            </MultiQueryLoadingBoundary>
+          ) : (
+            <div className="grid h-screen place-items-center">
+              <div className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[800px]">
 
-      <div className="flex space-x-[30px] mb-4 bg-white p-5 pl-[30px] border-t-[2px] border-[#CDCDCD]">
-        <ActionButton onClick={() => console.log()} action={"Activity"} selected={true} />
-        <ActionButton onClick={() => console.log()} action={"Leaderboard"} selected={false} />
-        <ActionButton onClick={() => console.log()} action={"Performance"} selected={false} />
-        <ActionButton onClick={() => console.log()} action={"Portfolio"} selected={false} />
-        <TradeButton onClick={() => console.log()} />
-      </div>
-      <div className="flex justify-between p-8">
-        <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] w-[250px] h-[330px]">
-          <img
-            src="/create-background.png"
-            className="w-[64px] h-[64px] rounded-full mb-4"
-          />
-          <p className="text-[14px] font-semibold mb-1 text-[#FBFBFB]">TradeSaga Player</p>
-          <div className="text-center mt-[32px]">
-            <p className="text-[22px] text-[#FBFBFB] font-bold mb-1">$100,000</p>
-            <p className="text-[#C8C8C8] text-[14px] font-bold">Net Worth</p>
-          </div>
-          <div className="flex justify-between w-full mt-[32px] pl-[5px] pr-[5px]">
-            <div className="text-center">
-              <p className="font-bold text-[#FBFBFB] text-[22px]">+0%</p>
-              <p className="text-[#C8C8C8] text-[14px] font-semibold">Today's Return</p>
+                <div className="flex flex-grow flex-col pl-4 h-full pt-5 pb-10]">
+                  <p className="text-[18px] font-bold mb-1 text-[#FBFBFB]" >Not a Member</p>
+                  <p className="text-[18px] font-semibold mb-1 text-[#ABABAB]" >You are not a member of this game, would you like to join?</p>
+                  <button
+                    className="h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold mt-5"
+                    onClick={() => {
+                      joinGame(id);
+                    }}
+                  >
+                    Join Game
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="text-center">
-              <p className="font-bold text-[#FBFBFB] text-[22px]">+0%</p>
-              <p className="text-[#C8C8C8] text-[14px] font-semibold">Total Return</p>
+          )
+        ) : (
+          <div className="grid h-screen place-items-center">
+            <div className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[800px]">
+              <div className="flex flex-grow flex-col pl-4 h-full pt-2 pb-10]">
+                <p className="text-[18px] font-bold mb-1 text-[#FBFBFB]"> <b className="text-red-500">Error: </b>Not Found</p>
+                <p className="text-[18px] font-semibold mb-1 text-[#ABABAB]" >This game does not exist.</p>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-col items-center bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-[200px]">
-          <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
-            <img
-              src="/create-background.png"
-              alt="AAPL"
-              className="w-[40px] h-[40px] rounded-full"
-            />
-            <p className="text-[#1D1D1D] text-[16px] font-semibold">Trade Saga Player</p>
-          </div>
-          <input
-            type="text"
-            placeholder="Share an update..."
-            className="p-2 w-full rounded-md mb-4"
-          />
-          <div className="flex flex-row w-[400px] justify-end">
-            <button
-              onClick={() => null}
-              className="mr-[20px] w-[82px] h-[30px] bg-indigo-600 text-white rounded-full focus:outline-none hover:bg-indigo-500 transition duration-200 text-align-center font-bold text-[14px]"
-            >
-              Post
-            </button>
-          </div>
-        </div>
-
-
-        <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px]">
-          <p className="text-[18px] font-bold mb-4 text-[#1D1D1D] mt-[15px] ml-[15px]">Market Movers</p>
-          <div className="flex justify-between items-center bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
-            <img
-              src="/create-background.png"
-              alt="AAPL"
-              className="w-[35px] h-[35px] rounded-full"
-            />
-            <p className="text-[#1D1D1D] text-[18px] font-bold mr-[90px]">AAPL</p>
-            <div>
-              <p className="text-[14px] font-bold text-[#161616]">$170</p>
-              <p className="text-[14px] font-bold text-red-500">-1.27%</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        )
       )}
-      </LoadingBoundary>
+    </LoadingBoundary>
   );
 }
-
-function ActionButton({ onClick, action, selected }) {
-  return (
-    <button
-      onClick={onClick}
-      className={selected ? "w-[140px] h-[34px] bg-[#242424] text-white rounded-[14px] focus:outline-none hover:bg-gray-800 transition duration-200 text-align-center" :
-        "w-[140px] h-[34px] bg-[#EEEEEE] text-[#242424] rounded-[14px] focus:outline-none hover:bg-gray-100 transition duration-200 text-align-center border-[#ABABAB] border-[1px]"
-      }
-    >
-      {action}
-    </button>
-  );
-}
-
-function TradeButton({ onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="font-bold w-[140px] h-[34px] bg-indigo-600 text-white rounded-[14px] focus:outline-none hover:bg-indigo-500 transition duration-200 text-align-center absolute right-[30px]"
-    >
-      Trade
-    </button>
-  );
-}
-
 
 
 GamePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+interface PTProps {
+  input: number;
+  user: any;
+  gameData: any;
+  stockData: any;
+  createPost: any;
+  postText: any;
+  setPostText: any;
+  shareId: string;
+}
+
+const PageForTab = ({
+  input,
+  user,
+  gameData,
+  stockData,
+  createPost,
+  postText,
+  setPostText,
+  shareId
+}: PTProps) => {
+  switch (input) {
+    case 0:
+      return (
+        <div className="flex justify-between p-8">
+          <GameUserInfo user={user} gameData={gameData} stockData={stockData} />
+          <div className="flex flex-col items-center space-y-[25px]">
+            <GameCreatePost user={user} gameData={gameData} postText={postText} setPostText={setPostText} createPost={
+              () => createPost(gameData.id, postText)} />
+            <div className="font-bold text-[20px] text-[#1D1D1D] mr-[350px]">
+              Feed
+            </div>
+            <GameFeed user={user} gameData={gameData} />
+          </div>
+
+          <div className="flex flex-col bg-white p-4 rounded-[14px] w-[320px] h-fit min-h-[400px] sticky top-[100px]">
+            <p className="text-[18px] font-bold mb-2 text-[#1D1D1D] mt-[15px] ml-[15px]">
+              Market Movers
+            </p>
+            <MarketMoversWidget />
+          </div>
+        </div>
+      )
+    case 1:
+      return (<GameLeaderboard user={user} gameData={gameData} shareId={shareId} />)
+    case 2:
+      return (<GameAnalysis user={user} gameData={gameData} stockData={stockData} />)
+    case 3:
+      return (
+        <GamePortfolio user={user} gameData={gameData} stockData={stockData} />
+      )
+    default: return (null)
+  }
+}

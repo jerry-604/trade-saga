@@ -20,9 +20,11 @@ model User {
   createdAt    DateTime     @default(now())
   role         String?
   dollars      Float
+  imageUrl     String       @default("https://rqhpnffkqqqtowynnwxd.supabase.co/storage/v1/object/sign/avatars/pfps/default.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL3BmcHMvZGVmYXVsdC5wbmciLCJpYXQiOjE2OTk2NDA1OTMsImV4cCI6NDgyMTcwNDU5M30.Uo6I2GRihyMycXCu4iTGBDxpalYF56A_fx-Bx8fOVkQ&t=2023-11-10T18%3A23%3A14.366Z")
   joinedGames  Game[]
   GamePlayer   GamePlayer[]
   createdGames Game[]       @relation("Creator")
+  GamePost     GamePost[]
 }
 
 model Game {
@@ -36,9 +38,9 @@ model Game {
   shareId    String
   playerData GamePlayer[]
   users      User[]
-
-  creator   User @relation(name: "Creator", fields: [creatorID], references: [id])
-  creatorID Int
+  posts      GamePost[]
+  creator    User         @relation(name: "Creator", fields: [creatorID], references: [id])
+  creatorID  Int
 
   @@index([creatorID])
 }
@@ -51,6 +53,9 @@ model GamePlayer {
   cashBalance Float
   game        Game           @relation(fields: [gameID], references: [id])
   gameID      Int
+  stocksViewed Int @default(0)
+  stocksBought Int @default(0)
+  stocksSold Int @default(0)
 }
 
 model StockHolding {
@@ -59,4 +64,14 @@ model StockHolding {
   numShares    Int
   gamePlayer   GamePlayer @relation(fields: [gamePlayerId], references: [id])
   gamePlayerId Int
+}
+
+model GamePost {
+  id        Int      @id @default(autoincrement())
+  creator   User     @relation(fields: [userId], references: [id])
+  userId    Int
+  game      Game     @relation(fields: [gameID], references: [id])
+  gameID    Int
+  content   String
+  createdAt DateTime @default(now())
 }
