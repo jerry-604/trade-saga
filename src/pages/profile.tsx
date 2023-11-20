@@ -9,6 +9,8 @@ export default function Profile() {
   const [session, setSession] = useState({});
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState();
+  const [Fname, setFname] = useState("");
+  const [Lname, setLname] = useState("");
   const [error, setError] = useState("");
   const mutation = trpc.userRouter.uploadImage.useMutation();
   const query = trpc.userRouter.getUser.useQuery();
@@ -50,6 +52,13 @@ export default function Profile() {
 
   const handleChange = (event: any) => {
     setImage(event.target.files[0]);
+  };
+
+  const handleFNameChange = (e: any) => {
+    setFname(e.target.value);
+  };
+  const handleLNameChange = (e: any) => {
+    setLname(e.target.value);
   };
 
   useEffect(() => {
