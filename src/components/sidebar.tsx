@@ -50,6 +50,7 @@ export default function Sidebar({ onToggleSidebar }) {
                   backgroundColor: '#F4F6F8',
                 },
                 backgroundColor: currentRoute === item.path ? '#F4F6F8' : null,
+                marginTop: '25px',
               }}
             >
               <ListItemIcon>

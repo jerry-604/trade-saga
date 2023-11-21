@@ -11,27 +11,16 @@ interface StockCardProps {
   movementData: number[];
 }
 
-const StockCard: React.FC<StockCardProps> = ({ stockName, sharePrice, movement, logo, movementData }) => {
+const StockCard: React.FC<StockCardProps> = ({ stockName, sharePrice, movement, logo, movementData, onSymbolChange }) => {
   const isNegativeMovement = movement.startsWith("-");
-  const CustomAvatar = ({ src, alt, size = 10 }) => {
-    const [imgLoaded, setImgLoaded] = useState(true);
-  
-    const onError = () => {
-      setImgLoaded(false);
-    };
-  
-    return (
-      <div className={`relative inline-block bg-gray-200 ${size === 10 ? 'w-10 h-10' : `w-${size} h-${size}`} rounded-full overflow-hidden`}>
-        {imgLoaded && src ? (
-          <img className="object-cover w-full h-full" src={src} alt={alt} onError={onError} />
-        ) : (
-          <span className="flex items-center justify-center h-full text-sm font-semibold">{alt.charAt(0)}</span>
-        )}
-      </div>
-    );
-  };
+
+
   return (
-    <Card className="w-full shadow-lg rounded-lg overflow-hidden p-4">
+    <Card 
+    onClick={() => 
+      {onSymbolChange(stockName.slice(1))}}
+    className="w-full shadow-lg rounded-lg overflow-hidden p-4"
+    >
       <div className="flex justify-between items-center">
 
         {/* Left Section */}

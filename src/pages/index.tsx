@@ -49,7 +49,7 @@ useEffect(() => {
     <div className="flex-grow p-5 pt-0">
       <div className="mb-4">
         <h2 className="ml-4 my-5 font-extrabold text-xl">Stock Dashboard</h2>
-        <StockSummary stocks={trendingStocks} />
+        <StockSummary onSymbolChange={handleSymbolChange} stocks={trendingStocks} />
       </div>
 
   <Grid container spacing={5}>
@@ -57,7 +57,7 @@ useEffect(() => {
       <TradingViewWidget symbol={symbol} />
     </Grid>
     <Grid item md={4} className="min-h-[500px]">
-      <RecentlyViewedStocks stocks={recentluViewedStocks} />
+      <RecentlyViewedStocks onSymbolChange={handleSymbolChange} stocks={recentluViewedStocks} />
     </Grid>
   </Grid>
 

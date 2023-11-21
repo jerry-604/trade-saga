@@ -37,7 +37,7 @@ async function getWealthbaseDetails(symbol: string): Promise<WealthbaseDetails> 
 
 async function getTrendingStocks(): Promise<TrendingStock[]> {
   const symbols = await getAlphaVantageMostActive();
-  console.log(symbols);
+  // console.log(symbols);
   const detailsPromises = symbols.map(symbol => getWealthbaseDetails(symbol));
   const details = await Promise.all(detailsPromises);
 

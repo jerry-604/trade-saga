@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, List, ListItem, Typography, Divider } from '@mui/material';
 
 interface Stock {
@@ -13,8 +13,15 @@ interface RecentlyViewedStocksProps {
   error?: string; // Optional error message
 }
 
-const RecentlyViewedStocks: React.FC<RecentlyViewedStocksProps> = ({ stocks, error }) => {
+// const RecentlyViewedStocks: React.FC<RecentlyViewedStocksProps> = ({ stocks, error, onSymbolChange }) => {
   // Check if there's an error or if stocks array is empty
+  const RecentlyViewedStocks: React.FC<RecentlyViewedStocksProps> = ({ stocks, error, onSymbolChange }) => {
+    const [selectedStock, setSelectedStock] = useState<string | null>(null);
+  
+    const handleListItemClick = (stockName: string) => {
+      setSelectedStock(stockName);
+      onSymbolChange(stockName.slice(1));
+    };
   const unavailable= stocks.length === 0 || Array.isArray(stocks) === false;
   if (unavailable) {
     // console.log(stocks.length);
@@ -41,7 +48,10 @@ const RecentlyViewedStocks: React.FC<RecentlyViewedStocksProps> = ({ stocks, err
       <List>
         {stocks.map((stock, idx) => (
           <React.Fragment key={idx}>
-            <ListItem className="w-full flex justify-between items-center py-2">
+            <ListItem 
+              onClick={() => handleListItemClick(stock.stockName)}
+              className={`w-full flex justify-between items-center py-2 ${selectedStock === stock.stockName ? 'bg-gray-200' : ''}`}
+            >
               <div className="flex items-center">
                 <Avatar src={stock.logo} />
                 <Typography variant="body1" className="ml-2 font-bold">
