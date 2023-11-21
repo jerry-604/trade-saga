@@ -122,7 +122,7 @@ mutation.mutate({gamePlayerId: gameData.playerData.find((item: any) => item.user
           {gameData?.name ?? ""}
         </h1>
         <p className="text-gray-600 text-[20px]">
-          Hosted by {gameData?.creator?.name ?? ""} |{" "}
+          Hosted by {gameData?.creator?.Fname ?? ""} {gameData?.creator.Lname ?? ""} |{" "}
           {getFormattedDate(gameData?.dateStart ?? new Date())} -{" "}
           {getFormattedDate(gameData?.dateEnd ?? new Date())}
         </p>
