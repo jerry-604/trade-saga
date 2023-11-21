@@ -19,7 +19,7 @@ const ProfileModal = ({ open, onClose, profile }) => {
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={onClose}></div>
-      <div className="absolute top-full right-1 mt-2 w-56 bg-white rounded-md shadow-lg z-50">
+      <div className="absolute top-full right-1 mt-2 w-60 bg-white rounded-md shadow-lg z-50">
         <div className="flex flex-col items-center p-4 border-b bg-slate-600 rounded-md">
           <Avatar src={profile.imageUrl} alt={profile.name} />
           <p className="mt-2 font-bold">{profile.name}</p>

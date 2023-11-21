@@ -19,7 +19,7 @@ interface RecentlyViewedStocksProps {
     const [selectedStock, setSelectedStock] = useState<string | null>(null);
   
     const handleListItemClick = (stockName: string) => {
-      setSelectedStock(stockName);
+      // setSelectedStock(stockName);
       onSymbolChange(stockName.slice(1));
     };
   const unavailable= stocks.length === 0 || Array.isArray(stocks) === false;
@@ -41,7 +41,7 @@ interface RecentlyViewedStocksProps {
   // Normal rendering if there are stocks and no error
   return (
     <div className="bg-white p-8 shadow-lg rounded-xl max-w-sm">
-      <Typography variant="h6" gutterBottom align="center">
+      <Typography variant="h6" gutterBottom align="center" className="font-bold">
         Recently Viewed Stocks
       </Typography>
       <Divider className="mb-4"/>
@@ -49,11 +49,12 @@ interface RecentlyViewedStocksProps {
         {stocks.map((stock, idx) => (
           <React.Fragment key={idx}>
             <ListItem 
+            button
               onClick={() => handleListItemClick(stock.stockName)}
               className={`w-full flex justify-between items-center py-2 ${selectedStock === stock.stockName ? 'bg-gray-200' : ''}`}
             >
               <div className="flex items-center">
-                <Avatar src={stock.logo} />
+                <Avatar src={stock.logo} className="p-1" />
                 <Typography variant="body1" className="ml-2 font-bold">
                   {stock.stockName}
                 </Typography>

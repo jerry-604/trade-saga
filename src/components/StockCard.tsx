@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Avatar } from '@mui/material';
+import { Card, Avatar,CardActionArea } from '@mui/material';
 import zIndex from '@mui/material/styles/zIndex';
 import Graph from './Graph';
 
@@ -16,17 +16,20 @@ const StockCard: React.FC<StockCardProps> = ({ stockName, sharePrice, movement, 
 
 
   return (
+    
     <Card 
-    onClick={() => 
-      {onSymbolChange(stockName.slice(1))}}
+
     className="w-full shadow-lg rounded-lg overflow-hidden p-4"
     >
+      <CardActionArea    onClick={() => 
+      {onSymbolChange(stockName.slice(1))}}>
+
       <div className="flex justify-between items-center">
 
         {/* Left Section */}
         <div className="flex flex-col items-center space-y-2">
           <div className="flex items-center space-x-2 z-auto">
-            <Avatar  src={logo} alt={stockName}>{stockName[1]}</Avatar>
+            <Avatar className="p-1" src={logo} alt={stockName}>{stockName[1]}</Avatar>
             <span className="text-lg font-bold">{stockName}</span>
           </div>
           <span className="text-base">Share Price</span>
@@ -43,6 +46,7 @@ const StockCard: React.FC<StockCardProps> = ({ stockName, sharePrice, movement, 
         </div>
 
       </div>
+      </CardActionArea>
     </Card>
   );
 }
