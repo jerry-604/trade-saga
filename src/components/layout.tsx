@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Sidebar from './sidebar';
 
 export default function Layout({ children }) {
-  const [sidebarWidth, setSidebarWidth] = useState(300); // default sidebar width in pixels
+  const [sidebarWidth, setSidebarWidth] = useState(350); // default sidebar width in pixels
 
   const toggleSidebar = () => {
-    setSidebarWidth(sidebarWidth === 300 ? 70 : 300); // Toggle between 300px and 70px
+    setSidebarWidth(sidebarWidth === 350 ? 70 : 350); // Toggle between 300px and 70px
   };
 
   return (
