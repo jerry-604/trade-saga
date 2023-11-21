@@ -54,6 +54,9 @@ export default function Sidebar({ onToggleSidebar }) {
                 '&.Mui-selected': {
                   backgroundColor: '#F4F6F8',
                 },
+                '&.Mui-selected:hover': {
+                  backgroundColor: '#F6F8FA',
+                },
                 marginTop: "22px",
                 marginBottom: "22px",
               }}
