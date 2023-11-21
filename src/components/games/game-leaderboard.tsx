@@ -1,4 +1,4 @@
-import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn, computeNumericalTotalReturn, computeNumericalWorthForPlayer, computeDailyChangeForPlayer, computePercentDailyChangeForPlayer } from "@/src/utils/game-helpers";
+import { getNameForPlayer, computeWorthForPlayer, computeTotalReturn, computeNumericalTotalReturn, computeNumericalWorthForPlayer, computeDailyChangeForPlayer, computePercentDailyChangeForPlayer, computeNumericalTotalReturnNoRound } from "@/src/utils/game-helpers";
 import { GeneratedStockData } from "@/src/server/routers/game-router";
 import { LoadingBoundary } from "../loading-boundary";
 import { trpc } from "../../utils/trpc";
@@ -29,8 +29,8 @@ export default function GameLeaderboard({
    }
 
    const computeRiskToReward = (playerData: any[], stocksHeld: any[], betaData: any[], stockData: any[]) => {
-       console.log(computeNumericalTotalReturn(playerData, stockData), computeRiskPercentage(stocksHeld, betaData));
-    return computeRiskPercentage(stocksHeld, betaData) == 100 ? 0 : Math.round((computeNumericalTotalReturn(playerData, stockData)*100)/computeRiskPercentage(stocksHeld, betaData)*10000)/100
+       console.log(computeNumericalTotalReturnNoRound(playerData, stockData), computeRiskPercentage(stocksHeld, betaData));
+    return computeRiskPercentage(stocksHeld, betaData) == 100 ? 0 : Math.round((computeNumericalTotalReturnNoRound(playerData, stockData)*100)/computeRiskPercentage(stocksHeld, betaData)*10000)/100
    }
 
     return (
