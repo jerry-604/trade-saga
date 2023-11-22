@@ -122,4 +122,25 @@ export const userRouter = router({
     .query(async ({ ctx }) => {
       return ctx.user;
     }),
+  updateUserName: publicProcedure.input(z.object({ FnameEdit: z.string(), LnameEdit: z.string() })).mutation(async (opts) => {
+    if (!opts.input || !opts.ctx.user) {
+      return;
+    }
+
+    if (!opts.input.FnameEdit && !opts.input.LnameEdit) {
+      return;
+    }
+
+    await prisma.user.update({
+      where: {
+        email: opts.ctx.user.email
+      },
+      data: {
+        Fname: opts.input.FnameEdit,
+        Lname: opts.input.LnameEdit
+      }
+    });
+
+    return {};
+  }),
 });
