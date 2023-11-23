@@ -44,7 +44,6 @@ export const userRouter = router({
       });
     }
 
-    // Check if user already exists
     const user = await prisma.user.findFirst({
       where: {
         email: input.email
@@ -74,8 +73,6 @@ export const userRouter = router({
         message: "Encountered an error while trying to save new user",
       });
     }
-
-    // console.log(result);
 
     const { data, error } = await signUp(input.email, input.password);
     if (error) {
