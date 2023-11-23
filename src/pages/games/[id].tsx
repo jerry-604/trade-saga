@@ -25,6 +25,7 @@ import GamePortfolio from "@/src/components/games/game-portfolio-page";
 import GameLeaderboard from "@/src/components/games/game-leaderboard";
 import TickerTapeWidget from "@/src/components/games/ticker-tape-widget";
 import GameAnalysis from "@/src/components/games/game-analysis-page";
+import withAuth from "@/src/utils/with-auth"
 
 export default function GamePage() {
   const { query } = useRouter();
@@ -174,6 +175,10 @@ export default function GamePage() {
 GamePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+export const getServerSideProps = withAuth({
+  redirectTo: "/login"
+})
 
 interface PTProps {
   input: number;
