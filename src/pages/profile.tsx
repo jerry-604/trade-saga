@@ -13,6 +13,7 @@ export default function Profile() {
   const [Lname, setLname] = useState("");
   const [error, setError] = useState("");
   const mutation = trpc.userRouter.uploadImage.useMutation();
+  const nameMutation = trpc.userRouter.updateUserName.useMutation();
   const query = trpc.userRouter.getUser.useQuery();
   const [user, setUser] = useState({});
 
@@ -61,7 +62,18 @@ export default function Profile() {
   };
 
   const handleNameChanges = async () => {
-    console.log("in handle name changes");
+    nameMutation.mutate({
+      FnameEdit: Fname, LnameEdit: Lname
+    },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          window.location.href = "/profile";
+        },
+        onError: (error) => {
+          console.error(error);
+        }
+      });
   };
 
   useEffect(() => {
