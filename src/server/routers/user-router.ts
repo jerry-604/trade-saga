@@ -1,15 +1,15 @@
-import { publicProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma';
 import { getSession, signUp } from '@/src/utils/supabase';
 import { TRPCError } from '@trpc/server';
 
 export const userRouter = router({
-  getUser: publicProcedure
+  getUser: protectedProcedure
     .query(async ({ ctx }) => {
       return ctx.user;
     }),
-  uploadImage: publicProcedure.input(z.object({ imageUrl: z.string() })).mutation(async (opts) => {
+  uploadImage: protectedProcedure.input(z.object({ imageUrl: z.string() })).mutation(async (opts) => {
     const input = opts.input;
 
     const imageUrl = input.imageUrl;
@@ -94,7 +94,7 @@ export const userRouter = router({
 
     return data;
   }),
-  validateOAuthUser: publicProcedure.input(z.string()).mutation(async (opts) => {
+  validateOAuthUser: protectedProcedure.input(z.string()).mutation(async (opts) => {
     console.log(opts);
     if (!opts.input) {
       return;
@@ -118,11 +118,11 @@ export const userRouter = router({
     console.log(existing);
     return {};
   }),
-  getUserFromContext: publicProcedure
+  getUserFromContext: protectedProcedure
     .query(async ({ ctx }) => {
       return ctx.user;
     }),
-  updateUserName: publicProcedure.input(z.object({ FnameEdit: z.string(), LnameEdit: z.string() })).mutation(async (opts) => {
+  updateUserName: protectedProcedure.input(z.object({ FnameEdit: z.string(), LnameEdit: z.string() })).mutation(async (opts) => {
     if (!opts.input || !opts.ctx.user) {
       return;
     }
