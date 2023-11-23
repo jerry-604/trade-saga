@@ -121,12 +121,18 @@ export const userRouter = router({
       return ctx.user;
     }),
   updateUserName: protectedProcedure.input(z.object({ FnameEdit: z.string(), LnameEdit: z.string() })).mutation(async (opts) => {
-    if (!opts.input || !opts.ctx.user) {
-      return;
+    if (!opts.input) {
+      throw new TRPCError({
+        code: 'UNPROCESSABLE_CONTENT',
+        message: "Invalid input",
+      });
     }
 
     if (!opts.input.FnameEdit && !opts.input.LnameEdit) {
-      return;
+      throw new TRPCError({
+        code: 'UNPROCESSABLE_CONTENT',
+        message: "Invalid input",
+      });
     }
 
     await prisma.user.update({
