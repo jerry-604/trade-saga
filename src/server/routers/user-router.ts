@@ -91,7 +91,8 @@ export const userRouter = router({
 
     return data;
   }),
-  validateOAuthUser: protectedProcedure.input(z.string()).mutation(async (opts) => {
+  // can't do protectedProcedure here b/c user not exist on ctx yet since not on database
+  validateOAuthUser: publicProcedure.input(z.string()).mutation(async (opts) => {
     if (!opts.input) {
       throw new TRPCError({
         code: 'UNPROCESSABLE_CONTENT',
