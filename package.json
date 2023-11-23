@@ -14,7 +14,6 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
     "@mui/styled-engine-sc": "^6.0.0-alpha.4",
-    "@next/font": "^13.5.4",
     "@prisma/client": "^5.3.1",
     "@supabase/auth-helpers-nextjs": "0.8.2",
     "@supabase/supabase-js": "^2.37.0",
@@ -25,9 +24,6 @@
     "@trpc/server": "^10.38.5",
     "async_hooks": "^1.0.0",
     "base64-arraybuffer": "^1.0.2",
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.41.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "install": "^0.13.0",
@@ -47,7 +43,6 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.5",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
