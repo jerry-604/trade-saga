@@ -92,9 +92,11 @@ export const userRouter = router({
     return data;
   }),
   validateOAuthUser: protectedProcedure.input(z.string()).mutation(async (opts) => {
-    console.log(opts);
     if (!opts.input) {
-      return;
+      throw new TRPCError({
+        code: 'UNPROCESSABLE_CONTENT',
+        message: "Invalid input",
+      });
     }
     const existing = await prisma.user.findUnique({
       where: {
@@ -112,7 +114,6 @@ export const userRouter = router({
         }
       });
     }
-    console.log(existing);
     return {};
   }),
   getUserFromContext: protectedProcedure
