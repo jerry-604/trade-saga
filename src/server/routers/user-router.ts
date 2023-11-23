@@ -1,4 +1,4 @@
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import { protectedProcedure, protectedOAuthProcedure, publicProcedure, router } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma';
 import { getSession, signUp } from '@/src/utils/supabase';
@@ -92,24 +92,24 @@ export const userRouter = router({
     return data;
   }),
   // can't do protectedProcedure here b/c user not exist on ctx yet since not on database
-  validateOAuthUser: publicProcedure.input(z.string()).mutation(async (opts) => {
-    if (!opts.input) {
-      throw new TRPCError({
-        code: 'UNPROCESSABLE_CONTENT',
-        message: "Invalid input",
-      });
-    }
+  validateOAuthUser: protectedOAuthProcedure.input(z.null()).mutation(async (opts) => {
+    console.log('in validateOAuthUser');
+
+    console.log(await opts.ctx.supabase.auth.getUser(opts.ctx.supabase.realtime.accessToken || undefined));
+    // below accesstoken is always defined via middleware but vscode thinks it's not so that's why || undefined and || ""
+    const user = await opts.ctx.supabase.auth.getUser(opts.ctx.supabase.realtime.accessToken || undefined);
+
     const existing = await prisma.user.findUnique({
       where: {
-        email: opts.input
+        email: user.data.user?.email || ""
       }
     });
     if (!existing) {
       await prisma.user.create({
         data: {
-          email: opts.input,
-          Fname: opts.input.split("@")[0],
-          Lname: opts.input.split("@")[0],
+          email: user.data.user?.email || "",
+          Fname: user.data.user?.email?.split("@")[0] || "",
+          Lname: user.data.user?.email?.split("@")[0] || "",
           role: "user",
           dollars: 0,
         }
