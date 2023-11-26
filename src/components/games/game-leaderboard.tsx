@@ -29,7 +29,7 @@ export default function GameLeaderboard({
    }
 
    const computeRiskToReward = (playerData: any[], stocksHeld: any[], betaData: any[], stockData: any[]) => {
-       console.log(computeNumericalTotalReturnNoRound(playerData, stockData), computeRiskPercentage(stocksHeld, betaData));
+       console.log(computeNumericalTotalReturn(playerData, stockData), computeRiskPercentage(stocksHeld, betaData));
     return computeRiskPercentage(stocksHeld, betaData) == 100 ? 0 : Math.round((computeNumericalTotalReturnNoRound(playerData, stockData)*100)/computeRiskPercentage(stocksHeld, betaData)*10000)/100
    }
 
@@ -45,8 +45,8 @@ export default function GameLeaderboard({
                         <Achievement title={"Bought a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 0} />
                         <Achievement title={"Sold a stock."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 0} />
                         <Achievement title={"Read about 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksViewed > 4} />
-                        <Achievement title={"Portfolio up 1%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 1} />
-                        <Achievement title={"Portfolio up 5%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 5} />
+                        <Achievement title={"Portfolio up 1%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 0.01} />
+                        <Achievement title={"Portfolio up 5%."} isMet={computeNumericalTotalReturn(gameData.playerData.find((item: any) => item.userId === user.id), stockData) >= 0.05} />
                         <Achievement title={"Bought 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksBought > 4} />
                         <Achievement title={"Sold 5 stocks."} isMet={gameData.playerData.find((item: any) => item.userId === user.id).stocksSold > 4} isLast={true} />
                     </div>
