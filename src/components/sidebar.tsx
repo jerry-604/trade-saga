@@ -61,7 +61,7 @@ export default function Sidebar({ onToggleSidebar }) {
                 marginBottom: "22px",
               }}
             >
-              <ListItemIcon sx={{color: "#424242"}}>
+              <ListItemIcon sx={{color: "#424242", marginLeft: !collapsed ? 0 : "-2px"}}>
                 {item.icon}
               </ListItemIcon>
               {!collapsed && <ListItemText primary={<span style={{color: "#424242", fontSize: "18px", fontWeight: "bold"}} className="font-sans">{item.text}</span>} />}
@@ -85,7 +85,7 @@ export default function Sidebar({ onToggleSidebar }) {
                   },
                 }}
               >
-                <ListItemIcon sx={{color: "black"}}>
+                <ListItemIcon sx={{color: "black", marginLeft: !collapsed ? 0 : "-2px"}}>
                   {item.icon}
                 </ListItemIcon>
                 {!collapsed && <ListItemText primary={<span style={{color: "#424242", fontSize: "18px", fontWeight: "bold"}} className="font-sans">{item.text}</span>} />}
