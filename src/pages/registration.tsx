@@ -56,27 +56,27 @@ export default function Registration() {
           <div className="w-[600px] h-[700px] bg-white rounded-lg z-10">
             <p className="flex justify-center mt-[50px] text-xl font-bold
              text-shadow bg-black-100 z-20">Create your TradeSaga Account</p>
-            <div className="flex justify-center mt-[30px] z-20">
+            <div className="flex justify-center mt-[45px] z-20">
               <input onChange={handleEmailChange} type="text" placeholder="Email"
                 className="w-[400px] h-[40px] rounded shadow-inner bg-gray-200 pl-[10px]"></input>
             </div>
-            <div className="flex justify-center mt-[30px] z-20">
+            <div className="flex justify-center mt-[45px] z-20">
               <input onChange={handleFnameChange} type="text" placeholder="First Name"
                 className="w-[400px] h-[40px] rounded shadow-inner bg-gray-200 pl-[10px]"></input>
             </div>
-            <div className="flex justify-center mt-[30px] z-20">
+            <div className="flex justify-center mt-[45px] z-20">
               <input onChange={handleLnameChange} type="text" placeholder="Last Name"
                 className="w-[400px] h-[40px] rounded shadow-inner bg-gray-200 pl-[10px]"></input>
             </div>
-            <div className="flex justify-center mt-[30px] z-20">
+            <div className="flex justify-center mt-[45px] z-20">
               <input onChange={handlePasswordChange} type="password" placeholder="Password"
                 className="w-[400px] h-[40px] rounded shadow-inner bg-gray-200 pl-[10px]"></input>
             </div>
-            <div className="flex justify-center mt-[30px] z-20">
+            <div className="flex justify-center mt-[45px] z-20">
               <input onChange={handleConfirmPasswordChange} type="password" placeholder="Confirm Password"
                 className="w-[400px] h-[40px] rounded shadow-inner bg-gray-200 pl-[10px]"></input>
             </div>
-            <div className="flex justify-center mt-[55px] z-20">
+            <div className="flex justify-center mt-[65px] z-20">
               <div className="w-[100px] h-[60px] bg-blue-600 shadow-lg rounded-lg">
                 <div className="flex items-center justify-center h-[60px] z-25">
                   <button type="submit" className="flex items-center justify-center h-[60px] w-[100px] z-25
