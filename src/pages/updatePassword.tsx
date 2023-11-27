@@ -17,7 +17,7 @@ export default function passwordReset() {
   return (
     <div>
       <input type="password" placeholder="new password"></input>
-      <button onClick={handleSubmit}></button>
+      <button onClick={handleSubmit}>submit</button>
       {error && <p>{error}</p>}
     </div>
   );
