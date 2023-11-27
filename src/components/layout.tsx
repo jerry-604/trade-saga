@@ -3,11 +3,11 @@ import { useRouter } from 'next/router';
 import Sidebar from './sidebar';
 
 export default function Layout({ children }) {
-  const [sidebarWidth, setSidebarWidth] = useState(300); // default sidebar width in pixels
+  const [sidebarWidth, setSidebarWidth] = useState(325); // default sidebar width in pixels
   const { pathname } = useRouter(); // Destructure pathname from the useRouter hook
 
   const toggleSidebar = () => {
-    setSidebarWidth(sidebarWidth === 300 ? 70 : 300); // Toggle between 300px and 70px
+    setSidebarWidth(sidebarWidth === 325 ? 70 : 325); // Toggle between 300px and 70px
   };
 
   return (

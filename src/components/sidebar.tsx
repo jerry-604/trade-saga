@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { List, ListItem, ListItemIcon, ListItemText, IconButton, Divider } from '@mui/material';
 import { Home, Dashboard, Announcement, Help, Settings, ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { FiHome, FiTrello, FiRss } from "react-icons/fi";
+import { BsFillQuestionCircleFill, BsFillArrowUpRightCircleFill } from "react-icons/bs";
 
 export default function Sidebar({ onToggleSidebar }) {
   const router = useRouter();
@@ -16,8 +18,8 @@ export default function Sidebar({ onToggleSidebar }) {
   ];
 
   const bottomItems = [
-    { icon: <Help />, text: 'Help', path: '/help' },
-    { icon: <Settings />, text: 'Settings', path: '/settings' },
+    { icon: <BsFillQuestionCircleFill size="25px" />, text: 'Help', path: '/help' },
+    { icon: <BsFillArrowUpRightCircleFill size="25px" />, text: 'Settings', path: '/settings' },
   ];
 
   const toggleCollapse = () => {
@@ -26,7 +28,7 @@ export default function Sidebar({ onToggleSidebar }) {
   };
 
   return (
-    <div className={`sidebar fixed top-0 bottom-0 lg:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[300px]'} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
+    <div className={`sidebar fixed top-0 bottom-0 lg:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[325px]'} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
       {/* Top Section */}
       <div className="text-[#424242]-100 text-xl">
         <div className="h-[54px] p-2.5 mt-1 flex items-center justify-center">
@@ -38,7 +40,7 @@ export default function Sidebar({ onToggleSidebar }) {
       </div>
 
       {/* Sidebar stuffs */}
-      <List component="nav" >
+      <List component="nav">
         {sidebarItems.map((item, index) => (
           <Link href={item.path} key={index} passHref>
             <ListItem
@@ -49,21 +51,27 @@ export default function Sidebar({ onToggleSidebar }) {
                 '&:hover': {
                   backgroundColor: '#F4F6F8',
                 },
-                backgroundColor: currentRoute === item.path ? '#F4F6F8' : null,
-                marginTop: '25px',
+                '&.Mui-selected': {
+                  backgroundColor: '#F4F6F8',
+                },
+                '&.Mui-selected:hover': {
+                  backgroundColor: '#F6F8FA',
+                },
+                marginTop: "22px",
+                marginBottom: "22px",
               }}
             >
-              <ListItemIcon>
+              <ListItemIcon sx={{color: "#424242"}}>
                 {item.icon}
               </ListItemIcon>
-              {!collapsed && <ListItemText primary={item.text} />}
+              {!collapsed && <ListItemText primary={<span style={{color: "#424242", fontSize: "18px", fontWeight: "bold"}} className="font-sans">{item.text}</span>} />}
             </ListItem>
           </Link>
         ))}
       </List>
               
         {/* Bottom Section stuffs */}
-      <div className={`absolute bottom-[10px] sm:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[300px] '} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
+      <div className={`absolute bottom-[10px] sm:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[325px] '} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
         <List component="nav">
         <Divider sx={{ my: 2 }} />
           {bottomItems.map((item, index) => (
@@ -77,10 +85,10 @@ export default function Sidebar({ onToggleSidebar }) {
                   },
                 }}
               >
-                <ListItemIcon>
+                <ListItemIcon sx={{color: "black"}}>
                   {item.icon}
                 </ListItemIcon>
-                {!collapsed && <ListItemText primary={item.text} />}
+                {!collapsed && <ListItemText primary={<span style={{color: "#424242", fontSize: "18px", fontWeight: "bold"}} className="font-sans">{item.text}</span>} />}
               </ListItem>
             </Link>
           ))}
