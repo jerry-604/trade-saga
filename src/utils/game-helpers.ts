@@ -38,6 +38,18 @@ export const computeTotalReturn = (playerData: any, stockData: any) => {
     return rounded;
   };
 
+
+  export const computeNumericalTotalReturnNoRound = (playerData: any, stockData: any) => {
+    const cash = playerData.cashBalance;
+    let securitiesTotal = 0;
+    for (let i = 0; i < playerData.stocksHeld.length; i++) {
+      securitiesTotal += playerData.stocksHeld[i].numShares * (stockData.find((item:any) => item.symbol == playerData.stocksHeld[i].symbol)?.price ?? 1);
+    }
+    const percent_return = (securitiesTotal + cash - 100000)/100000
+    return percent_return;
+  };
+
+
  export const computeWorthForPlayer = (playerData: any, stockData: any) => {
     console.log(playerData);
     const cash = playerData.cashBalance;

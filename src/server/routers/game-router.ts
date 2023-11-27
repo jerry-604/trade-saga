@@ -1,4 +1,4 @@
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, protectedProcedure, router } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma'
 import { TRPCError } from '@trpc/server';
@@ -6,7 +6,7 @@ import { User } from '@prisma/client';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
 export const gameRouter = router({
-    createGame: publicProcedure.input(z.object({ gameTitle: z.string(), backgroundImage: z.string(), startDate: z.date(), endDate: z.date(), shareId: z.string() })).mutation(async ({ ctx, input }) => {
+    createGame: protectedProcedure.input(z.object({ gameTitle: z.string(), backgroundImage: z.string(), startDate: z.date(), endDate: z.date(), shareId: z.string() })).mutation(async ({ ctx, input }) => {
 
         for (const field of Object.values(input)) {
             if (!field) {
@@ -50,7 +50,7 @@ export const gameRouter = router({
         const create = await prisma.game.create({ data: createGameObject });
         return create;
     }),
-    fetchGameWithId: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+    fetchGameWithId: protectedProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
         const game = await prisma.game.findFirst({
             where: {
                 shareId: input.shareId,
@@ -73,7 +73,7 @@ export const gameRouter = router({
         console.log(game);
         return game;
     }),
-    createPost: publicProcedure.input(z.object({ gameID: z.number(), content: z.string() })).mutation(async ({ ctx, input }) => {
+    createPost: protectedProcedure.input(z.object({ gameID: z.number(), content: z.string() })).mutation(async ({ ctx, input }) => {
         const user = ctx.user;
         const userId = user.id;
         const post = await prisma.gamePost.create({
@@ -85,7 +85,7 @@ export const gameRouter = router({
         });
         return post;
     }),
-    executeTrade: publicProcedure.input(z.object({ gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number() })).mutation(async ({ ctx, input }) => {
+    executeTrade: protectedProcedure.input(z.object({ gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number() })).mutation(async ({ ctx, input }) => {
         const user = ctx.user;
         const userId = user.id;
         const trade = await prisma.stockHolding.create({
@@ -111,7 +111,7 @@ export const gameRouter = router({
         })
         return trade;
     }),
-    executeSell: publicProcedure.input(z.object({ gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number(), max: z.number() })).mutation(async ({ ctx, input }) => {
+    executeSell: protectedProcedure.input(z.object({ gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number(), max: z.number() })).mutation(async ({ ctx, input }) => {
         const user = ctx.user;
         const userId = user.id;
         const total = input.price * input.quantity;
@@ -150,7 +150,7 @@ export const gameRouter = router({
         }
         return txn;
     }),
-    getStockDataForPlayer: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+    getStockDataForPlayer: protectedProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
         const user = ctx.user
         const gamePlayer = await prisma.gamePlayer.findFirst({
             where: {
@@ -182,7 +182,7 @@ export const gameRouter = router({
         );
         return stockData;
     }),
-    getGameStatus: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+    getGameStatus: protectedProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
         const user = ctx.user;
         const [gameExists, userExists] = await prisma.$transaction([
             prisma.game.findFirst({
@@ -211,7 +211,7 @@ export const gameRouter = router({
         return [false, false, false];
         }
     }),
-    joinGame: publicProcedure.input(z.object({ shareId: z.string() })).mutation(async ({ ctx, input }) => {
+    joinGame: protectedProcedure.input(z.object({ shareId: z.string() })).mutation(async ({ ctx, input }) => {
         const user = ctx.user;
 
         const gamePlayerObject = {
@@ -252,7 +252,7 @@ export const gameRouter = router({
         }
         return null;
     }),
-    getStockDataForGame: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+    getStockDataForGame: protectedProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
         const user = ctx.user
         const gamePlayers = await prisma.gamePlayer.findMany({
             where: {
@@ -291,7 +291,7 @@ export const gameRouter = router({
         );
         return stockData;
     }),
-    getBetaDataForPlayer: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+    getBetaDataForPlayer: protectedProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
         const user = ctx.user
         const gamePlayer = await prisma.gamePlayer.findFirst({
             where: {
@@ -323,7 +323,7 @@ export const gameRouter = router({
         );
         return betaData;
     }),
-    getBetaDataForGame: publicProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
+    getBetaDataForGame: protectedProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
         const user = ctx.user
         const gamePlayers = await prisma.gamePlayer.findMany({
             where: {
@@ -362,7 +362,7 @@ export const gameRouter = router({
         );
         return betaData;
     }),
-    readingOccured: publicProcedure.input(z.object({ gamePlayerId: z.number()})).mutation(async ({ ctx, input }) => {
+    readingOccured: protectedProcedure.input(z.object({ gamePlayerId: z.number()})).mutation(async ({ ctx, input }) => {
         const user = ctx.user;
         const userId = user.id;
         const updatePlayer = await prisma.gamePlayer.update({
