@@ -14,7 +14,7 @@ interface StockSummaryProps {
   error?: string; // Optional error message
 }
 
-const StockSummary: React.FC<StockSummaryProps> = ({ stocks, error }) => {
+const StockSummary: React.FC<StockSummaryProps> = ({ stocks, onSymbolChange, error }) => {
   // Check if there's an error or if stocks array is empty
   const unavailable= stocks.length === 0 || Array.isArray(stocks) === false;
   if (unavailable) {
@@ -38,7 +38,7 @@ const StockSummary: React.FC<StockSummaryProps> = ({ stocks, error }) => {
           <div className="flex space-x-5">
             {!unavailable && stocks.map((stock, idx) => (
               <div key={idx} className="flex-none" style={{ width: '290px' }}>
-                <StockCard {...stock} />
+                <StockCard onSymbolChange={onSymbolChange} {...stock} />
               </div>
             ))}
           </div>

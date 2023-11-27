@@ -12,9 +12,9 @@ export default function Sidebar({ onToggleSidebar }) {
   const [collapsed, setCollapsed] = useState(false);
 
   const sidebarItems = [
-    { icon: <FiHome size="25px"/>, text: 'Home', path: '/' },
-    { icon: <FiTrello size="25px"/>, text: 'Stock Dashboard', path: '/dashboard' },
-    { icon: <FiRss size="25px"/>, text: 'News', path: '/news' },
+    { icon: <Home />, text: 'Home', path: '/home' },
+    { icon: <Dashboard />, text: 'Stock Dashboard', path: '/dashboard' },
+    { icon: <Announcement />, text: 'News', path: '/news' },
   ];
 
   const bottomItems = [

@@ -16,14 +16,48 @@ interface TrendingStock {
   movementData: number[];
 }
 
-async function getAlphaVantageMostActive(): Promise<string[]> {
-  const response = await fetch('https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=demo',  {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'
-    }
-  });
-  const data = await response.json();
-  return data.most_actively_traded.map((stock: { ticker: string }) => stock.ticker);
+async function getRecentsFromUser(): Promise<string[]> {
+   const response = [
+       'AAPL',
+       'MSFT',
+       'AMZN',
+       'GOOGL',
+       'FB',
+       'V',
+       'JPM',
+       'JNJ',
+       'WMT',
+       'PG',
+       'TSLA',
+       'MA',
+       'DIS',
+       'NVDA',
+       'HD',
+       'PYPL',
+       'BAC',
+       'VZ',
+       'KO',
+       'CMCSA',
+       'PFE',
+       'ADBE',
+       'CSCO',
+       'NFLX',
+       'PEP',
+       'INTC',
+       'XOM',
+       'COST',
+       'CVX',
+       'TWTR',
+       'DUOL',
+       'DIS',
+       'LYFT',
+       'UBER',
+       'VUG',
+       'ABNB',
+
+     ];
+     
+  return response;
 }
 
 async function getWealthbaseDetails(symbol: string): Promise<WealthbaseDetails> {
@@ -35,19 +69,17 @@ async function getWealthbaseDetails(symbol: string): Promise<WealthbaseDetails> 
   return response.json();
 }
 
-async function getTrendingStocks(): Promise<TrendingStock[]> {
-  const symbols = await getAlphaVantageMostActive();
-  // console.log(symbols);
+async function getStocks(): Promise<TrendingStock[]> {
+  const symbols = await getRecentsFromUser();
+//    console.log(symbols);
   const detailsPromises = symbols.map(symbol => getWealthbaseDetails(symbol));
   const details = await Promise.all(detailsPromises);
 
 
   const trendingStocks: TrendingStock[] = details.map(detail => ({
-    stockName: detail.display_symbol,
-    sharePrice: detail.current_price, 
-    movement: detail.change_percent,
+    stockName: detail.name,
+    symbol: detail.symbol,
     logo: detail.logo_url,
-    movementData: detail.historical_data, 
   }));
 
   return trendingStocks;
@@ -55,4 +87,4 @@ async function getTrendingStocks(): Promise<TrendingStock[]> {
 
 
 
-export default getTrendingStocks;
+export default getStocks;
