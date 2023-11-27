@@ -90,6 +90,7 @@ model Notification {
   symbol String?
   num_shares_purchased Int?
   price Decimal?
+  createdAt DateTime @default(now())
 
   @@index([userId])
 }
