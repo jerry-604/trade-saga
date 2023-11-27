@@ -17,8 +17,11 @@ import {
   computeWorthForPlayer,
   computeTotalReturn,
   getPostFormattedDate,
+  backgroundForGame,
 } from "@/src/utils/game-helpers";
 import Header from "../components/Header";
+import { MultiQueryLoadingBoundary } from "../components/multi-query-loading-boundary";
+import Link from 'next/link'
 
 export default function Dashboard() {
   const [session, setSession] = useState({});
@@ -72,8 +75,11 @@ export default function Dashboard() {
   // }
 
   return (
-    <LoadingBoundary query={trpc.userRouter.getGamesForUser.useQuery()}>
-      {(gameData) => (
+    <MultiQueryLoadingBoundary queries={trpc.useQueries((t) => [
+      t.userRouter.getGamesForUser(),
+      t.userRouter.getUserFromContext(),
+    ])}>
+      {([gameData, user]) => (
         <div>
           <Header onSymbolChange={handleSymbolChange} />
           <div className="grid grid-cols-2 w-full">
@@ -82,11 +88,14 @@ export default function Dashboard() {
                 My Feed
               </div>
               {gameData
-                .reduce((allPosts, game) => {
+                .reduce((allPosts: any, game: any) => {
                   return [...allPosts, ...game.posts];
-                }, [])
+                }, [] as any[])
                 .sort((a: any, b: any) => {
                   return b.createdAt - a.createdAt;
+                })
+                .filter((post: any) => {
+                  return post.creator.id != user.id
                 })
                 .map((post: any) => (
                   <div
@@ -113,15 +122,50 @@ export default function Dashboard() {
                 ))}
             </div>
             <div className="w-full flex justify-end p-8 pt-[87px]">
-              <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] h-fit min-h-[430px] w-[345px]"></div>
+              <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] h-fit min-h-[430px] w-[345px]">
+                <p className="text-[20px] font-semibold mb-1 text-[#FBFBFB] w-full p-4">
+                  My Games
+                </p>
+                {
+                  gameData.map((game: any) => (
+                    <div key={game.id} className="w-full pl-4 pr-4">
+                      <GameItem game={game} />
+                    </div>
+                  ))
+                }
+                <div className="w-full p-4">
+                  <Link href="/create">
+                    <button
+                      className="w-full h-[56px] bg-indigo-600 text-white p-3 rounded-[14px] hover:bg-indigo-500 transition font-bold drop-shadow-sm"
+                    >
+                      Create Game
+                    </button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       )}
-    </LoadingBoundary>
+    </MultiQueryLoadingBoundary>
   );
 }
 
 Dashboard.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+const GameItem = ({ game }: any) => {
+  return (
+    <Link href={`/games/${game.shareId}`}>
+      <div className="flex flex-row items-center mt-2">
+        <img
+          src={`/${backgroundForGame(game.coverImageId)}`}
+          className="w-[40px] h-[40px] rounded-full mb-4 object-cover mix-blend-hard-light"
+        />
+        <p className="text-[16px] h-[40px] font-semibold text-[#DBDBDB] pl-[15px] flex flex-grow">{game.name}</p>
+      </div>
+      <div className={`flex h-[2px] mt-4 mb-4 mr-2 ml-2 bg-gray-600`}></div>
+    </Link>
+  );
+}
