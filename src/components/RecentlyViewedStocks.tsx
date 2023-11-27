@@ -46,7 +46,7 @@ interface RecentlyViewedStocksProps {
       </Typography>
       <Divider className="mb-4"/>
       <List>
-        {stocks.map((stock, idx) => (
+        {stocks.slice(0,5).map((stock, idx) => (
           <React.Fragment key={idx}>
             <ListItem 
             button

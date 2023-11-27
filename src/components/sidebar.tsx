@@ -10,7 +10,7 @@ export default function Sidebar({ onToggleSidebar }) {
   const [collapsed, setCollapsed] = useState(false);
 
   const sidebarItems = [
-    { icon: <Home />, text: 'Home', path: '/' },
+    { icon: <Home />, text: 'Home', path: '/home' },
     { icon: <Dashboard />, text: 'Stock Dashboard', path: '/dashboard' },
     { icon: <Announcement />, text: 'News', path: '/news' },
   ];

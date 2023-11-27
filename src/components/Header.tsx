@@ -3,6 +3,7 @@ import { IconButton, InputBase, Badge, Avatar } from '@mui/material';
 import { Search, Notifications, AccountCircle } from '@mui/icons-material';
 import ProfileModal from './profileModal';
 import NotificationModal from './notificationModal';
+import { signOut } from '../utils/supabase';
 
 interface HeaderProps {
     onSymbolChange: (symbol: string) => void;
@@ -14,6 +15,17 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
   const [showModal, setShowModal] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+
+    if (error) {
+      console.log(error.message);
+    } else {
+      window.location.href = "/dashboard";
+    }
+  };
+
 
   const toggleProfileModal = () => {
     setProfileModalOpen(!profileModalOpen);
@@ -161,6 +173,7 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
         open={profileModalOpen} 
         onClose={() => setProfileModalOpen(false)} 
         profile={sampleProfile} 
+        signOut={handleSignOut}
       />
 
       </div>

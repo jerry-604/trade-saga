@@ -1,71 +1,37 @@
 import { trpc } from "../utils/trpc";
 import { User } from "@prisma/client";
 import PropTypes from "prop-types";
-import React, { ReactElement, useState, useEffect} from 'react';
-import { Grid } from '@mui/material';
-import Header from '../components/Header';
-import StockSummary from '../components/StockSummary';
-import sampleStocks from '../utils/sampleStocks';
-import RecentlyViewedStocks from '../components/RecentlyViewedStocks';
-import TradingViewWidget from '../components/TradingViewWidget';
-import Layout from '../components/layout';
-// import getTrendingStocks from "./api/getTrendingStocks";
+import React from "react";
+import Layout from "../components/layout";
+import type { ReactElement } from "react";
+import { useEffect, useState } from "react";
+import { getSession, signOut } from "../utils/supabase";
+import HeroSection from "../components/landing-page/Hero";
+import AboutSection from "../components/landing-page/About";
+import FeaturesSection from "../components/landing-page/Features";
+import Footer from "../components/landing-page/Footer";
+import StockSlider from "../components/landing-page/StockSlider";
+import Header from "../components/landing-page/Header";
 
-
-export default function HomePage() {
-  const [symbol, setSymbol] = useState('AAPL');
-  const [trendingStocks, setTrendingStocks] = useState([]);
-  const [recentluViewedStocks, setRecentlyViewedStocks] = useState([]);
-  console.log(trendingStocks);
-
-const handleSymbolChange = (newSymbol: string) => {
-  setSymbol(newSymbol);
-  
-};
-useEffect(() => {
-  // Fetch the trending stocks when the component mounts
-  fetch('/api/trendingStocks')
-    .then((res) => res.json())
-    .then((data) => {
-      setTrendingStocks(data);
-    })
-    .catch((error) => {
-      console.error('Failed to fetch trending stocks:', error);
-    });
-  fetch('/api/recentlyViewedStocks')
-    .then((res) => res.json())
-    .then((data) => {
-      setRecentlyViewedStocks(data);
-    })
-    .catch((error) => {
-      console.log('Failed to fetch recently viewed stocks:', error);
-    });
-}, []);
+export default function Dashboard() {
 
 
   return (
-    <>
-    <Header onSymbolChange={handleSymbolChange} />
-    <div className="flex-grow p-5 pt-0">
-      <div className="mb-4">
-        <h2 className="ml-4 my-5 font-extrabold text-xl">Stock Dashboard</h2>
-        <StockSummary onSymbolChange={handleSymbolChange} stocks={trendingStocks} />
-      </div>
-
-  <Grid container spacing={5}>
-    <Grid item md={8} className="min-h-[500px]">
-      <TradingViewWidget symbol={symbol} />
-    </Grid>
-    <Grid item md={4} className="min-h-[500px]">
-      <RecentlyViewedStocks onSymbolChange={handleSymbolChange} stocks={recentluViewedStocks} />
-    </Grid>
-  </Grid>
+    <div>
+      <Header/>
+       <HeroSection
+        title="Experience the Thrill of the Stock Market, Risk-Free"
+        subtitle="Join TradeSaga and dive into the world of virtual stock trading."
+      />
+      <AboutSection/>
+      <FeaturesSection/>
+      <StockSlider/>
+      <Footer/>
 
     </div>
-    </>
   );
 }
 
-HomePage.getLayout = function getLayout(page: ReactElement) {
+Dashboard.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };

@@ -6,7 +6,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useRouter } from 'next/router';
 
-const ProfileModal = ({ open, onClose, profile }) => {
+const ProfileModal = ({ open, onClose, profile, signOut }) => {
   const router = useRouter();
 
   if (!open) return null;
@@ -38,7 +38,7 @@ const ProfileModal = ({ open, onClose, profile }) => {
             <ListItemIcon><HelpIcon /></ListItemIcon>
             <ListItemText primary="Help Center" />
           </ListItem>
-          <ListItem button onClick={() => handleNavigation('/logout')}>
+          <ListItem button onClick={() => signOut()}>
             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>

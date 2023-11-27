@@ -17,7 +17,46 @@
  }
  
  async function getRecentsFromUser(): Promise<string[]> {
-    const response = ["AAPL", "TSLA", "AMZN", "INTC", "MSFT"];
+    const response = [
+        'AAPL',
+        'MSFT',
+        'AMZN',
+        'GOOGL',
+        'FB',
+        'V',
+        'JPM',
+        'JNJ',
+        'WMT',
+        'PG',
+        'TSLA',
+        'MA',
+        'DIS',
+        'NVDA',
+        'HD',
+        'PYPL',
+        'BAC',
+        'VZ',
+        'KO',
+        'CMCSA',
+        'PFE',
+        'ADBE',
+        'CSCO',
+        'NFLX',
+        'PEP',
+        'INTC',
+        'XOM',
+        'COST',
+        'CVX',
+        'TWTR',
+        'DUOL',
+        'DIS',
+        'LYFT',
+        'UBER',
+        'VUG',
+        'ABNB',
+
+      ];
+      
    return response;
  }
  
