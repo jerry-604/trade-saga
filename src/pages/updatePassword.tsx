@@ -20,7 +20,7 @@ export default function passwordReset() {
       setError(error.message);
     } else {
       console.log("successfully updated password");
-      // window.location.href = "/";
+      window.location.href = "/";
     }
   };
 
