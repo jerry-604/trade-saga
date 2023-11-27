@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { trpc } from "../utils/trpc";
-import { signIn, signInWithOAuth } from "../utils/supabase";
+import { signIn, signInWithOAuth, resetPasswordForEmail } from "../utils/supabase";
 import { BsGoogle, BsEyeFill, BsEyeSlashFill, BsEye, BsEyeSlash, BsGithub } from "react-icons/bs";
 
 export default function Login() {
@@ -51,6 +51,7 @@ export default function Login() {
           <input className="bg-[#F4F6F8] rounded shadow-inner pl-1 mr-1 w-full" onChange={handlePasswordChange} type={`${showPassword ? "text" : "password"}`}></input>
           {showPassword ? <BsEyeFill size={"25px"} onClick={() => setShowPassword(!showPassword)} /> : <BsEyeSlashFill size={"25px"} onClick={() => setShowPassword(!showPassword)} />}
         </div>
+        <p className="mt-1 cursor-pointer" onClick={() => resetPasswordForEmail(email)}>Forgot Password?</p>
         <button className="bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 mt-5 place-self-center active:shadow-inner" type='submit'>Submit</button>
         {error && <p className="mt-5 bg-red-100 rounded border border-red-200 border-solid w-fit place-self-center px-5">{error}</p>}
         <div className="flex flex-row mt-5 place-items-center">
