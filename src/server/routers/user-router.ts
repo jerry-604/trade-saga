@@ -142,4 +142,39 @@ export const userRouter = router({
       })
       return games;
     }),
+    addToWatchList: protectedProcedure.input(z.object({ symbol: z.string() })).mutation(async ({ctx, input}) => {
+      const user = ctx.user;
+      const updateList = await prisma.watchListItem.create({
+        data: {
+          userId: user.id,
+          symbol: input.symbol,
+        }
+      })
+      return updateList;
+    }),
+    removeFromWatchList: protectedProcedure.input(z.object({ symbol: z.string() })).mutation(async ({ctx, input}) => {
+      const user = ctx.user;
+      const item = await prisma.watchListItem.findFirst({
+        where: {
+          userId: user.id,
+          symbol: input.symbol,
+        }
+      })
+      const updateList = await prisma.watchListItem.delete({
+        where: {
+          id: item?.id,
+          userId: user.id,
+          symbol: input.symbol,
+        }
+      })
+      return updateList;
+    }),
+    getWatchListForUser:  protectedProcedure.query(async ({ctx}) => {
+      const list = await prisma.watchListItem.findMany({
+        where: {
+          userId: ctx.user.id
+        }
+      })
+      return list;
+    }),
 });

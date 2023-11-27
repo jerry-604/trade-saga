@@ -25,6 +25,7 @@ model User {
   createdGames Game[]       @relation("Creator")
   GamePost     GamePost[]
   notifications Notification[]
+  watchlist WatchListItem[]
 }
 
 model Game {
@@ -97,4 +98,13 @@ enum NotificationType {
   TRADE_PLACED
   GAME_JOINED
   GAME_CREATED
+}
+
+model WatchListItem {
+  id  Int      @id @default(autoincrement())
+  user   User     @relation(fields: [userId], references: [id])
+  userId    Int
+  symbol String
+
+  @@index([userId])
 }
