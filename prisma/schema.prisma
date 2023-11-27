@@ -24,6 +24,7 @@ model User {
   GamePlayer   GamePlayer[]
   createdGames Game[]       @relation("Creator")
   GamePost     GamePost[]
+  notifications Notification[]
 }
 
 model Game {
@@ -40,6 +41,7 @@ model Game {
   posts      GamePost[]
   creator    User         @relation(name: "Creator", fields: [creatorID], references: [id])
   creatorID  Int
+  notifications Notification[]
 
   @@index([creatorID])
 }
@@ -73,4 +75,26 @@ model GamePost {
   gameID    Int
   content   String
   createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  user   User     @relation(fields: [userId], references: [id])
+  userId    Int
+  game      Game     @relation(fields: [gameID], references: [id])
+  gameID    Int
+
+  type NotificationType
+
+  symbol String?
+  num_shares_purchased Int?
+  price Decimal?
+
+  @@index([userId])
+}
+
+enum NotificationType {
+  TRADE_PLACED
+  GAME_JOINED
+  GAME_CREATED
 }
