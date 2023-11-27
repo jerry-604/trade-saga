@@ -2,7 +2,10 @@ import React from 'react';
 import { List, ListItem, ListItemText, Avatar, Typography, Divider } from '@mui/material';
 import { useRouter } from 'next/router';
 import { textAlign } from '@mui/system';
-
+import { LoadingBoundary } from './loading-boundary';
+import { trpc } from "../utils/trpc";
+import { NotificationType } from '@prisma/client';
+import { getPostFormattedDate } from '../utils/game-helpers';
 const NotificationModal = ({ open, onClose, notifications }) => {
   const router = useRouter();
 
@@ -31,20 +34,50 @@ const NotificationModal = ({ open, onClose, notifications }) => {
         </Typography>
         <Divider />
         <List component="nav" aria-label="notifications">
-          {notifications.map((notification, idx) => (
+          <LoadingBoundary query={trpc.userRouter.getNotificationsForUser.useQuery()}>
+          {(notificationsa) => (
+            <div>
+           {notificationsa.map((notification, idx) => (
             <ListItem button key={idx} className="flex items-center" onClick={() => handleNotificationClick(notification)}>
-              <Avatar src={notification.profilePic} alt={notification.source} className="mr-3" />
-              <ListItemText 
-                primary={notification.title}
-                secondary={
-                  <>
-                    <span>{notification.source}</span><br />
-                    <span className="text-xs text-gray-500">{notification.timestamp}</span>
-                  </>
-                }
-              />
+              <Avatar src={notification.user.imageUrl} alt={notification.user.imageUrl} className="mr-3" />
+              {
+                notification.type == NotificationType.TRADE_PLACED ? (
+                  <ListItemText 
+                  primary={"You Placed a Trade! 🎉"}
+                  secondary={
+                    <>
+                      <span>{`You bought ${notification.num_shares_purchased} shares of ${notification.symbol} at $${notification.price}`}</span><br />
+                      <span className="text-xs text-gray-500">{getPostFormattedDate(notification.createdAt)}</span>
+                    </>
+                  }
+                />
+                ) : notification.type == NotificationType.GAME_CREATED ? (
+                  <ListItemText 
+                  primary={"You started a game! 🎉"}
+                  secondary={
+                    <>
+                      <span>{`You started the game '${notification.game?.name ?? ""}'`}</span><br />
+                      <span className="text-xs text-gray-500">{getPostFormattedDate(notification.createdAt)}</span>
+                    </>
+                  }
+                />
+                ) : (
+                  <ListItemText 
+                  primary={"You joined a game! 🎉"}
+                  secondary={
+                    <>
+                      <span>{`You joined the game '${notification.game?.name ?? ""}'`}</span><br />
+                      <span className="text-xs text-gray-500">{getPostFormattedDate(notification.createdAt)}</span>
+                    </>
+                  }
+                />
+                )
+              }
             </ListItem>
           ))}
+          </div>
+          )}
+          </LoadingBoundary>
         </List>
         <Divider />
         <ListItem button className="justify-center" onClick={viewAllNotifications}>

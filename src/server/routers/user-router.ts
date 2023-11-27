@@ -177,4 +177,16 @@ export const userRouter = router({
       })
       return list;
     }),
+    getNotificationsForUser:  protectedProcedure.query(async ({ctx}) => {
+      const notfications = prisma.notification.findMany({
+        where: {
+          userId: ctx.user.id,
+        },
+        include: {
+          game: true,
+          user: true,
+        }
+      })
+      return notfications;
+    }),
 });
