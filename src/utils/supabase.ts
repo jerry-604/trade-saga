@@ -67,3 +67,9 @@ export async function deleteAvatar(email: string) {
     .from('avatars')
     .remove([`pfps/${email}.png`]);
 }
+
+export async function resetPasswordForEmail(email: string) {
+  return supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: '/updatePassword'
+  });
+}
