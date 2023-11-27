@@ -1,4 +1,4 @@
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, router, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma';
 import { getSession, signUp } from '@/src/utils/supabase';
@@ -121,5 +121,25 @@ export const userRouter = router({
   getUserFromContext: publicProcedure
     .query(async ({ ctx }) => {
       return ctx.user;
+    }),
+    getGamesForUser: protectedProcedure.query(async ({ ctx }) => {
+      const user = ctx.user;
+      const games = await prisma.game.findMany({
+        where: {
+          users: {
+            some: {
+              id: user.id,
+            }
+          }
+        }, 
+        include: {
+          posts: {
+            include: {
+              creator: true,
+          },
+          },
+        }
+      })
+      return games;
     }),
 });

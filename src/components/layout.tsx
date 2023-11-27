@@ -13,7 +13,7 @@ export default function Layout({ children }) {
   return (
     <div className="flex h-screen bg-[#F5F7F9]">
       {pathname!== '/' && (
-        <div style={{ zIndex: 1000 }}>
+        <div >
           <Sidebar onToggleSidebar={toggleSidebar} />
         </div>
       )}
