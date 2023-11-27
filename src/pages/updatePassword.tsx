@@ -14,9 +14,13 @@ export default function passwordReset() {
       // window.location.href = "/";
     }
   };
+
+  const handlePasswordChange = (e: any) => {
+    setNewPassword(e.target.value);
+  };
   return (
     <div>
-      <input type="password" placeholder="new password"></input>
+      <input value={newPassword} onChange={handlePasswordChange} type="password" placeholder="new password"></input>
       <button onClick={handleSubmit}>submit</button>
       {error && <p>{error}</p>}
     </div>
