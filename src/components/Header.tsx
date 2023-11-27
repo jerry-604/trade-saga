@@ -107,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
 }, [searchValue]);
 
 const notifications = trpc.userRouter.getNotificationsForUser.useQuery().data;
-
+const user = trpc.userRouter.getUserFromContext.useQuery().data;
 
 
 
@@ -168,10 +168,14 @@ const notifications = trpc.userRouter.getNotificationsForUser.useQuery().data;
         <div className="h-6 w-px bg-gray-400 mx-2"></div>
         <IconButton onClick={toggleProfileModal} color="inherit">
           <Avatar sx={{ bgcolor: 'grey.200' }}>
-            <AccountCircle />
+          <img
+            src={user?.imageUrl}
+            alt="User"
+            className="rounded-full w-full h-full object-cover"
+          />
           </Avatar>
         </IconButton>
-        <span className="ml-2 font-semibold">TradeSaga Player</span>
+        <span className="ml-2 font-semibold">{user?.Fname ?? ""} {user?.Lname ?? ""}</span>
       </div>
 
       <ProfileModal 
