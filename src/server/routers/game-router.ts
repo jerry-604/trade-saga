@@ -226,7 +226,7 @@ export const gameRouter = router({
             ),
         ])
         if (!!gameExists) {
-            const isOngoing = gameExists.dateEnd > (new Date())
+            const isOngoing = gameExists.dateEnd > (new Date()) && gameExists.dateStart < (new Date())
             return [!!gameExists, !!userExists, !!isOngoing]
         } else {
         return [false, false, false];
