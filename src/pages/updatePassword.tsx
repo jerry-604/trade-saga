@@ -18,6 +18,7 @@ export default function passwordReset() {
   const handlePasswordChange = (e: any) => {
     setNewPassword(e.target.value);
   };
+
   return (
     <div>
       <input value={newPassword} onChange={handlePasswordChange} type="password" placeholder="new password"></input>
