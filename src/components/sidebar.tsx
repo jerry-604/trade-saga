@@ -28,7 +28,7 @@ export default function Sidebar({ onToggleSidebar }) {
   };
 
   return (
-    <div className={`sidebar fixed top-0 bottom-0 lg:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[350px]'} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
+    <div className={`sidebar fixed top-0 bottom-0 lg:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[325px]'} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
       {/* Top Section */}
       <div className="text-[#424242]-100 text-xl">
         <div className="h-[54px] p-2.5 mt-1 flex items-center justify-center">
@@ -71,7 +71,7 @@ export default function Sidebar({ onToggleSidebar }) {
       </List>
               
         {/* Bottom Section stuffs */}
-      <div className={`absolute bottom-[10px] sm:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[350px] '} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
+      <div className={`absolute bottom-[10px] sm:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[325px] '} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
         <List component="nav">
         <Divider sx={{ my: 2 }} />
           {bottomItems.map((item, index) => (
