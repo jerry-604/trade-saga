@@ -1,60 +1,100 @@
-import { useRouter } from 'next/router';
-import { FiHome, FiTrello, FiRss } from "react-icons/fi";
-import { BsFillQuestionCircleFill, BsFillArrowUpRightCircleFill } from "react-icons/bs";
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { RxLink2 } from "react-icons/rx";
-export default function Sidebar() {
+import { useRouter } from 'next/router';
+import { List, ListItem, ListItemIcon, ListItemText, IconButton, Divider } from '@mui/material';
+import { Home, Dashboard, Announcement, Help, Settings, ChevronLeft, ChevronRight } from '@mui/icons-material';
+
+export default function Sidebar({ onToggleSidebar }) {
   const router = useRouter();
   const currentRoute = router.pathname;
+  const [collapsed, setCollapsed] = useState(false);
+
+  const sidebarItems = [
+    { icon: <Home />, text: 'Home', path: '/home' },
+    { icon: <Dashboard />, text: 'Stock Dashboard', path: '/dashboard' },
+    { icon: <Announcement />, text: 'News', path: '/news' },
+  ];
+
+  const bottomItems = [
+    { icon: <Help />, text: 'Help', path: '/help' },
+    { icon: <Settings />, text: 'Settings', path: '/settings' },
+  ];
+
+  const toggleCollapse = () => {
+    setCollapsed(!collapsed);
+    onToggleSidebar();
+  };
+
   return (
-    <div className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[350px] overflow-y-auto text-center bg-white border-r-2 border-[#EBEEF3] px-5 py-5 space-y-10">
+    <div className={`sidebar fixed top-0 bottom-0 lg:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[300px]'} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
+      {/* Top Section */}
       <div className="text-[#424242]-100 text-xl">
         <div className="h-[54px] p-2.5 mt-1 flex items-center justify-center">
-          <CircleWithT />
-          <h1 className="font-bold text-[#424242]-200 text-[18px] ml-3 text-[#424242]">
+          { <CircleWithT />}
+          {collapsed ? null : <h1 className="font-bold text-[#424242]-200 text-[18px] ml-3 text-[#424242]">
             TradeSaga
-          </h1>
+          </h1>}
         </div>
       </div>
-      <Link href="/" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242] ${currentRoute == "/" ? "bg-[#F4F6F8]" : null}`}>
-        <FiHome size="25px" />
-        <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">Home</span>
-      </Link>
-      <Link href="/dashboard" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]  ${currentRoute == "/dashboard" ? "bg-[#F4F6F8]" : null}`}>
-        <FiTrello size="25px" />
-        <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
-          Stock Dashboard
-        </span>
-      </Link>
-      <Link href="/news" className={`h-[54px] p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]  ${currentRoute == "/news" ? "bg-[#F4F6F8]" : null}`}>
-        <FiRss size="25px" />
-        <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
-          News
-        </span>
-      </Link>
-      <div className="absolute bottom-[40px] w-[310px]">
-        <div className="my-4 bg-[#D9D9D9] h-[2px] w-[275px] ml-[17.5px]"></div>
-        <div className="p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]">
-          <BsFillQuestionCircleFill size="25px" color="black" />
-          <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
-            Help
-          </span>
-        </div>
-        <div className="p-2.5 mt-3 flex items-center rounded-[10px] px-4 duration-300 cursor-pointer text-[#424242]">
-          <BsFillArrowUpRightCircleFill size="25px" color="black" />
-          <span className="text-[18px] ml-4 text-[#424242]-200 font-bold">
-            <a href="/profile">Settings</a>
-          </span>
-        </div>
+
+      {/* Sidebar stuffs */}
+      <List component="nav" >
+        {sidebarItems.map((item, index) => (
+          <Link href={item.path} key={index} passHref>
+            <ListItem
+              button
+              selected={currentRoute === item.path}
+              sx={{
+                borderRadius: '10px',
+                '&:hover': {
+                  backgroundColor: '#F4F6F8',
+                },
+                backgroundColor: currentRoute === item.path ? '#F4F6F8' : null,
+                marginTop: '25px',
+              }}
+            >
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              {!collapsed && <ListItemText primary={item.text} />}
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+              
+        {/* Bottom Section stuffs */}
+      <div className={`absolute bottom-[10px] sm:left-0 ${collapsed ? 'p-2' : 'p-5'} ${collapsed ? 'w-[70px]' : 'w-[300px] '} overflow-y-auto text-center bg-white border-r border-[#EBEEF3] transition-width duration-300`}>
+        <List component="nav">
+        <Divider sx={{ my: 2 }} />
+          {bottomItems.map((item, index) => (
+            <Link href={item.path} key={index} passHref>
+              <ListItem
+                button
+                sx={{
+                  borderRadius: '10px',
+                  '&:hover': {
+                    backgroundColor: '#F4F6F8',
+                  },
+                }}
+              >
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                {!collapsed && <ListItemText primary={item.text} />}
+              </ListItem>
+            </Link>
+          ))}
+          <IconButton onClick={toggleCollapse} sx={{ mx: 'auto', mt:'10px' }}>
+            {collapsed ? <ChevronRight /> : <ChevronLeft />}
+          </IconButton>
+        </List>
       </div>
     </div>
   );
 }
 
-const CircleWithT = () => {
-  return (
-    <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center">
-      <span className="text-white font-semibold text-[15px]">T</span>
-    </div>
-  );
-};
+const CircleWithT = () => (
+  <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center">
+    <span className="text-white font-semibold text-[15px]">T</span>
+  </div>
+);
