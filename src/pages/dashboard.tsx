@@ -122,7 +122,7 @@ export default function Dashboard() {
                 ))}
             </div>
             <div className="w-full flex justify-end p-8 pt-[87px]">
-              <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] h-fit min-h-[430px] w-[345px]">
+              <div className="flex flex-col items-center bg-[#131313] p-4 rounded-[14px] h-fit min-h-[430px] w-[375px]">
                 <p className="text-[20px] font-semibold mb-1 text-[#FBFBFB] w-full p-4">
                   My Games
                 </p>
