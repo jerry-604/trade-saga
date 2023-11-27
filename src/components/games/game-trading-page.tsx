@@ -73,13 +73,15 @@ export default function GameTradingPage({ user, gameData, stockData, setIsTradin
     gamePlayerId: number,
     symbol: string,
     price: number,
-    quantity: number
+    quantity: number,
+    gameID: number
   ) => {
     mutate({
       gamePlayerId,
       symbol,
       price,
       quantity,
+      gameID
     });
   };
 
@@ -128,7 +130,8 @@ export default function GameTradingPage({ user, gameData, stockData, setIsTradin
                       ).id,
                       symbol,
                       stockPrice,
-                      numShares
+                      numShares,
+                      gameData.id
                     )
                     :
                     null
