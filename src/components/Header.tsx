@@ -4,6 +4,7 @@ import { Search, Notifications, AccountCircle } from '@mui/icons-material';
 import ProfileModal from './profileModal';
 import NotificationModal from './notificationModal';
 import { signOut } from '../utils/supabase';
+import { trpc } from "../utils/trpc";
 
 interface HeaderProps {
     onSymbolChange: (symbol: string) => void;
@@ -105,6 +106,10 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
     }
 }, [searchValue]);
 
+const notifications = trpc.userRouter.getNotificationsForUser.useQuery().data;
+
+
+
 
   return (
     <div className="flex items-center justify-between p-4 bg-white shadow-sm top-0 sticky z-50">
@@ -150,7 +155,7 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
       </div>
       <div className="flex items-center space-x-2">
         <IconButton color="inherit" onClick={toggleNotificationModal}>
-          <Badge badgeContent={5} color="secondary">
+          <Badge badgeContent={(notifications ?? []).length} color="secondary">
             <Notifications />
           </Badge>
         </IconButton>
@@ -158,7 +163,7 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
         <NotificationModal
           open={notificationModalOpen}
           onClose={() => setNotificationModalOpen(false)}
-          notifications={sampleNotifications.slice(0, 5)}
+          notifications={notifications}
         />
         <div className="h-6 w-px bg-gray-400 mx-2"></div>
         <IconButton onClick={toggleProfileModal} color="inherit">

@@ -34,10 +34,7 @@ const NotificationModal = ({ open, onClose, notifications }) => {
         </Typography>
         <Divider />
         <List component="nav" aria-label="notifications">
-          <LoadingBoundary query={trpc.userRouter.getNotificationsForUser.useQuery()}>
-          {(notificationsa) => (
-            <div>
-           {notificationsa.map((notification, idx) => (
+           {notifications.map((notification, idx) => (
             <ListItem button key={idx} className="flex items-center" onClick={() => handleNotificationClick(notification)}>
               <Avatar src={notification.user.imageUrl} alt={notification.user.imageUrl} className="mr-3" />
               {
@@ -75,9 +72,6 @@ const NotificationModal = ({ open, onClose, notifications }) => {
               }
             </ListItem>
           ))}
-          </div>
-          )}
-          </LoadingBoundary>
         </List>
         <Divider />
         <ListItem button className="justify-center" onClick={viewAllNotifications}>
