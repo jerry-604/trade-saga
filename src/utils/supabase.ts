@@ -24,7 +24,7 @@ export function signInWithOAuth(provider: 'google' | 'github') {
   return supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
-      redirectTo: '/dashboard'
+      redirectTo: 'http://localhost:3000/dashboard'
     }
   });
 }
@@ -66,4 +66,14 @@ export async function deleteAvatar(email: string) {
     .storage
     .from('avatars')
     .remove([`pfps/${email}.png`]);
+}
+
+export async function resetPasswordForEmail(email: string) {
+  return supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: 'http://localhost:3000/updatePassword'
+  });
+}
+
+export async function updatePassword(newPassword: string) {
+  return supabase.auth.updateUser({ password: newPassword });
 }
