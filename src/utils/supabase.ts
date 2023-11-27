@@ -73,3 +73,7 @@ export async function resetPasswordForEmail(email: string) {
     redirectTo: '/updatePassword'
   });
 }
+
+export async function updatePassword(newPassword: string) {
+  return supabase.auth.updateUser({ password: newPassword });
+}
