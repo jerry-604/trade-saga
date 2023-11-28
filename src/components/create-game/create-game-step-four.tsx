@@ -63,7 +63,7 @@ export const CreateGameStepFour = ({
                     </div>
                     <div className="flex flex-row w-[575px] p-3 border-2 border-[#E2E2E2] rounded-[8px] focus:outline-none 2 focus:border-indigo-600 bg-[#F9F9F9] drop-shadow-sm h-[85px] content-center">
                         <RxLink2 size="30px" color="indigo-600" class="mt-3 text-indigo-600" />
-                        <p className="ml-3 content-center h-[85px] pt-4 font-bold text-indigo-600">https://tradesaga.com/game/{shareID}</p>
+                        <p className="ml-3 content-center h-[85px] pt-4 font-bold text-indigo-600">https://trade-saga.vercel.app/games/{shareID}</p>
                     </div>
                 </div>
                 <div className="mb-6">
