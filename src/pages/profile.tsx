@@ -81,6 +81,7 @@ export default function Profile() {
         },
         onError: (error) => {
           console.error(error);
+          setError(error.message);
         }
       });
   };
