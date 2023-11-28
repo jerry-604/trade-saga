@@ -27,6 +27,7 @@ import TickerTapeWidget from "@/src/components/games/ticker-tape-widget";
 import GameAnalysis from "@/src/components/games/game-analysis-page";
 import withAuth from "@/src/utils/with-auth"
 import GameNavBarNonOngoing from "@/src/components/games/game-navbar-nonongoing";
+import { useSearchParams } from 'next/navigation'
 
 export default function GamePage() {
   const { query } = useRouter();
@@ -104,6 +105,15 @@ export default function GamePage() {
       shareId: shareId,
     });
   };
+
+  const searchParams = useSearchParams();
+  const search_symbol = searchParams.get('symbol')
+
+  useEffect(() => {
+    if(search_symbol) {
+      setIsTrading(true);
+    }
+  }, [searchParams])
 
   return (
     <LoadingBoundary query={
