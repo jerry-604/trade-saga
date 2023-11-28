@@ -14,7 +14,7 @@ const NotificationModal = ({ open, onClose, notifications }) => {
   const handleNotificationClick = (notification) => {
 
     onClose();
-    router.push(`/notification/${notification.id}`);
+    router.push(`/games/${notification.game?.shareId ?? ""}`);
   };
 
   const viewAllNotifications = () => {
@@ -74,16 +74,16 @@ const NotificationModal = ({ open, onClose, notifications }) => {
           ))}
         </List>
         <Divider />
-        <ListItem button className="justify-center" onClick={viewAllNotifications}>
+        {/* <ListItem button className="justify-center" onClick={viewAllNotifications}>
         <ListItemText 
             sx={{ 
                 textAlign: "center", 
                 color: "blue" 
             }} 
             primary="View All Notifications" 
-        />
+        /> */}
 
-        </ListItem>
+        {/* </ListItem> */}
       </div>
     </>
   );

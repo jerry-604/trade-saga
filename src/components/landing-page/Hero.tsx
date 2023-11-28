@@ -1,6 +1,6 @@
-
 import React from 'react';
 import Button from '@mui/material/Button';
+import Header from './Header';
 
 interface HeroSectionProps {
   title: string;
@@ -9,7 +9,15 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => {
   return (
-    <div className="relative p-8 h-screen bg-cover bg-center" style={{ backgroundImage: "url('/trading-bk.png')" }}>
+      <div className="relative h-screen overflow-hidden flex items-center justify-center">
+      <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover z-0">
+        <source src="/trading-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+        <Header/>
+
+      <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+
       <div className="absolute inset-0 bg-black opacity-50"></div>
       <div className="flex justify-center items-center h-full z-10">
         <div className="text-center text-white mr-auto">
@@ -20,7 +28,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => {
           </Button>
         </div>
         <div className="w-1/2">
-          <img src="/real-time.jpeg" alt="Hero" className="rounded-xl shadow-lg" />
+          <img src="/hero-image.png" alt="Hero" className="rounded-xl shadow-lg" />
         </div>
       </div>
     </div>

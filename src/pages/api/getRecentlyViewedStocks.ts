@@ -16,49 +16,49 @@
    movementData: number[];
  }
  
- async function getRecentsFromUser(): Promise<string[]> {
-    const response = [
-        'AAPL',
-        'MSFT',
-        'AMZN',
-        'GOOGL',
-        'FB',
-        'V',
-        'JPM',
-        'JNJ',
-        'WMT',
-        'PG',
-        'TSLA',
-        'MA',
-        'DIS',
-        'NVDA',
-        'HD',
-        'PYPL',
-        'BAC',
-        'VZ',
-        'KO',
-        'CMCSA',
-        'PFE',
-        'ADBE',
-        'CSCO',
-        'NFLX',
-        'PEP',
-        'INTC',
-        'XOM',
-        'COST',
-        'CVX',
-        'TWTR',
-        'DUOL',
-        'DIS',
-        'LYFT',
-        'UBER',
-        'VUG',
-        'ABNB',
+//  async function getRecentsFromUser(): Promise<string[]> {
+//     const response = [
+//         'AAPL',
+//         'MSFT',
+//         'AMZN',
+//         'GOOGL',
+//         'FB',
+//         'V',
+//         'JPM',
+//         'JNJ',
+//         'WMT',
+//         'PG',
+//         'TSLA',
+//         'MA',
+//         'DIS',
+//         'NVDA',
+//         'HD',
+//         'PYPL',
+//         'BAC',
+//         'VZ',
+//         'KO',
+//         'CMCSA',
+//         'PFE',
+//         'ADBE',
+//         'CSCO',
+//         'NFLX',
+//         'PEP',
+//         'INTC',
+//         'XOM',
+//         'COST',
+//         'CVX',
+//         'TWTR',
+//         'DUOL',
+//         'DIS',
+//         'LYFT',
+//         'UBER',
+//         'VUG',
+//         'ABNB',
 
-      ];
+//       ];
       
-   return response;
- }
+//    return response;
+//  }
  
  async function getWealthbaseDetails(symbol: string): Promise<WealthbaseDetails> {
    const response = await fetch(`https://www.wealthbase.com/investments/${symbol}/details`, {
@@ -69,8 +69,8 @@
    return response.json();
  }
  
- async function getRecentlyViewedStocks(): Promise<TrendingStock[]> {
-   const symbols = await getRecentsFromUser();
+ async function getRecentlyViewedStocks(symbols: string[]): Promise<TrendingStock[]> {
+  //  const symbols = await getRecentsFromUser();
 //    console.log(symbols);
    const detailsPromises = symbols.map(symbol => getWealthbaseDetails(symbol));
    const details = await Promise.all(detailsPromises);
