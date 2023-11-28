@@ -109,7 +109,7 @@ export const userRouter = router({
         data: {
           email: user.data.user?.email || "",
           Fname: user.data.user?.email?.split("@")[0] || "",
-          Lname: user.data.user?.email?.split("@")[0] || "",
+          Lname: "",
           role: "user",
           dollars: 0,
         }
