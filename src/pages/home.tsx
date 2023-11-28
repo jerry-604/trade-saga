@@ -156,9 +156,9 @@ Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export const getServerSideProps = withAuth({
-  redirectTo: "/"
-})
+// export const getServerSideProps = withAuth({
+//   redirectTo: "/"
+// })
 
 
 const GameItem = ({ game }: any) => {
