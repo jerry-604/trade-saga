@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const AboutSection: React.FC = () => {
   return (
-    <div className="bg-white py-12">
+    <div id='about' className="bg-white py-12">
       <div className="container mx-auto px-6 md:px-12">
         <div className="flex flex-wrap items-center">
           <div className="w-full md:w-1/2 px-6">

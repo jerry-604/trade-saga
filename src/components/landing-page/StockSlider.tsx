@@ -48,7 +48,7 @@ const StockSlider: React.FC = () => {
         </Marquee>
       </div>
       <div className="flex justify-center mt-6">
-        <Button  style={{textTransform: 'none'}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
+        <Button href='/registration'  style={{textTransform: 'none'}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
           Trade Now
         </Button>
       </div>

@@ -20,7 +20,7 @@ const Header: React.FC = () => {
 
         {/* Navigation Links */}
         <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}>
-          <Link href="/" passHref><Button color="inherit">Home</Button></Link>
+          <Link href="#home" passHref><Button color="inherit">Home</Button></Link>
           <Link href="#about" passHref><Button color="inherit">About</Button></Link>
           <Link href="#features" passHref><Button color="inherit">Features</Button></Link>
           <Link href="#contact" passHref><Button color="inherit">Contact</Button></Link>
@@ -28,8 +28,8 @@ const Header: React.FC = () => {
 
         {/* Login and Signup Buttons */}
         <Box>
-          <Button color="inherit" variant="outlined" sx={{ borderRadius: 20, marginRight: 1 }}>Login</Button>
-          <Button color="primary" variant="contained" sx={{ borderRadius: 20 }}>Sign Up</Button>
+          <Button color="inherit" href='/login' variant="outlined" sx={{ borderRadius: 20, marginRight: 1 }}>Login</Button>
+          <Button color="primary" href='/registration' variant="contained" sx={{ borderRadius: 20 }}>Sign Up</Button>
         </Box>
       </Toolbar>
     </AppBar>

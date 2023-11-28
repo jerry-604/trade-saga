@@ -30,11 +30,11 @@ const ProfileModal = ({ open, onClose, profile, signOut, user }) => {
             <ListItemIcon><PersonIcon /></ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItem>
-          <ListItem button onClick={() => handleNavigation('/account')}>
+          <ListItem button onClick={() => handleNavigation('/profile')}>
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary="Account Setting" />
           </ListItem>
-          <ListItem button onClick={() => handleNavigation('/help')}>
+          <ListItem button onClick={() => handleNavigation('/how-to')}>
             <ListItemIcon><HelpIcon /></ListItemIcon>
             <ListItemText primary="Help Center" />
           </ListItem>
