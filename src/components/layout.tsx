@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Sidebar from './sidebar';
 
-export default function Layout({ children }) {
+export default function Layout({ children }: any) {
   const [sidebarWidth, setSidebarWidth] = useState(325); // default sidebar width in pixels
   const { pathname } = useRouter(); // Destructure pathname from the useRouter hook
 

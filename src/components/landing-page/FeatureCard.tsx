@@ -6,7 +6,7 @@ import Image from 'next/image';
 interface FeatureCardProps {
   title: string;
   description: string;
-  Icon: (props: SvgIconProps) => JSX.Element;
+  Icon: any;
   image: string;
 }
 

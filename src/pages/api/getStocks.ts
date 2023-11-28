@@ -80,7 +80,7 @@ async function getStocks(): Promise<TrendingStock[]> {
     stockName: detail.name,
     symbol: detail.symbol,
     logo: detail.logo_url,
-  }));
+  }) as any);
 
   return trendingStocks;
 }

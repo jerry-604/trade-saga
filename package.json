@@ -51,6 +51,8 @@
   },
   "devDependencies": {
     "@types/node": "latest",
+    "@types/node-fetch": "^2.6.9",
+    "@types/ramda": "^0.29.9",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",

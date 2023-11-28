@@ -12,6 +12,7 @@ interface Stock {
 interface StockSummaryProps {
   stocks: Stock[];
   error?: string; // Optional error message
+  onSymbolChange: any;
 }
 
 const StockSummary: React.FC<StockSummaryProps> = ({ stocks, onSymbolChange, error }) => {

@@ -24,7 +24,7 @@ export default function HowTo() {
           Ready to Make Your Mark?
         </h2>
         <p className="text-gray-400 text-sm md:text-base text-center mb-4">
-          With TradeSaga, you're not just playing a game; you're building the
+          With TradeSaga, you&apos;re not just playing a game; you&apos;re building the
           foundation for financial literacy and smart investing. Set up your
           profile, start trading, and embark on a journey of learning and growth
           in the world of stock trading.
@@ -34,7 +34,7 @@ export default function HowTo() {
   );
 }
 
-const AccordionItem = ({ title, children }) => {
+const AccordionItem = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -62,7 +62,7 @@ const HowToPlayAccordion = () => {
             accessibility at its core, opening up the world of finance to a
             wider audience. Here, users can effortlessly join various trading
             games, each offering a unique and engaging way to learn about stock
-            trading. Whether you're a beginner or have some experience, our
+            trading. Whether you&apos;re a beginner or have some experience, our
             platform provides a user-friendly environment to experiment with
             trading strategies, understand market dynamics, and build financial
             acumen.
@@ -90,7 +90,7 @@ const HowToPlayAccordion = () => {
             friends to join.
           </li>
           <li>
-            Join Friends' Games: Accept game invitations from friends and
+            Join Friends&apos; Games: Accept game invitations from friends and
             compete against them.
           </li>
         </ul>
@@ -105,7 +105,7 @@ const HowToPlayAccordion = () => {
           </li>
           <li>
             Learning: TradeSaga is a platform to learn about financial markets.
-            That's why we built simple to understand portfolio overview and
+            That&apos;s why we built simple to understand portfolio overview and
             analysis tools right into games.
           </li>
         </ul>
@@ -119,7 +119,7 @@ const HowToPlayAccordion = () => {
             informed decisions.
           </li>
           <li>
-            Selling Stocks: Sell your stocks when you think it's the right time.
+            Selling Stocks: Sell your stocks when you think it&apos;s the right time.
             Aim to sell them for a higher price than you bought them to make a
             profit.
           </li>
@@ -133,7 +133,7 @@ const HowToPlayAccordion = () => {
             performance history.
           </li>
           <li>
-            Buy and Sell: When you're in a game, click the trade button to buy
+            Buy and Sell: When you&apos;re in a game, click the trade button to buy
             stocks. Navigate to your portfolio to sell.
           </li>
         </ul>

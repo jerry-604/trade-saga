@@ -2,7 +2,7 @@ import { updatePassword } from "../utils/supabase";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { useState } from "react";
 
-export default function passwordReset() {
+export default function PasswordReset() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');

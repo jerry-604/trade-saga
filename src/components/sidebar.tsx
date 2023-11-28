@@ -6,7 +6,7 @@ import { Home, Dashboard, Announcement, Help, Settings, ChevronLeft, ChevronRigh
 import { FiHome, FiTrello, FiRss } from "react-icons/fi";
 import { BsFillQuestionCircleFill, BsFillArrowUpRightCircleFill } from "react-icons/bs";
 
-export default function Sidebar({ onToggleSidebar }) {
+export default function Sidebar({ onToggleSidebar }: any) {
   const router = useRouter();
   const currentRoute = router.pathname;
   const [collapsed, setCollapsed] = useState(false);

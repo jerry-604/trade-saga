@@ -1,7 +1,9 @@
 import {
   QueriesResults,
   UseQueryOptionsForUseQueries,
-} from '@trpc/react-query/dist/internals/useQueries';
+} 
+// @ts-ignore
+from '@trpc/react-query/dist/internals/useQueries';
 import { BeatLoader } from 'react-spinners';
 import { pluck, prop } from 'ramda';
 type Props<

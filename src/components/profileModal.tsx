@@ -6,12 +6,12 @@ import HelpIcon from '@mui/icons-material/Help';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useRouter } from 'next/router';
 
-const ProfileModal = ({ open, onClose, profile, signOut, user }) => {
+const ProfileModal = ({ open, onClose, profile, signOut, user }: any) => {
   const router = useRouter();
 
   if (!open) return null;
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path: any) => {
     router.push(path);
     onClose();
   };
@@ -30,11 +30,11 @@ const ProfileModal = ({ open, onClose, profile, signOut, user }) => {
             <ListItemIcon><PersonIcon /></ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItem>
-          <ListItem button onClick={() => handleNavigation('/account')}>
+          <ListItem button onClick={() => handleNavigation('/profile')}>
             <ListItemIcon><SettingsIcon /></ListItemIcon>
             <ListItemText primary="Account Setting" />
           </ListItem>
-          <ListItem button onClick={() => handleNavigation('/help')}>
+          <ListItem button onClick={() => handleNavigation('/how-to')}>
             <ListItemIcon><HelpIcon /></ListItemIcon>
             <ListItemText primary="Help Center" />
           </ListItem>

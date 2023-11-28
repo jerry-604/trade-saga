@@ -6,12 +6,12 @@ import { LoadingBoundary } from './loading-boundary';
 import { trpc } from "../utils/trpc";
 import { NotificationType } from '@prisma/client';
 import { getPostFormattedDate } from '../utils/game-helpers';
-const NotificationModal = ({ open, onClose, notifications }) => {
+const NotificationModal = ({ open, onClose, notifications }: any) => {
   const router = useRouter();
 
   if (!open) return null;
 
-  const handleNotificationClick = (notification) => {
+  const handleNotificationClick = (notification: any) => {
 
     onClose();
     router.push(`/games/${notification.game?.shareId ?? ""}`);
@@ -34,7 +34,7 @@ const NotificationModal = ({ open, onClose, notifications }) => {
         </Typography>
         <Divider />
         <List component="nav" aria-label="notifications">
-           {notifications.map((notification, idx) => (
+           {notifications.map((notification: any, idx: any) => (
             <ListItem button key={idx} className="flex items-center" onClick={() => handleNotificationClick(notification)}>
               <Avatar src={notification.user.imageUrl} alt={notification.user.imageUrl} className="mr-3" />
               {

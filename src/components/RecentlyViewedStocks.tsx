@@ -13,6 +13,9 @@ interface Stock {
 interface RecentlyViewedStocksProps {
   stocks: Stock[];
   error?: string; // Optional error message
+  onSymbolChange: any;
+  removeFromWatchlist: any;
+  addToWatchList: any;
 }
 
 // const RecentlyViewedStocks: React.FC<RecentlyViewedStocksProps> = ({ stocks, error, onSymbolChange }) => {

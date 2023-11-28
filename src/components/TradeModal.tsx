@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Grid } from '@mui/material';
 
-const TradeModal = ({ open, handleClose, games, symbol }) => {
+const TradeModal = ({ open, handleClose, games, symbol }: any) => {
   return (
     <Modal
       open={open}
@@ -30,7 +30,7 @@ const TradeModal = ({ open, handleClose, games, symbol }) => {
           {`Choose a game to trade $${symbol}`}
         </Typography>
         <Grid container spacing={2}>
-          {games.map((game) => (
+          {games.map((game: any) => (
             <Grid item xs={12} sm={6} md={4} key={game.id}>
               <Button
                 fullWidth
