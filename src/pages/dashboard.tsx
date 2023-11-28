@@ -9,10 +9,11 @@ import sampleStocks from '../utils/sampleStocks';
 import RecentlyViewedStocks from '../components/RecentlyViewedStocks';
 import TradingViewWidget from '../components/TradingViewWidget';
 import Layout from '../components/layout';
+import withAuth from "../utils/with-auth";
 // import getTrendingStocks from "./api/getTrendingStocks";
 
 
-export default function HomePage() {
+export default function Dashboard() {
   const [symbol, setSymbol] = useState('AAPL');
   const [trendingStocks, setTrendingStocks] = useState([]);
   const [recentluViewedStocks, setRecentlyViewedStocks] = useState([]);
@@ -66,6 +67,10 @@ useEffect(() => {
   );
 }
 
-HomePage.getLayout = function getLayout(page: ReactElement) {
+Dashboard.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+export const getServerSideProps = withAuth({
+  redirectTo: "/"
+})

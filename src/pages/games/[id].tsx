@@ -198,7 +198,7 @@ GamePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = withAuth({
-  redirectTo: "/login"
+  redirectTo: "/"
 })
 
 interface PTProps {

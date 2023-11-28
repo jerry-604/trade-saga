@@ -6,6 +6,8 @@ import { CreateGameStepTwo } from '../components/create-game/create-game-step-tw
 import { CreateGameStepThree } from '../components/create-game/create-game-step-three'
 import { CreateGameStepFour } from '../components/create-game/create-game-step-four'
 import { trpc } from "../utils/trpc";
+import withAuth from "../utils/with-auth";
+
 export default function Create() {
     const [gameTitle, setGameTitle] = useState("");
     const [backgroundImage, setBackgroundImage] = useState("create-background");
@@ -72,3 +74,7 @@ export default function Create() {
     }
 }
 
+export const getServerSideProps = withAuth({
+    redirectTo: "/"
+  })
+  
