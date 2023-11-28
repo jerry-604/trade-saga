@@ -135,7 +135,6 @@ export default function Profile() {
           className="mx-auto mt-[10px]"/>
           
           <p className="flex justify-center mt-[10px] mb-[10px]">User email: {session.user.email}</p>
-          {error && <p className="flex justify-center">{JSON.stringify(error)}</p>}
 
           <div className="border-b border-[#EBEEF3] border-solid"></div>
 
@@ -199,6 +198,8 @@ export default function Profile() {
               </p>
             </Link>
           </div>
+
+          {error && <p className="flex justify-center text-red-700 mt-[10px]">{error}</p>}
 
         </div>
       </div>
