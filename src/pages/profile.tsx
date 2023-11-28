@@ -81,6 +81,7 @@ export default function Profile() {
         },
         onError: (error) => {
           console.error(error);
+          setError(error.message);
         }
       });
   };
@@ -130,11 +131,12 @@ export default function Profile() {
           <p className="flex justify-center mt-[25px] text-xl font-bold
             text-shadow bg-black-100">Profile Settings Page</p>
 
+          {/* @ts-ignore */}
           <Image src={user.data.imageUrl} width={100} height={100} alt="profile picture" 
           className="mx-auto mt-[10px]"/>
           
+          {/* @ts-ignore */}
           <p className="flex justify-center mt-[10px] mb-[10px]">User email: {session.user.email}</p>
-          {error && <p className="flex justify-center">{JSON.stringify(error)}</p>}
 
           <div className="border-b border-[#EBEEF3] border-solid"></div>
 
@@ -159,6 +161,8 @@ export default function Profile() {
               <p className="flex justify-center">
                 Selected File: 
                 <span className="overflow-hidden max-w-[230px]">
+
+                  {/* @ts-ignore */}
                   {image ? truncateFileName(image.name, 20) : 'None'}
                 </span>
               </p>
@@ -198,6 +202,8 @@ export default function Profile() {
               </p>
             </Link>
           </div>
+
+          {error && <p className="flex justify-center text-red-700 mt-[10px]">{error}</p>}
 
         </div>
       </div>

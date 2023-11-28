@@ -29,6 +29,7 @@
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.5",
     "install": "^0.13.0",
+    "marquee": "^0.2.1",
     "next": "latest",
     "npm": "^10.2.0",
     "prisma": "^5.3.1",

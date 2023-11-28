@@ -37,6 +37,20 @@ export const userRouter = router({
       }
     }
 
+    if(input.Fname.length > 20) {
+      throw new TRPCError({
+        code: "UNPROCESSABLE_CONTENT",
+        message: "Maximum first name length is 20 characters",
+      })
+    }
+
+    if(input.Lname.length > 20) {
+      throw new TRPCError({
+        code: "UNPROCESSABLE_CONTENT",
+        message: "Maximum last name length is 20 characters",
+      })
+    }
+
     if (input.password !== input.confirmPassword) {
       throw new TRPCError({
         code: 'UNPROCESSABLE_CONTENT',
@@ -127,6 +141,20 @@ export const userRouter = router({
         code: 'UNPROCESSABLE_CONTENT',
         message: "Invalid input",
       });
+    }
+
+    if(opts.input.FnameEdit.length > 20) {
+      throw new TRPCError({
+        code: "UNPROCESSABLE_CONTENT",
+        message: "Maximum first name length is 20 characters",
+      })
+    }
+
+    if(opts.input.LnameEdit.length > 20) {
+      throw new TRPCError({
+        code: "UNPROCESSABLE_CONTENT",
+        message: "Maximum last name length is 20 characters",
+      })
     }
 
     if (!opts.input.FnameEdit && !opts.input.LnameEdit) {
