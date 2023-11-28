@@ -304,7 +304,7 @@ export const gameRouter = router({
             return unique;
         }, []);
         const stockData = await Promise.all(
-            (flattened ?? []).map(async p => {
+            (flattened ?? []).map(async (p: any) => {
                 const response = await fetch(`https://www.wealthbase.com/investments/${p.symbol}/details`, {
                     headers: {
                         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'
@@ -375,7 +375,7 @@ export const gameRouter = router({
             return unique;
         }, []);
         const betaData = await Promise.all(
-            (flattened ?? []).map(async p => {
+            (flattened ?? []).map(async (p: any) => {
                 const response = await fetch(`https://api.newtonanalytics.com/stock-beta/?ticker=${p.symbol}&index=^GSPC&interval=1mo%E2%80%8B&observations=1825`, {
                     headers: {
                         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134'

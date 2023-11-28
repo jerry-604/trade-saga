@@ -9,6 +9,7 @@ interface StockCardProps {
   movement: string;
   logo: string;  // URL or path to the stock logo
   movementData: number[];
+  onSymbolChange: any;
 }
 
 const StockCard: React.FC<StockCardProps> = ({ stockName, sharePrice, movement, logo, movementData, onSymbolChange }) => {

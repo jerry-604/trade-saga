@@ -13,6 +13,7 @@ import withAuth from "../utils/with-auth";
 import TradeModal from "../components/TradeModal";
 import Snackbar from '@mui/material/Snackbar';
 import { MultiQueryLoadingBoundary } from "../components/multi-query-loading-boundary";
+import type { AlertColor } from '@mui/material'
 
 
 // import getTrendingStocks from "./api/getTrendingStocks";
@@ -81,7 +82,7 @@ const removeWLMutation = trpc.userRouter.removeFromWatchList.useMutation({
   },
 });
 
-const handleTrade = (gameData) => {
+const handleTrade = (gameData: any) => {
   if (gameData && gameData.length > 0) {
     setOpenModal(true);
   } else {
@@ -92,7 +93,7 @@ const handleTrade = (gameData) => {
 };
 
 useEffect(() => {
-  let timer;
+  let timer: any;
   if (showAlert) {
     timer = setTimeout(() => {
       setShowAlert(false);
@@ -143,7 +144,7 @@ useEffect(() => {
     <Header onSymbolChange={handleSymbolChange} />
     {showAlert && (
       <Alert
-        severity={alertType}
+        severity={alertType as AlertColor}
         onClose={() => setShowAlert(false)}
         sx={{ position: 'fixed', bottom: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}
       >
@@ -174,7 +175,7 @@ useEffect(() => {
       </Button>    
     </Grid>
     <Grid item md={4} className="min-h-[500px]">
-      <RecentlyViewedStocks onSymbolChange={handleSymbolChange} stocks={recentluViewedStocks} removeFromWatchlist={removeFromWatchList} />
+      <RecentlyViewedStocks onSymbolChange={handleSymbolChange} stocks={recentluViewedStocks} removeFromWatchlist={removeFromWatchList} addToWatchList={addToWatchList}/>
     </Grid>
   </Grid>
       </div>

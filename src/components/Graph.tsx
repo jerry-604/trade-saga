@@ -4,10 +4,10 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-const Graph = ({ data }) => {
+const Graph = ({ data }: any) => {
   // Assuming your data array is an array of arrays with format [[timestamp, value], ...]
-  const labels = data.map(item => item[0]);
-  const dataSet = data.map(item => item[1]);
+  const labels = data.map((item: any) => item[0]);
+  const dataSet = data.map((item: any) => item[1]);
 
   const chartData = {
     labels: labels,

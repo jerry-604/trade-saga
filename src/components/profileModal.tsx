@@ -6,12 +6,12 @@ import HelpIcon from '@mui/icons-material/Help';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useRouter } from 'next/router';
 
-const ProfileModal = ({ open, onClose, profile, signOut, user }) => {
+const ProfileModal = ({ open, onClose, profile, signOut, user }: any) => {
   const router = useRouter();
 
   if (!open) return null;
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path: any) => {
     router.push(path);
     onClose();
   };

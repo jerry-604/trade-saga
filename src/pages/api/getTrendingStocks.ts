@@ -6,6 +6,8 @@ interface WealthbaseDetails {
   logo_url: string;
   change_percent: string;
   current_price: string;
+  display_symbol: string;
+  historical_data: number[];
 }
 
 interface TrendingStock {

@@ -126,7 +126,7 @@ const user = trpc.userRouter.getUserFromContext.useQuery().data;
       />
       {showModal && isInputFocused && (
         <div onMouseDown={(e) => e.preventDefault()}  className="absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50">
-          {searchResults.map((result) => (
+          {searchResults.map((result: any) => (
             <div
               key={result.id}
               className="flex items-center p-2 hover:bg-gray-100 z-50"

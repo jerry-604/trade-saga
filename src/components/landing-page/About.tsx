@@ -14,7 +14,7 @@ const AboutSection: React.FC = () => {
               TradeSaga, crafted by a team of expert software engineers, is a cross-platform web application that simulates a realistic stock market environment. Dive into the world of trading with virtual money and zero risks.
             </p>
             <p className="mt-4 text-gray-600">
-              Aimed at enhancing financial literacy, TradeSaga offers real-time synchronization with actual stock market data to ensure a realistic trading experience. Whether you're a beginner or a seasoned trader, TradeSaga is the perfect platform to refine your trading skills.
+              Aimed at enhancing financial literacy, TradeSaga offers real-time synchronization with actual stock market data to ensure a realistic trading experience. Whether you&apos;re a beginner or a seasoned trader, TradeSaga is the perfect platform to refine your trading skills.
             </p>
           </div>
           <div className="w-full md:w-1/2 px-6 mt-6 md:mt-0">
