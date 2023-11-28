@@ -94,31 +94,51 @@ export default function Profile() {
     );
     window.location.href = "/login";
   } else {
-    return <div>
-      <h1>Profile Settings</h1>
-      {/* @ts-ignore */}
-      <Image src={user.data.imageUrl} width={100} height={100} alt="profile picture" />
+    return <div className="flex w-full h-full">
+      <div className="flex items-center justify-center h-screen w-screen">
+        <div className="w-[500px] h-[700px] bg-white rounded-lg shadow-lg">
+          <p className="flex justify-center mt-[25px] text-xl font-bold
+            text-shadow bg-black-100">Profile Settings</p>
 
-      {JSON.stringify(user)}
-      {/* @ts-ignore */}
-      <p>Email: {JSON.stringify(session.user.email)}</p>
-      {error && <p>{JSON.stringify(error)}</p>}
-      <form onSubmit={handleImageUpload}>
-        <h2>Update Profile Picture</h2>
+          {/* @ts-ignore */}
+          <Image src={user.data.imageUrl} width={100} height={100} alt="profile picture" 
+          className="mx-auto mt-[10px]"/>
 
-        <input
-          onChange={handleImageChange}
-          accept=".jpg, .png, .jpeg"
-          type="file"
-        ></input>
+          {/*JSON.stringify(user)*/}
+          {/* @ts-ignore */}
+          <p className="flex justify-center mt-[10px]">User email: {session.user.email}</p>
+          {error && <p className="flex justify-center">{JSON.stringify(error)}</p>}
 
-        <input className="cursor-pointer" type="submit" value="Upload" />
-      </form>
+          <form onSubmit={handleImageUpload}>
+            <h2 className="flex justify-center underline mt-[10px]">Update Profile Picture</h2>
 
-      <div>
-        <input onChange={handleFNameChange} value={Fname} placeholder="first name"></input>
-        <input onChange={handleLNameChange} value={Lname} placeholder="last name"></input>
-        <button onClick={handleNameChanges}>Submit Changes</button>
+          <div className="flex justify-center mt-[10px]">
+            <input
+              onChange={handleImageChange}
+              accept=".jpg, .png, .jpeg"
+              type="file"
+            ></input>
+          </div>
+
+          <div className="flex justify-center">
+            <input className="cursor-pointer w-[100px] h-[50px] bg-blue-600 rounded-lg mt-[10px] 
+            hover:rounded-lg hover:outline-black hover:outline font-bold text-white" type="submit" value="Upload" />
+          </div>
+          </form>
+
+          <p className="flex justify-center mt-[20px] underline">Update Name</p>
+          <div className="flex justify-center mt-[10px]">
+            <input onChange={handleFNameChange} value={Fname} placeholder="First name"
+            className="rounded shadow-inner bg-gray-200 pl-[10px] mr-[20px]"></input>
+            <input onChange={handleLNameChange} value={Lname} placeholder="Last name"
+            className="rounded shadow-inner bg-gray-200 pl-[10px]"></input>
+          </div>
+          <div className="flex justify-center mt-[10px]">
+            <button onClick={handleNameChanges}
+            className="cursor-pointer w-[160px] h-[50px] bg-blue-600 rounded-lg mt-[10px] 
+            hover:rounded-lg hover:outline-black hover:outline font-bold text-white">Submit Changes</button>
+          </div>
+        </div>
       </div>
     </div>;
   }
