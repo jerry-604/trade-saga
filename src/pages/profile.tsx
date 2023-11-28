@@ -71,6 +71,8 @@ export default function Profile() {
         setError(error.message);
       }
       setSession(session || {});
+      setFname(query.data?.Fname || "");
+      setLname(query.data?.Lname || "");
       setLoading(false);
     });
   }, []);
@@ -88,7 +90,7 @@ export default function Profile() {
         <button onClick={() => window.location.href = "/login"}>Login</button>
 
         <div>
-          <h2>[Other Settings Go Here Maybe Probably]</h2>
+          <h2>[Other Settings Go Here Maybe Probably, if not we can redirect]</h2>
         </div>
       </div>
     );
@@ -103,6 +105,15 @@ export default function Profile() {
           {/* @ts-ignore */}
           <Image src={user.data.imageUrl} width={100} height={100} alt="profile picture" 
           className="mx-auto mt-[10px]"/>
+      {Fname}
+      {Lname}
+
+      {JSON.stringify(user)}
+      {/* @ts-ignore */}
+      <p>Email: {JSON.stringify(session.user.email)}</p>
+      {error && <p>{JSON.stringify(error)}</p>}
+      <form onSubmit={handleImageUpload}>
+        <h2>Update Profile Picture</h2>
 
           {/*JSON.stringify(user)*/}
           {/* @ts-ignore */}
