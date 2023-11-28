@@ -19,8 +19,7 @@ export default function Dashboard() {
       if (error) {
         setError(error.message);
       }
-      console.log(session);
-      mutation.mutate(session?.user.email || "", {
+      mutation.mutate(null, {
         onSuccess: (data) => {
           console.log(`ValidateOAuthUserSucces: ${data}`);
         },

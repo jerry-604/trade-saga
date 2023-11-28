@@ -1,15 +1,15 @@
-import { publicProcedure, router } from '../trpc';
+import { protectedProcedure, protectedOAuthProcedure, publicProcedure, router } from '../trpc';
 import { z } from 'zod';
 import prisma from '../prisma';
 import { getSession, signUp } from '@/src/utils/supabase';
 import { TRPCError } from '@trpc/server';
 
 export const userRouter = router({
-  getUser: publicProcedure
+  getUser: protectedProcedure
     .query(async ({ ctx }) => {
       return ctx.user;
     }),
-  uploadImage: publicProcedure.input(z.object({ imageUrl: z.string() })).mutation(async (opts) => {
+  uploadImage: protectedProcedure.input(z.object({ imageUrl: z.string() })).mutation(async (opts) => {
     const input = opts.input;
 
     const imageUrl = input.imageUrl;
@@ -44,7 +44,6 @@ export const userRouter = router({
       });
     }
 
-    // Check if user already exists
     const user = await prisma.user.findFirst({
       where: {
         email: input.email
@@ -75,8 +74,6 @@ export const userRouter = router({
       });
     }
 
-    // console.log(result);
-
     const { data, error } = await signUp(input.email, input.password);
     if (error) {
       const deletion = await prisma.user.delete({
@@ -94,41 +91,49 @@ export const userRouter = router({
 
     return data;
   }),
-  validateOAuthUser: publicProcedure.input(z.string()).mutation(async (opts) => {
-    console.log(opts);
-    if (!opts.input) {
-      return;
-    }
+  // can't do protectedProcedure here b/c user not exist on ctx yet since not on database
+  validateOAuthUser: protectedOAuthProcedure.input(z.null()).mutation(async (opts) => {
+    console.log('in validateOAuthUser');
+
+    console.log(await opts.ctx.supabase.auth.getUser(opts.ctx.supabase.realtime.accessToken || undefined));
+    // below accesstoken is always defined via middleware but vscode thinks it's not so that's why || undefined and || ""
+    const user = await opts.ctx.supabase.auth.getUser(opts.ctx.supabase.realtime.accessToken || undefined);
+
     const existing = await prisma.user.findUnique({
       where: {
-        email: opts.input
+        email: user.data.user?.email || ""
       }
     });
     if (!existing) {
       await prisma.user.create({
         data: {
-          email: opts.input,
-          Fname: opts.input.split("@")[0],
-          Lname: opts.input.split("@")[0],
+          email: user.data.user?.email || "",
+          Fname: user.data.user?.email?.split("@")[0] || "",
+          Lname: user.data.user?.email?.split("@")[0] || "",
           role: "user",
           dollars: 0,
         }
       });
     }
-    console.log(existing);
     return {};
   }),
-  getUserFromContext: publicProcedure
+  getUserFromContext: protectedProcedure
     .query(async ({ ctx }) => {
       return ctx.user;
     }),
-  updateUserName: publicProcedure.input(z.object({ FnameEdit: z.string(), LnameEdit: z.string() })).mutation(async (opts) => {
-    if (!opts.input || !opts.ctx.user) {
-      return;
+  updateUserName: protectedProcedure.input(z.object({ FnameEdit: z.string(), LnameEdit: z.string() })).mutation(async (opts) => {
+    if (!opts.input) {
+      throw new TRPCError({
+        code: 'UNPROCESSABLE_CONTENT',
+        message: "Invalid input",
+      });
     }
 
     if (!opts.input.FnameEdit && !opts.input.LnameEdit) {
-      return;
+      throw new TRPCError({
+        code: 'UNPROCESSABLE_CONTENT',
+        message: "Invalid input",
+      });
     }
 
     await prisma.user.update({
