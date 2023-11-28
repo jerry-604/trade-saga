@@ -22,8 +22,9 @@ import {
 import Header from "../components/Header";
 import { MultiQueryLoadingBoundary } from "../components/multi-query-loading-boundary";
 import Link from 'next/link'
+import withAuth from "../utils/with-auth";
 
-export default function Dashboard() {
+export default function Home() {
   const [session, setSession] = useState({});
   const [user, setUser] = useState({});
   const [error, setError] = useState("");
@@ -151,9 +152,14 @@ export default function Dashboard() {
   );
 }
 
-Dashboard.getLayout = function getLayout(page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+export const getServerSideProps = withAuth({
+  redirectTo: "/"
+})
+
 
 const GameItem = ({ game }: any) => {
   return (
