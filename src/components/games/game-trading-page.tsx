@@ -18,6 +18,7 @@ import { trpc } from "../../utils/trpc";
 import { BsEyeFill } from "react-icons/bs";
 import { BsEyeSlash } from "react-icons/bs";
 import { LoadingBoundary } from "../loading-boundary";
+import { useSearchParams } from 'next/navigation'
 
 type Props = {
   user: any;
@@ -71,6 +72,15 @@ export default function GameTradingPage({ user, gameData, stockData, setIsTradin
       setNumShares(0);
     },
   });
+
+  const searchParams = useSearchParams();
+  const search_symbol = searchParams.get('symbol')
+
+  useEffect(() => {
+    if(search_symbol) {
+      handleSymbolChange(search_symbol);
+    }
+  }, [searchParams])
 
   const createTrade = (
     gamePlayerId: number,

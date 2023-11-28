@@ -14,7 +14,7 @@ const NotificationModal = ({ open, onClose, notifications }) => {
   const handleNotificationClick = (notification) => {
 
     onClose();
-    router.push(`/notification/${notification.id}`);
+    router.push(`/games/${notification.game?.shareId ?? ""}`);
   };
 
   const viewAllNotifications = () => {
@@ -24,7 +24,7 @@ const NotificationModal = ({ open, onClose, notifications }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={onClose}></div>
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={onClose}></div>
       <div 
         className="absolute top-full mt-2 w-auto bg-white rounded-md shadow-lg z-50 max-h-[500px] overflow-y-auto right-60"
         onClick={(e) => e.stopPropagation()}
@@ -74,16 +74,16 @@ const NotificationModal = ({ open, onClose, notifications }) => {
           ))}
         </List>
         <Divider />
-        <ListItem button className="justify-center" onClick={viewAllNotifications}>
+        {/* <ListItem button className="justify-center" onClick={viewAllNotifications}>
         <ListItemText 
             sx={{ 
                 textAlign: "center", 
                 color: "blue" 
             }} 
             primary="View All Notifications" 
-        />
+        /> */}
 
-        </ListItem>
+        {/* </ListItem> */}
       </div>
     </>
   );
