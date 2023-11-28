@@ -24,7 +24,7 @@ export function signInWithOAuth(provider: 'google' | 'github') {
   return supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
-      redirectTo: 'http://localhost:3000/dashboard'
+      redirectTo: 'http://localhost:3000/home'
     }
   });
 }

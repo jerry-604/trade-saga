@@ -19,7 +19,7 @@ export default function Sidebar({ onToggleSidebar }) {
 
   const bottomItems = [
     { icon: <BsFillQuestionCircleFill size="25px" />, text: 'How To Play', path: '/how-to' },
-    { icon: <BsFillArrowUpRightCircleFill size="25px" />, text: 'Settings', path: '/settings' },
+    { icon: <BsFillArrowUpRightCircleFill size="25px" />, text: 'Settings', path: '/profile' },
   ];
 
   const toggleCollapse = () => {

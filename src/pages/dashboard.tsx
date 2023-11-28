@@ -177,8 +177,7 @@ useEffect(() => {
       <RecentlyViewedStocks onSymbolChange={handleSymbolChange} stocks={recentluViewedStocks} removeFromWatchlist={removeFromWatchList} />
     </Grid>
   </Grid>
-
-    </div>
+      </div>
     </>
           )}
           </MultiQueryLoadingBoundary>
@@ -191,4 +190,4 @@ Dashboard.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps = withAuth({
   redirectTo: "/"
-})
+});
