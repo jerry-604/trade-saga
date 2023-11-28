@@ -21,7 +21,7 @@ import {
 } from "@/src/utils/game-helpers";
 import Header from "../components/Header";
 import { MultiQueryLoadingBoundary } from "../components/multi-query-loading-boundary";
-import Link from 'next/link'
+import Link from 'next/link';
 import withAuth from "../utils/with-auth";
 
 export default function Home() {
@@ -43,7 +43,7 @@ export default function Home() {
         setError(error.message);
       }
       console.log(session);
-      mutation.mutate(session?.user.email || "", {
+      mutation.mutate(null, {
         onSuccess: (data) => {
           console.log(`ValidateOAuthUserSucces: ${data}`);
         },
@@ -96,7 +96,7 @@ export default function Home() {
                   return b.createdAt - a.createdAt;
                 })
                 .filter((post: any) => {
-                  return post.creator.id != user.id
+                  return post.creator.id != user.id;
                 })
                 .map((post: any) => (
                   <div
@@ -174,4 +174,4 @@ const GameItem = ({ game }: any) => {
       <div className={`flex h-[2px] mt-4 mb-4 mr-2 ml-2 bg-gray-600`}></div>
     </Link>
   );
-}
+};
