@@ -10,6 +10,7 @@ import NewsHeatmapWidget from "../components/news-heatmap-widget";
 import NewsMarketOverviewWidget from "../components/news-marketoverview-widget";
 import Header from "../components/Header"
 import { useState } from "react";
+import withAuth from "../utils/with-auth";
 
 export default function News() {
   const [symbol, setSymbol] = useState('AAPL');
@@ -37,3 +38,7 @@ export default function News() {
 News.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
+
+export const getServerSideProps = withAuth({
+  redirectTo: "/"
+})

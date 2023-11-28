@@ -26,6 +26,7 @@ import GameLeaderboard from "@/src/components/games/game-leaderboard";
 import TickerTapeWidget from "@/src/components/games/ticker-tape-widget";
 import GameAnalysis from "@/src/components/games/game-analysis-page";
 import withAuth from "@/src/utils/with-auth"
+import GameNavBarNonOngoing from "@/src/components/games/game-navbar-nonongoing";
 
 export default function GamePage() {
   const { query } = useRouter();
@@ -110,7 +111,8 @@ export default function GamePage() {
     }>
       {([gameExists, userExists, isOngoing]) => (
         gameExists ? (
-          userExists ? (
+          userExists ? 
+            isOngoing ? (
             <MultiQueryLoadingBoundary
               queries={trpc.useQueries((t) => [
                 t.gameRouter.fetchGameWithId({ shareId: id }),
@@ -137,6 +139,25 @@ export default function GamePage() {
                 </div>
               )}
             </MultiQueryLoadingBoundary>
+          ) : (
+            <MultiQueryLoadingBoundary
+            queries={trpc.useQueries((t) => [
+              t.gameRouter.fetchGameWithId({ shareId: id }),
+              t.gameRouter.getStockDataForPlayer({ shareId: id }),
+              t.userRouter.getUserFromContext(),
+            ])}
+          >
+            {([gameData, stockData, user]) => (
+              <div>
+                <GameSearchModal symbol={symbol} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} gameData={gameData} user={user} />
+                <div className="flex flex-col space-y-0">
+                        <GameHeader user={user} gameData={gameData} showStockModal={isModalOpen} setShowStockModal={setIsModalOpen} onSymbolChange={handleSymbolChange} />
+                        <GameNavBarNonOngoing isSticky={isSticky} isTrading={isTrading} setIsTrading={setIsTrading} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+                        <PageForTab input={selectedTab} user={user} gameData={gameData} stockData={stockData} createPost={createPost} postText={postText} setPostText={setPostText} shareId={id} />
+                </div>
+              </div>
+            )}
+          </MultiQueryLoadingBoundary>
           ) : (
             <div className="grid h-screen place-items-center">
               <div className="items-center bg-[#131313] rounded-[14px] h-auto pt-4 pb-4 pr-4 w-[800px]">
@@ -177,7 +198,7 @@ GamePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = withAuth({
-  redirectTo: "/login"
+  redirectTo: "/"
 })
 
 interface PTProps {

@@ -148,4 +148,71 @@ export const userRouter = router({
 
     return {};
   }),
+  getGamesForUser: protectedProcedure.query(async ({ ctx }) => {
+    const user = ctx.user;
+    const games = await prisma.game.findMany({
+      where: {
+        users: {
+          some: {
+            id: user.id,
+          }
+        }
+      },
+      include: {
+        posts: {
+          include: {
+            creator: true,
+          },
+        },
+      }
+    });
+    return games;
+  }),
+  addToWatchList: protectedProcedure.input(z.object({ symbol: z.string() })).mutation(async ({ ctx, input }) => {
+    const user = ctx.user;
+    const updateList = await prisma.watchListItem.create({
+      data: {
+        userId: user.id,
+        symbol: input.symbol,
+      }
+    });
+    return updateList;
+  }),
+  removeFromWatchList: protectedProcedure.input(z.object({ symbol: z.string() })).mutation(async ({ ctx, input }) => {
+    const user = ctx.user;
+    const item = await prisma.watchListItem.findFirst({
+      where: {
+        userId: user.id,
+        symbol: input.symbol,
+      }
+    });
+    const updateList = await prisma.watchListItem.delete({
+      where: {
+        id: item?.id,
+        userId: user.id,
+        symbol: input.symbol,
+      }
+    });
+    return updateList;
+  }),
+  getWatchListForUser: protectedProcedure.query(async ({ ctx }) => {
+    const list = await prisma.watchListItem.findMany({
+      where: {
+        userId: ctx.user.id
+      }
+    });
+    return list;
+  }),
+  getNotificationsForUser: protectedProcedure.query(async ({ ctx }) => {
+    const notfications = prisma.notification.findMany({
+      where: {
+        userId: ctx.user.id,
+      },
+      include: {
+        game: true,
+        user: true,
+      }
+    });
+    return notfications;
+  }),
 });

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from "next/image";
 
 import { trpc } from "../utils/trpc";
+import withAuth from "../utils/with-auth";
 
 export default function Profile() {
 
@@ -204,3 +205,7 @@ export default function Profile() {
   }
 
 }
+
+export const getServerSideProps = withAuth({
+  redirectTo: "/"
+})

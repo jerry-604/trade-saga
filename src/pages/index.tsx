@@ -1,42 +1,37 @@
 import { trpc } from "../utils/trpc";
 import { User } from "@prisma/client";
 import PropTypes from "prop-types";
-import React, { ReactElement, useState} from 'react';
-import { Grid } from '@mui/material';
-import Header from '../components/Header';
-import StockSummary from '../components/StockSummary';
-import sampleStocks from '../utils/sampleStocks';
-import RecentlyViewedStocks from '../components/RecentlyViewedStocks';
-import TradingViewWidget from '../components/TradingViewWidget';
-import Layout from '../components/layout';
+import React from "react";
+import Layout from "../components/layout";
+import type { ReactElement } from "react";
+import { useEffect, useState } from "react";
+import { getSession, signOut } from "../utils/supabase";
+import HeroSection from "../components/landing-page/Hero";
+import AboutSection from "../components/landing-page/About";
+import FeaturesSection from "../components/landing-page/Features";
+import Footer from "../components/landing-page/Footer";
+import StockSlider from "../components/landing-page/StockSlider";
+import Header from "../components/landing-page/Header";
 
+export default function Dashboard() {
 
-export default function HomePage() {
-  const [symbol, setSymbol] = useState('AAPL');
-
-const handleSymbolChange = (newSymbol: string) => {
-  setSymbol(newSymbol);
-};
 
   return (
-    <div className="flex-grow p-5">
-      <div className="mb-4">
-    <Header onSymbolChange={handleSymbolChange} />
-        <h2 className="ml-4 my-4">Stock Dashboard</h2>
-        <StockSummary stocks={sampleStocks} />
-      </div>
-      <Grid container spacing={5}>
-        <Grid item md={8}>
-    <TradingViewWidget symbol={symbol} />
-        </Grid>
-        <Grid item md={4}>
-          <RecentlyViewedStocks stocks={sampleStocks} />
-        </Grid>
-      </Grid>
+    <div>
+      <Header/>
+       <HeroSection
+        title="Experience the Thrill of the Stock Market, Risk-Free"
+        subtitle="Join TradeSaga and dive into the world of virtual stock trading."
+      />
+      <AboutSection/>
+      <FeaturesSection/>
+      <StockSlider/>
+      <Footer/>
+
     </div>
   );
 }
 
-HomePage.getLayout = function getLayout(page: ReactElement) {
+Dashboard.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
