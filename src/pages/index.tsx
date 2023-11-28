@@ -18,7 +18,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <Header/>
+      {/* <Header/> */}
        <HeroSection
         title="Experience the Thrill of the Stock Market, Risk-Free"
         subtitle="Join TradeSaga and dive into the world of virtual stock trading."

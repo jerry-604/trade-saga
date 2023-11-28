@@ -102,7 +102,7 @@ export default function Sidebar({ onToggleSidebar }) {
 }
 
 const CircleWithT = () => (
-  <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center">
-    <span className="text-white font-semibold text-[15px]">T</span>
+  <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center">
+    <img src="/tradesaga-logo.png" alt="logo" />
   </div>
 );

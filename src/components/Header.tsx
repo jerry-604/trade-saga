@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ onSymbolChange }) => {
     if (error) {
       console.log(error.message);
     } else {
-      window.location.href = "/dashboard";
+      window.location.href = "/";
     }
   };
 
@@ -183,6 +183,7 @@ const user = trpc.userRouter.getUserFromContext.useQuery().data;
         onClose={() => setProfileModalOpen(false)} 
         profile={sampleProfile} 
         signOut={handleSignOut}
+        user = {user}
       />
 
       </div>
