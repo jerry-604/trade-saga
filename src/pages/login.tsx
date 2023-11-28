@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { trpc } from "../utils/trpc";
+import {trpc} from "../utils/trpc";
 import { signIn, signInWithOAuth, resetPasswordForEmail } from "../utils/supabase";
-import { BsGoogle, BsEyeFill, BsEyeSlashFill, BsEye, BsEyeSlash, BsGithub } from "react-icons/bs";
+import { Google, GitHub, Visibility, VisibilityOff } from "@mui/icons-material";
+import { TextField, Button, IconButton, FormControl, InputLabel, Input, InputAdornment, Link, Box, Typography, Paper } from "@mui/material";
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -40,38 +42,58 @@ export default function Login() {
     }
   };
 
-  return <div className="h-screen flex justify-center bg-[#F5F7F9]">
-    <div className="flex flex-col items-center place-self-center self-center border border-[#EBEEF3] border-solid rounded py-5 px-10 w-[450px] h-[500px] bg-white shadow-sm">
-      <h1 className="text-xl text-bold border-b border-[#EBEEF3] border-solid px-5 font-bold">Login</h1>
-      <form className="flex flex-col w-full" onSubmit={handleSubmit}>
-        <p className="mt-5 font-semibold">Email:</p>
-        <input className="bg-[#F4F6F8] rounded shadow-inner pl-1" onChange={handleEmailChange} type="email"></input>
-        <p className="mt-3 font-semibold">Password:</p>
-        <div className="flex">
-          <input className="bg-[#F4F6F8] rounded shadow-inner pl-1 mr-1 w-full" onChange={handlePasswordChange} type={`${showPassword ? "text" : "password"}`}></input>
-          {showPassword ? <BsEyeFill size={"25px"} onClick={() => setShowPassword(!showPassword)} /> : <BsEyeSlashFill size={"25px"} onClick={() => setShowPassword(!showPassword)} />}
-        </div>
-        <p className="mt-1 cursor-pointer" onClick={() => resetPasswordForEmail(email)}>Forgot Password?</p>
-        <button className="cursor-pointer w-[100px] h-[50px] bg-blue-600 rounded-lg mt-[10px] 
-            hover:rounded-lg hover:outline-black hover:outline font-bold text-white mx-auto" type='submit'>Submit</button>
-        {error && <p className="mt-5 bg-red-100 rounded border border-red-200 border-solid w-fit place-self-center px-5">{error}</p>}
-        <div className="flex flex-row mt-5 place-items-center">
-          <div className="border-t border-[#EBEEF3] border-solid w-full" />
-          <p className="w-fit mx-1 text-[#EBEEF3]">or</p>
-          <div className="border-t border-[#EBEEF3] border-solid w-full" />
-        </div>
-        <div className="flex flex-col mt-5 items-center">
-          <div className="flex items-center bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('google')}>
-            <BsGoogle size={"30px"} color={"white"} style={{ stroke: "black", strokeWidth: "0.1" }} />
-            <p className="mx-2">Login with Google</p>
+  return (
+    <Box className="h-screen flex justify-center items-center" style={{ backgroundImage: `url(/trading-bk.png)`, backgroundSize: 'cover' }}>
+      <Paper elevation={3} className="flex flex-col items-center p-10 rounded-lg w-[500px]" style={{ minWidth: '400px' }}>
+        <Typography variant="h4" className="mb-5 font-bold">Login</Typography>
+        <form className="w-full" onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="Email"
+            variant="outlined"
+            className="mb-4"
+            onChange={handleEmailChange}
+            placeholder="Enter your email"
+          />
+          <FormControl fullWidth variant="outlined" className="mb-4">
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              onChange={handlePasswordChange}
+              placeholder="Enter your password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <Link href="#" onClick={() => resetPasswordForEmail(email)} className="text-blue-500 mb-4">Forgot Password?</Link>
+          <Button type="submit" variant="contained" color="primary" className="rounded-lg mb-4 w-full bg-blue-500">Submit</Button>
+          {error && <Typography color="error">{error}</Typography>}
+          <div className="flex items-center my-4">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="flex-shrink mx-4 text-gray-500">or</span>
+            <div className="flex-grow border-t border-gray-300"></div>
           </div>
-          <div className="flex items-center mt-5 bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 cursor-pointer active:shadow-inner py-1" onClick={() => handleOAuthSignIn('github')}>
-            <BsGithub size={"30px"} color="white" style={{ stroke: "black", strokeWidth: "0.1" }} />
-            <p className="mx-2">Login with GitHub</p>
-          </div>
-        </div>
-      </form>
-    </div>
-
-  </div>;
+          <Button onClick={() => handleOAuthSignIn('google')} variant="outlined" startIcon={<Google />} className="mb-4 w-full bg">
+            Continue with Google
+          </Button>
+          <Button onClick={() => handleOAuthSignIn('github')} variant="outlined" sx={{color:'black'}} startIcon={<GitHub />} className="w-full ">
+            Continue with GitHub
+          </Button>
+        </form>
+        <Typography className="mt-4">
+          Not a user? <Link href="/registration" className="text-blue-500">Signup</Link>
+        </Typography>
+      </Paper>
+    </Box>
+  );
 }

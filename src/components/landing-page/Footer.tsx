@@ -9,7 +9,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear(); // Get the current year
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer id='contact' className="bg-gray-800 text-white py-8">
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between">
         <div className="mb-6 md:mb-0">
           <Link href="/">
