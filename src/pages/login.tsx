@@ -52,7 +52,8 @@ export default function Login() {
           {showPassword ? <BsEyeFill size={"25px"} onClick={() => setShowPassword(!showPassword)} /> : <BsEyeSlashFill size={"25px"} onClick={() => setShowPassword(!showPassword)} />}
         </div>
         <p className="mt-1 cursor-pointer" onClick={() => resetPasswordForEmail(email)}>Forgot Password?</p>
-        <button className="bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 mt-5 place-self-center active:shadow-inner" type='submit'>Submit</button>
+        <button className="cursor-pointer w-[100px] h-[50px] bg-blue-600 rounded-lg mt-[10px] 
+            hover:rounded-lg hover:outline-black hover:outline font-bold text-white mx-auto" type='submit'>Submit</button>
         {error && <p className="mt-5 bg-red-100 rounded border border-red-200 border-solid w-fit place-self-center px-5">{error}</p>}
         <div className="flex flex-row mt-5 place-items-center">
           <div className="border-t border-[#EBEEF3] border-solid w-full" />

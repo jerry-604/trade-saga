@@ -48,7 +48,8 @@ export default function passwordReset() {
             {showCPassword ? <BsEyeFill size={"25px"} onClick={() => setShowCPassword(!showCPassword)} /> : <BsEyeSlashFill size={"25px"} onClick={() => setShowCPassword(!showCPassword)} />}
           </div>
           <div className="grid place-items-center">
-            <button className="bg-[#F4F6F8] rounded border border-[#EBEEF3] border-solid w-fit px-5 mt-5 place-self-center active:shadow-inner" onClick={handleSubmit}>Submit</button>
+            <button className="cursor-pointer w-[100px] h-[50px] bg-blue-600 rounded-lg mt-[10px] 
+            hover:rounded-lg hover:outline-black hover:outline font-bold text-white mx-auto mt-[20px]" onClick={handleSubmit}>Submit</button>
             {error && <p className="mt-5 bg-red-100 rounded border border-red-200 border-solid w-fit place-self-center px-5">{error}</p>}
           </div>
         </div>
