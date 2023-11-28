@@ -47,7 +47,7 @@ interface RecentlyViewedStocksProps {
   // Normal rendering if there are stocks and no error
   return (
     <div className="bg-white p-8 pt-0 shadow-lg rounded-xl max-w-sm overflow-auto" style={{ maxHeight: '400px', minHeight: '400px' }}>
-     <div className="sticky top-0 bg-white z-50 pt-7">
+     <div className="sticky top-0 bg-white z-40 pt-7">
 
       <Typography variant="h6" gutterBottom align="center" className="font-bold">
         Your Watchlist

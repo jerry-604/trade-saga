@@ -24,7 +24,7 @@ const NotificationModal = ({ open, onClose, notifications }) => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={onClose}></div>
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={onClose}></div>
       <div 
         className="absolute top-full mt-2 w-auto bg-white rounded-md shadow-lg z-50 max-h-[500px] overflow-y-auto right-60"
         onClick={(e) => e.stopPropagation()}
