@@ -1,66 +1,71 @@
 import { trpc } from "../utils/trpc";
 import { User } from "@prisma/client";
 import PropTypes from "prop-types";
-import React from "react";
-import Layout from "../components/layout";
-import type { ReactElement } from "react";
-import { useEffect, useState } from "react";
-import { getSession, signOut } from "../utils/supabase";
+import React, { ReactElement, useState, useEffect} from 'react';
+import { Grid } from '@mui/material';
+import Header from '../components/Header';
+import StockSummary from '../components/StockSummary';
+import sampleStocks from '../utils/sampleStocks';
+import RecentlyViewedStocks from '../components/RecentlyViewedStocks';
+import TradingViewWidget from '../components/TradingViewWidget';
+import Layout from '../components/layout';
+// import getTrendingStocks from "./api/getTrendingStocks";
 
-export default function Dashboard() {
-  const [session, setSession] = useState({});
-  const [user, setUser] = useState({});
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const mutation = trpc.userRouter.validateOAuthUser.useMutation();
 
-  useEffect(() => {
-    getSession().then(({ data: { session }, error }) => {
-      if (error) {
-        setError(error.message);
-      }
-      console.log(session);
-      mutation.mutate(session?.user.email || "", {
-        onSuccess: (data) => {
-          console.log(`ValidateOAuthUserSucces: ${data}`);
-        },
-        onError: (error) => {
-          console.error(error);
-        }
-      });
-      setSession(session || {});
-      setUser(session?.user || {});
-      setLoading(false);
+export default function HomePage() {
+  const [symbol, setSymbol] = useState('AAPL');
+  const [trendingStocks, setTrendingStocks] = useState([]);
+  const [recentluViewedStocks, setRecentlyViewedStocks] = useState([]);
+  console.log(trendingStocks);
+
+const handleSymbolChange = (newSymbol: string) => {
+  setSymbol(newSymbol);
+  
+};
+useEffect(() => {
+  // Fetch the trending stocks when the component mounts
+  fetch('/api/trendingStocks')
+    .then((res) => res.json())
+    .then((data) => {
+      setTrendingStocks(data);
+    })
+    .catch((error) => {
+      console.error('Failed to fetch trending stocks:', error);
     });
-  }, []);
+  fetch('/api/recentlyViewedStocks')
+    .then((res) => res.json())
+    .then((data) => {
+      setRecentlyViewedStocks(data);
+    })
+    .catch((error) => {
+      console.log('Failed to fetch recently viewed stocks:', error);
+    });
+}, []);
 
-  const handleSignOut = async () => {
-    const { error } = await signOut();
 
-    if (error) {
-      setError(error.message);
-    } else {
-      window.location.href = "/dashboard";
-    }
-  };
-
-  if (loading) {
-    return (
-      <div>
-        <p>...loading</p>
+  return (
+    <>
+    <Header onSymbolChange={handleSymbolChange} />
+    <div className="flex-grow p-5 pt-0">
+      <div className="mb-4">
+        <h2 className="ml-4 my-5 font-extrabold text-xl">Stock Dashboard</h2>
+        <StockSummary onSymbolChange={handleSymbolChange} stocks={trendingStocks} />
       </div>
-    );
-  }
 
-  return (<div>
-    <p>{user && JSON.stringify(user)}</p>
-    This is the dashboard.
-    <button onClick={handleSignOut}>Sign Out</button>
-    <p>{error && error}</p>
-  </div>
+  <Grid container spacing={5}>
+    <Grid item md={8} className="min-h-[500px]">
+      <TradingViewWidget symbol={symbol} />
+    </Grid>
+    <Grid item md={4} className="min-h-[500px]">
+      <RecentlyViewedStocks onSymbolChange={handleSymbolChange} stocks={recentluViewedStocks} />
+    </Grid>
+  </Grid>
+
+    </div>
+    </>
   );
 }
 
-Dashboard.getLayout = function getLayout(page: ReactElement) {
+HomePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };

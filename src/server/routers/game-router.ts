@@ -4,6 +4,7 @@ import prisma from '../prisma'
 import { TRPCError } from '@trpc/server';
 import { User } from '@prisma/client';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
+import { NotificationType } from "@prisma/client"
 
 export const gameRouter = router({
     createGame: protectedProcedure.input(z.object({ gameTitle: z.string(), backgroundImage: z.string(), startDate: z.date(), endDate: z.date(), shareId: z.string() })).mutation(async ({ ctx, input }) => {
@@ -48,6 +49,14 @@ export const gameRouter = router({
         };
 
         const create = await prisma.game.create({ data: createGameObject });
+        const createNotification = await prisma.notification.create({
+            data: {
+                userId: user.id,
+                gameID: create.id,
+                type: NotificationType.GAME_CREATED,
+
+            }
+        })
         return create;
     }),
     fetchGameWithId: protectedProcedure.input(z.object({ shareId: z.string() })).query(async ({ ctx, input }) => {
@@ -85,7 +94,7 @@ export const gameRouter = router({
         });
         return post;
     }),
-    executeTrade: protectedProcedure.input(z.object({ gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number() })).mutation(async ({ ctx, input }) => {
+    executeTrade: protectedProcedure.input(z.object({ gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number(), gameID: z.number() })).mutation(async ({ ctx, input }) => {
         const user = ctx.user;
         const userId = user.id;
         const trade = await prisma.stockHolding.create({
@@ -109,6 +118,18 @@ export const gameRouter = router({
                 },
             },
         })
+        const createNotification = await prisma.notification.create({
+            data: {
+                userId: userId,
+                gameID: input.gameID,
+                type: NotificationType.TRADE_PLACED,
+                symbol: input.symbol,
+                num_shares_purchased: input.quantity,
+                price: input.price,
+
+            }
+        })
+        console.log(createNotification);
         return trade;
     }),
     executeSell: protectedProcedure.input(z.object({ gamePlayerId: z.number(), symbol: z.string(), price: z.number(), quantity: z.number(), max: z.number() })).mutation(async ({ ctx, input }) => {
@@ -205,7 +226,7 @@ export const gameRouter = router({
             ),
         ])
         if (!!gameExists) {
-            const isOngoing = gameExists.dateEnd > (new Date())
+            const isOngoing = gameExists.dateEnd > (new Date()) && gameExists.dateStart < (new Date())
             return [!!gameExists, !!userExists, !!isOngoing]
         } else {
         return [false, false, false];
@@ -247,6 +268,15 @@ export const gameRouter = router({
                     }
                 }
             });
+
+            const createNotification = await prisma.notification.create({
+                data: {
+                    userId: user.id,
+                    gameID: game?.id,
+                    type: NotificationType.GAME_JOINED,
+    
+                }
+            })
 
             return update;
         }

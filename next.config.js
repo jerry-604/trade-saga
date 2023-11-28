@@ -2,7 +2,7 @@
 const nextConfig = {
     optimizeFonts: false,
     images: {
-        domains: ['rqhpnffkqqqtowynnwxd.supabase.co'],
+        domains: ['rqhpnffkqqqtowynnwxd.supabase.co','t3.ftcdn.net','placeimg.com','blog.hubspot.com','t0.gstatic.com'],
     },
 };
 
