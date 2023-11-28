@@ -42,6 +42,9 @@ export default function Home() {
       if (error) {
         setError(error.message);
       }
+      if(!session) {
+        window.location.href = "/";
+      }
       console.log(session);
       mutation.mutate(null, {
         onSuccess: (data) => {

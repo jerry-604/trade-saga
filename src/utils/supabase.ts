@@ -24,7 +24,7 @@ export function signInWithOAuth(provider: 'google' | 'github') {
   return supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
-      redirectTo: 'http://localhost:3000/home'
+      redirectTo: 'https://trade-saga.vercel.app/home'
     }
   });
 }
@@ -70,7 +70,7 @@ export async function deleteAvatar(email: string) {
 
 export async function resetPasswordForEmail(email: string) {
   return supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: 'http://localhost:3000/updatePassword'
+    redirectTo: 'https://trade-saga.vercel.app/updatePassword'
   });
 }
 

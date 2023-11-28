@@ -19,7 +19,7 @@ model User {
   createdAt    DateTime     @default(now())
   role         String?
   dollars      Float
-  imageUrl     String       @default("https://rqhpnffkqqqtowynnwxd.supabase.co/storage/v1/object/sign/avatars/pfps/default.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL3BmcHMvZGVmYXVsdC5wbmciLCJpYXQiOjE2OTk2NDA1OTMsImV4cCI6NDgyMTcwNDU5M30.Uo6I2GRihyMycXCu4iTGBDxpalYF56A_fx-Bx8fOVkQ&t=2023-11-10T18%3A23%3A14.366Z")
+  imageUrl     String       @default("https://rqhpnffkqqqtowynnwxd.supabase.co/storage/v1/object/sign/avatars/pfps/default_pfp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhdmF0YXJzL3BmcHMvZGVmYXVsdF9wZnAucG5nIiwiaWF0IjoxNzAxMjAxNTI3LCJleHAiOjQ4NTQ4MDE1Mjd9.0nyaqdLbkQ3hhfLg8rTbqcunij0UAPL2BzYYWxtlUik&t=2023-11-28T19%3A58%3A47.457Z")
   joinedGames  Game[]
   GamePlayer   GamePlayer[]
   createdGames Game[]       @relation("Creator")
