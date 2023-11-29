@@ -4,7 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { AppBar, Toolbar, IconButton, Button, Box, Typography } from '@mui/material';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  user: any;
+}
+
+const Header: React.FC<HeaderProps> = ({user}) => {
   return (
     <AppBar position="fixed" sx={{ zIndex: 100, backgroundColor: 'black',  }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -27,10 +31,17 @@ const Header: React.FC = () => {
         </Box>
 
         {/* Login and Signup Buttons */}
+        {
+          user ? (
+            <Box>
+            <Button color="inherit" href='/home' variant="outlined" sx={{ borderRadius: 20, marginRight: 1 }}>My Dashboard</Button>
+          </Box>
+          ) : (
         <Box>
           <Button color="inherit" href='/login' variant="outlined" sx={{ borderRadius: 20, marginRight: 1 }}>Login</Button>
           <Button color="primary" href='/registration' variant="contained" sx={{ borderRadius: 20 }}>Sign Up</Button>
         </Box>
+          )}
       </Toolbar>
     </AppBar>
   );

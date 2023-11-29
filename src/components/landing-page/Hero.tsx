@@ -5,16 +5,17 @@ import Header from './Header';
 interface HeroSectionProps {
   title: string;
   subtitle: string;
+  user: any;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle, user }) => {
   return (
       <div id='home' className="relative h-screen overflow-hidden flex items-center justify-center">
       <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover z-0">
         <source src="/trading-video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-        <Header/>
+        <Header user={user}/>
 
       <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
 
@@ -23,7 +24,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => {
         <div className="text-center text-white mr-auto">
           <h1 className="text-5xl font-bold">{title}</h1>
           <p className="text-xl my-4">{subtitle}</p>
-          <Button style={{textTransform:'none'}} href='/registration' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out  mt-8">
+          <Button style={{textTransform:'none'}} href={user ? '/home' : '/registration'} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out  mt-8">
             Start Your Journey
           </Button>
         </div>

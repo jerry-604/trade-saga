@@ -5,9 +5,11 @@ import StockCard from './StockCard'; // Import your StockCard component
 import sampleStocks from '../../utils/sampleStocks'; // Import your sample stocks
 import { Button } from '@mui/material';
 
+interface SliderProps {
+  user: any;
+}
 
-
-const StockSlider: React.FC = () => {
+const StockSlider: React.FC<SliderProps> = ({user}) => {
   const titleText = "The Global Markets at Your Fingertips";
   const subtitleText = "Go beyond boundaries. Invest in top-performing stocks and ETFs from around the globe";
 
@@ -48,7 +50,7 @@ const StockSlider: React.FC = () => {
         </Marquee>
       </div>
       <div className="flex justify-center mt-6">
-        <Button href='/registration'  style={{textTransform: 'none'}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
+        <Button href={user ? '/home' : '/registration'}  style={{textTransform: 'none'}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
           Trade Now
         </Button>
       </div>

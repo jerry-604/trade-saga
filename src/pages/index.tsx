@@ -15,6 +15,7 @@ import Header from "../components/landing-page/Header";
 
 export default function Dashboard() {
 
+  const user = trpc.userRouter.getUserFromContext.useQuery().data;
 
   return (
     <div>
@@ -22,10 +23,11 @@ export default function Dashboard() {
        <HeroSection
         title="Experience the Thrill of the Stock Market, Risk-Free"
         subtitle="Join TradeSaga and dive into the world of virtual stock trading."
+        user={user}
       />
       <AboutSection/>
       <FeaturesSection/>
-      <StockSlider/>
+      <StockSlider user={user}/>
       <Footer/>
 
     </div>
