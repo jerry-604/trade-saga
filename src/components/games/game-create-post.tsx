@@ -16,7 +16,7 @@ export default function GameCreatePost({
     createPost,
 }: Props) {
     return (
-      <div className="flex flex-col items-center bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-[200px]">
+      <div className="flex flex-col items-center bg-white p-2 rounded-[14px] w-[400px] pt-[5px] h-fit">
       <div className="flex space-x-[15px] items-center items-start bg-white p-4 w-full mb-4 border-b-[1px] border-[#D9D9D9]">
         <img
           src={user.imageUrl}
@@ -29,10 +29,9 @@ export default function GameCreatePost({
           )}
         </p>
       </div>
-      <input
-        type="text"
+      <textarea
         placeholder="Share an update..."
-        className="p-2 w-full rounded-md mb-4"
+        className="p-2 min-h-[200px] w-full rounded-md mb-4"
         value={postText}
         onChange={(e) => setPostText(e.target.value)}
       />
